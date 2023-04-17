@@ -1,0 +1,397 @@
+input {
+    font-size: 10pt;
+}
+.frame {
+    border: 1px solid black;
+    display: flex;
+    height: 99mm;
+    width: 210mm;
+    margin: 10mm auto auto;
+}
+.potrdilo {
+    width: 60mm;
+    height: 100%;
+    background: white;
+}
+
+.right {
+    width: 150mm;
+    height: 100%;
+    display: grid;
+}
+
+.placnik {
+    height: 55mm;
+    width: 100%;
+    background: rgba(255, 103, 77, 0.2);
+}
+
+.prejemnik {
+    height: 44mm;
+    width: 150mm;
+    float: bottom;
+    background: rgba(255, 181, 17, 0.2);
+}
+
+.fieldsPotrdilo {
+    margin-top: 6mm;
+    margin-left: 4mm;
+    margin-right: 3.5mm;
+}
+
+.ime {
+    height: 13.5mm;
+    border: 0.5mm solid rgba(255, 103, 77, 1);
+    width: 100%;
+}
+
+.namen {
+    margin-top: 3mm;
+    height: 9mm;
+    border: 0.5mm solid rgba(255, 103, 77, 1);
+    width: 100%;
+}
+
+.znesek {
+    margin-top: 3mm;
+    width: 81%;
+    height: 5mm;
+    border: 0.5mm solid rgba(255, 103, 77, 1);
+    margin-left: 10mm;
+}
+
+.iban {
+    margin-top: 3mm;
+    width: 100%;
+    height: 13.5mm;
+    border: 0.5mm solid rgba(255, 103, 77, 1);
+}
+
+.fieldsPlacnik {
+    margin-top: 6mm;
+    margin-left: 3.5mm;
+    margin-right: 4mm;
+    height: 49mm;
+}
+
+.redica {
+    display: flex;
+    position: relative;
+}
+
+.qrCode {
+    height: 40mm;
+    width: 39.5mm;
+    background: white;
+    border: 0.5mm solid rgba(255, 103, 77, 1);
+
+}
+
+.desno {
+    margin-left: 3mm;
+    width: 99.5mm;
+    height: 40mm;
+}
+
+.ibanPlacnika {
+    width: 72.5mm;
+    height: 5mm;
+    border: 0.5mm solid rgba(255, 103, 77, 1);
+}
+
+.polog {
+    margin-top: 1mm;
+    margin-left: 7.75mm;
+    height: 4mm;
+    width: 4mm;
+    border: 0.5mm solid rgba(255, 103, 77, 1);
+
+}
+
+.dvig {
+    margin-top: 1mm;
+    margin-left: 7.75mm;
+    height: 4mm;
+    width: 4mm;
+    border: 0.5mm solid rgba(255, 103, 77, 1);
+
+}
+
+.referencaKod {
+    margin-top: 3mm;
+    width: 15mm;
+    height: 5mm;
+    border: 0.5mm solid rgba(255, 103, 77, 1);
+
+}
+
+.referenca {
+    margin-top: 3mm;
+    margin-left: 2mm;
+    width: 82.5mm;
+    height: 5mm;
+    border: 0.5mm solid rgba(255, 103, 77, 1);
+
+}
+
+.imeAdresa {
+    margin-top: 3mm;
+    height: 15mm;
+    width: 100%;
+    border: 0.5mm solid rgba(255, 103, 77, 1);
+}
+
+.znesek2 {
+    margin-left: 7.5mm;
+    margin-top: 3mm;
+    height: 5mm;
+    width: 41.25mm;
+    border: 0.5mm solid rgba(255, 103, 77, 1);
+
+}
+
+.datumPlacila {
+    margin-top: 3mm;
+    margin-left: 6.375mm;
+    height: 5mm;
+    width: 30mm;
+    border: 0.5mm solid rgba(255, 103, 77, 1);
+
+}
+
+.nujno {
+    height: 4mm;
+    width: 4mm;
+    margin-top: 4mm;
+    margin-left: 6.375mm;
+    border: 0.5mm solid rgba(255, 103, 77, 1);
+
+}
+
+.kodaNamena {
+    margin-top: 3mm;
+    height: 5mm;
+    width: 15mm;
+    border: 0.5mm solid rgba(255, 103, 77, 1);
+
+}
+
+.namenPlacila {
+    margin-top: 3mm;
+    margin-left: 1.875mm;
+    height: 5mm;
+    width: 93.75mm;
+    border: 0.5mm solid rgba(255, 103, 77, 1);
+
+}
+
+.rokPlacila {
+    margin-top: 3mm;
+    margin-left: 1.875mm;
+    height: 5mm;
+    width: 30mm;
+    border: 0.5mm solid rgba(255, 103, 77, 1);
+
+}
+
+.fieldsPrejemnik {
+    margin-left: 3mm;
+    margin-top: 3mm;
+    margin-right: 4mm;
+}
+
+.ibanPrejemnika {
+    height: 5mm;
+    width: 127.5mm;
+    border: 0.5mm solid rgba(255, 103, 77, 1);
+
+}
+
+.podpis {
+    margin-top: 3mm;
+    margin-left: 3mm;
+    height: 23mm;
+    width: 40mm;
+    background: white;
+    border: 0.5mm solid rgba(255, 103, 77, 1);
+    position: relative;
+}
+
+.objekt {
+    position: relative;
+}
+
+.label {
+    font-family: Myriad Pro, sans-serif;
+    font-size: 7pt;
+    font-weight: 600;
+    color: rgba(255, 103, 77, 1);
+    position: absolute;
+    top: -12px;
+    white-space: nowrap;
+}
+
+.label2 {
+    font-family: Myriad Pro, sans-serif;
+    font-size: 7pt;
+    font-weight: 600;
+    color: rgba(255, 103, 77, 1);
+    position: absolute;
+    white-space: nowrap;
+}
+
+.label3 {
+    font-family: Myriad Pro, sans-serif;
+    font-size: 7pt;
+    font-weight: 600;
+    color: rgba(255, 103, 77, 1);
+    position: absolute;
+    left: 38px;
+    white-space: nowrap;
+}
+
+.label4 {
+    font-family: Myriad Pro, sans-serif;
+    font-size: 7pt;
+    font-weight: 600;
+    color: rgba(255, 103, 77, 1);
+    position: absolute;
+    top: -12px;
+    left: 25px;
+    white-space: nowrap;
+}
+
+.labelPolog {
+    font-family: Myriad Pro, sans-serif;
+    font-size: 7pt;
+    font-weight: 600;
+    color: rgba(255, 103, 77, 1);
+    position: absolute;
+    white-space: nowrap;
+    top: -12px;
+    left: 298px;
+}
+
+.labelDvig {
+    font-family: Myriad Pro, sans-serif;
+    font-size: 7pt;
+    font-weight: 600;
+    color: rgba(255, 103, 77, 1);
+    position: absolute;
+    white-space: nowrap;
+    top: -12px;
+    left: 345px;
+}
+
+.labelZnesek {
+    font-family: Myriad Pro, sans-serif;
+    font-size: 7pt;
+    font-weight: 600;
+    color: rgba(255, 103, 77, 1);
+    position: absolute;
+    white-space: nowrap;
+    left: 29px;
+}
+
+.labelDatum {
+    font-family: Myriad Pro, sans-serif;
+    font-size: 7pt;
+    font-weight: 600;
+    color: rgba(255, 103, 77, 1);
+    position: absolute;
+    white-space: nowrap;
+    left: 208px;
+}
+
+.labelNujno {
+    font-family: Myriad Pro, sans-serif;
+    font-size: 7pt;
+    font-weight: 600;
+    color: rgba(255, 103, 77, 1);
+    position: absolute;
+    white-space: nowrap;
+    left: 340px;
+}
+
+.labelNamen {
+    font-family: Myriad Pro, sans-serif;
+    font-size: 7pt;
+    font-weight: 600;
+    color: rgba(255, 103, 77, 1);
+    position: absolute;
+    white-space: nowrap;
+    left: 64px;
+}
+
+.labelObjekt {
+    font-family: Myriad Pro, sans-serif;
+    font-size: 7pt;
+    font-weight: 600;
+    color: rgba(255, 103, 77, 1);
+    position: absolute;
+    white-space: nowrap;
+    left: 7px;
+}
+
+.linija {
+    border-top: 1px solid rgba(255, 103, 77, 1);
+    width: 35mm;
+    position: absolute;
+    top: 70px;
+    left: 7px;
+
+}
+
+.podpisLabel {
+    font-family: Myriad Pro, sans-serif;
+    font-size: 6pt;
+    color: rgba(255, 103, 77, 1);
+    position: absolute;
+    white-space: nowrap;
+    border-top: rgba(255, 103, 77, 1);
+    left: 10px;
+}
+
+.upn {
+    font-family: Myriad Pro, sans-serif;
+    font-size: 10pt;
+    font-weight: 600;
+    color: black;
+    position: absolute;
+    left: 100px;
+}
+
+.eur {
+    font-family: Myriad Pro, sans-serif;
+    font-size: 11pt;
+    font-weight: 600;
+    color: black;
+    position: absolute;
+    top: 12px
+}
+
+.eur2 {
+    font-family: Myriad Pro, sans-serif;
+    font-size: 11pt;
+    font-weight: 600;
+    color: black;
+    position: absolute;
+    top: 12px;
+    left: -8px;
+}
+.upnQR {
+    font-family: Myriad Pro, sans-serif;
+    font-size: 10pt;
+    font-weight: 600;
+    color: black;
+    position: absolute;
+    white-space: nowrap;
+    left: 10px;
+}
+
+textarea {
+    overflow: hidden;
+    resize: none;
+    line-height: 100%;
+    font-size: 10pt;
+}

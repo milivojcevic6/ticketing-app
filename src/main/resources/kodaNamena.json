@@ -1,0 +1,692 @@
+[
+ {
+   "code": "ACCT",
+   "slo": "Upravljanje den. sred. - znotraj banke",
+   "eng": "Account Management"
+ },
+ {
+   "code": "ADMG",
+   "slo": "Administrativne storitve",
+   "eng": "Administative Management"
+ },
+ {
+   "code": "ADVA",
+   "slo": "Plačilo vnaprej/predplačilo",
+   "eng": "Advance Payment"
+ },
+ {
+   "code": "AEMP",
+   "slo": "Aktivna politika zaposlovanja",
+   "eng": "Active Employment Policy"
+ },
+ {
+   "code": "AGRT",
+   "slo": "Plačilo v kmetijstvu",
+   "eng": "Agricultural Transfer"
+ },
+ {
+   "code": "AIRB",
+   "slo": "Aerotransport",
+   "eng": "Air"
+ },
+ {
+   "code": "ALMY",
+   "slo": "Preživnina",
+   "eng": "Alimony Payment"
+ },
+ {
+   "code": "ANNI",
+   "slo": "Anuiteta",
+   "eng": "Annuity"
+ },
+ {
+   "code": "ANTS",
+   "slo": "Storitve anestezije",
+   "eng": "Anesthesia Services"
+ },
+ {
+   "code": "AREN",
+   "slo": "Vnos/vpis terjatev",
+   "eng": "Accounts Receivables Entry"
+ },
+ {
+   "code": "BECH",
+   "slo": "Otroški dodatek",
+   "eng": "Child Benefit"
+ },
+ {
+   "code": "BENE",
+   "slo": "Podpora za brezposelne/invalide",
+   "eng": "Unemployment Disability Benefit"
+ },
+ {
+   "code": "BEXP",
+   "slo": "Poslovni izdatki",
+   "eng": "Business Expenses"
+ },
+ {
+   "code": "BLDM",
+   "slo": "Vzdrževanje zgradb",
+   "eng": "Building Maintenance"
+ },
+ {
+   "code": "BOCE",
+   "slo": "Vnos/vpis konverzije v zaledju",
+   "eng": "Back Office Conversion Entry"
+ },
+ {
+   "code": "BONU",
+   "slo": "Bonus plačilo",
+   "eng": "Bonus Payment"
+ },
+ {
+   "code": "BUSB",
+   "slo": "Avtobusni transport",
+   "eng": "Bus"
+ },
+ {
+   "code": "CASH",
+   "slo": "Upravljanje den. sredst. - med bankami",
+   "eng": "Cash Management Transfer"
+ },
+ {
+   "code": "CBFF",
+   "slo": "Pokojninski skladi, varčevanje",
+   "eng": "Capital Building"
+ },
+ {
+   "code": "CBTV",
+   "slo": "Račun za kabelsko TV",
+   "eng": "Cable TV Bill"
+ },
+ {
+   "code": "CCHD",
+   "slo": "Nakazilo prejemka ZPIZ",
+   "eng": "Cash compensation, Helplessness, Disability"
+ },
+ {
+   "code": "CCRD",
+   "slo": "Plačilo s kreditno kartico",
+   "eng": "Credit Card Payment"
+ },
+ {
+   "code": "CDBL",
+   "slo": "Faktura za kreditno kartico",
+   "eng": "Credit Card Bill"
+ },
+ {
+   "code": "CDCB",
+   "slo": "Kartična plačila z gotovinskim vračilom",
+   "eng": "Card Payment with Cashback"
+ },
+ {
+   "code": "CDCD",
+   "slo": "Kartično izplačilo",
+   "eng": "Card disbursement"
+ },
+ {
+   "code": "CDCS",
+   "slo": "Kartično izplačilo",
+   "eng": "Cash Disbursement with Surcharging"
+ },
+ {
+   "code": "CDOC",
+   "slo": "Originalna odobritev",
+   "eng": "Original Credit"
+ },
+ {
+   "code": "CDQC",
+   "slo": "Navidezna gotovina",
+   "eng": "Quasi Cash:"
+ },
+ {
+   "code": "CFEE",
+   "slo": "Stroški preklica",
+   "eng": "Cancellation Fee"
+ },
+ {
+   "code": "CHAR",
+   "slo": "Dobrodelno plačilo",
+   "eng": "Charity Payment"
+ },
+ {
+   "code": "CLPR",
+   "slo": "Plačilo v zvezi z avtomobilom",
+   "eng": "Car Loan Principal Repayment"
+ },
+ {
+   "code": "CMDT",
+   "slo": "Plačilo blaga",
+   "eng": "Commodity Transfer"
+ },
+ {
+   "code": "COLL",
+   "slo": "Nalog za izvršitev plačila",
+   "eng": "Collection Payment"
+ },
+ {
+   "code": "COMC",
+   "slo": "Komercialno plačilo",
+   "eng": "Commercial Payment"
+ },
+ {
+   "code": "COMM",
+   "slo": "Plačilo provizije",
+   "eng": "Commission"
+ },
+ {
+   "code": "COMT",
+   "slo": "Konsolidirano plačilo tretje stranke za potrošnika",
+   "eng": "Consumer Third Party Consolidated Payment"
+ },
+ {
+   "code": "COST",
+   "slo": "Plačilo stroškov",
+   "eng": "Costs"
+ },
+ {
+   "code": "CPYR",
+   "slo": "Avtorska pravica",
+   "eng": "Copyright"
+ },
+ {
+   "code": "CSDB",
+   "slo": "Denarno izplačilo",
+   "eng": "Cash Disbursement"
+ },
+ {
+   "code": "CSLP",
+   "slo": "Plačilo socialnega posojila banki",
+   "eng": "Company Social Loan Payment To Bank"
+ },
+ {
+   "code": "CVCF",
+   "slo": "Pripomočki za okrevajoče",
+   "eng": "Convalescent Care Facility"
+ },
+ {
+   "code": "DBTC",
+   "slo": "Debetno plačilo",
+   "eng": "Debit Collection Payment"
+ },
+ {
+   "code": "DCRD",
+   "slo": "Plačilo z debetno kartico",
+   "eng": "Debit Card Payment"
+ },
+ {
+   "code": "DEPT",
+   "slo": "Depozit",
+   "eng": "Deposit"
+ },
+ {
+   "code": "DERI",
+   "slo": "Derivativi",
+   "eng": "Derivatives"
+ },
+ {
+   "code": "DIVD",
+   "slo": "Dividenda",
+   "eng": "Dividend"
+ },
+ {
+   "code": "DMEQ",
+   "slo": "Medicinska oprema",
+   "eng": "Durable Medicale Equipment"
+ },
+ {
+   "code": "DNTS",
+   "slo": "Zobozdravstvene storitve",
+   "eng": "Dental Services"
+ },
+ {
+   "code": "ECPG",
+   "slo": "Garantirano e-plačilo",
+   "eng": "Guaranteed e-payment"
+ },
+ {
+   "code": "ECPR",
+   "slo": "Vračilo e-plačila",
+   "eng": "Repayment of e-payment"
+ },
+ {
+   "code": "ECPU",
+   "slo": "Negarantirano e-plačilo",
+   "eng": "Non-guaranteed e-payment"
+ },
+ {
+   "code": "ELEC",
+   "slo": "Račun za elektriko",
+   "eng": "Electricity Bill"
+ },
+ {
+   "code": "ENRG",
+   "slo": "Energetika",
+   "eng": "Energies"
+ },
+ {
+   "code": "ESTX",
+   "slo": "Davek na nepremičnine",
+   "eng": "Estate Tax"
+ },
+ {
+   "code": "ETUP",
+   "slo": "E-denarnica",
+   "eng": "E- Purse Top up"
+ },
+ {
+   "code": "FAND",
+   "slo": "Finančna pomoč državnih organov",
+   "eng": "Financial Aid In Case Of Natural Disaster"
+ },
+ {
+   "code": "FERB",
+   "slo": "Trajekt",
+   "eng": "Ferry"
+ },
+ {
+   "code": "FREX",
+   "slo": "Devizno poslovanje",
+   "eng": "Foreign Exchange"
+ },
+ {
+   "code": "GASB",
+   "slo": "Račun za plin",
+   "eng": "Gas Bill"
+ },
+ {
+   "code": "GDDS",
+   "slo": "Kupoprodaja blaga",
+   "eng": "Purchase Sale Of Goods"
+ },
+ {
+   "code": "GDSV",
+   "slo": "Kupoprodaja blaga in storitve",
+   "eng": "Purchase Sale Of Goods And Services"
+ },
+ {
+   "code": "GFRP",
+   "slo": "Plačila iz naslova insolventnosti",
+   "eng": "Guarantee Fund Rights Payment"
+ },
+ {
+   "code": "GOVI",
+   "slo": "Državno zavarovanje",
+   "eng": "Government Insurance"
+ },
+ {
+   "code": "GOVT",
+   "slo": "Plačilo - državni organi",
+   "eng": "Government Payment"
+ },
+ {
+   "code": "GSCB",
+   "slo": "Kupoprodaja blaga in storitev z gotovino",
+   "eng": "Purchase Sale Of Goods And Services With Cash Back"
+ },
+ {
+   "code": "GVEA",
+   "slo": "Avstrijski vladni uslužbenci kat. A",
+   "eng": "Austrian Government Employees Category A"
+ },
+ {
+   "code": "GVEB",
+   "slo": "Avstrijski vladni uslužbenci kat. B",
+   "eng": "Austrian Government Employees Category B"
+ },
+ {
+   "code": "GVEC",
+   "slo": "Avstrijski vladni uslužbenci kat. C",
+   "eng": "Austrian Government Employees Category C"
+ },
+ {
+   "code": "GVED",
+   "slo": "Avstrijski vladni uslužbenci kat. D",
+   "eng": "Austrian Government Employees Category D"
+ },
+ {
+   "code": "HEDG",
+   "slo": "Zaščita pred tveganji",
+   "eng": "Hedging"
+ },
+ {
+   "code": "HLRP",
+   "slo": "Plačilo stanovanjskega kredita",
+   "eng": "Housing Loan Repayment"
+ },
+ {
+   "code": "HLTC",
+   "slo": "Zdravstvena oskrba na domu",
+   "eng": "Home Health Care"
+ },
+ {
+   "code": "HLTI",
+   "slo": "Zdravstveno zavarovanje",
+   "eng": "Health Insurance"
+ },
+ {
+   "code": "HREC",
+   "slo": "Bivalni prispevek",
+   "eng": "Residence contribution"
+ },
+ {
+   "code": "HSPC",
+   "slo": "Bolnišnična oskrba",
+   "eng": "Hospital Care"
+ },
+ {
+   "code": "HSTX",
+   "slo": "Stanovanjski davek",
+   "eng": "Housing Tax"
+ },
+ {
+   "code": "ICCP",
+   "slo": "Nepreklicno plačilo s kreditno kartico",
+   "eng": "Irrevocable Credit Card Payment"
+ },
+ {
+   "code": "ICRF",
+   "slo": "Prva/nujna pomoč",
+   "eng": "Intermediate Care Facility"
+ },
+ {
+   "code": "IDCP",
+   "slo": "Nepreklicno plačilo z debetno kartico",
+   "eng": "Irrevocable Debit Card Payment"
+ },
+ {
+   "code": "IHRP",
+   "slo": "Dogovor o obročnih nakupih",
+   "eng": "Instalment Hire Purchase Agreement"
+ },
+ {
+   "code": "INPC",
+   "slo": "Premija avtomobilskega zavarovanja",
+   "eng": "Insurance Premium Car"
+ },
+ {
+   "code": "INSM",
+   "slo": "Obroki",
+   "eng": "Installment"
+ },
+ {
+   "code": "INSU",
+   "slo": "Zavarovalna premija",
+   "eng": "Insurance Premium"
+ },
+ {
+   "code": "INTC",
+   "slo": "Interno plačilo",
+   "eng": "Intra Company Payment"
+ },
+ {
+   "code": "INTE",
+   "slo": "Obresti",
+   "eng": "Interest"
+ },
+ {
+   "code": "INTX",
+   "slo": "Davek na dobiček",
+   "eng": "Income Tax"
+ },
+ {
+   "code": "LBRI",
+   "slo": "Delovno zavarovanje",
+   "eng": "Labor Insurance"
+ },
+ {
+   "code": "LICF",
+   "slo": "Licenčna provizija/licenčnina",
+   "eng": "License Fee"
+ },
+ {
+   "code": "LIFI",
+   "slo": "Življenjsko zavarovanje",
+   "eng": "Life Insurance"
+ },
+ {
+   "code": "LIMA",
+   "slo": "Upravljanje likvidnosti",
+   "eng": "Liquidity Management"
+ },
+ {
+   "code": "LOAN",
+   "slo": "Posojilo",
+   "eng": "Loan"
+ },
+ {
+   "code": "LOAR",
+   "slo": "Plačilo posojila",
+   "eng": "Loan Repayment"
+ },
+ {
+   "code": "LTCF",
+   "slo": "Dolgotrajna zdravstvena oskrba",
+   "eng": "Long Term Care Facility"
+ },
+ {
+   "code": "MDCS",
+   "slo": "Zdravstvene storitve",
+   "eng": "Medical Services"
+ },
+ {
+   "code": "MSVC",
+   "slo": "Večnamenske storitve",
+   "eng": "Multiple Service Types"
+ },
+ {
+   "code": "NETT",
+   "slo": "Neto izravnava",
+   "eng": "Netting"
+ },
+ {
+   "code": "NITX",
+   "slo": "Davek na čisti dobiček",
+   "eng": "Net Income Tax"
+ },
+ {
+   "code": "NOWS",
+   "slo": "Ni opredeljeno drugod",
+   "eng": "Not otherwise specified"
+ },
+ {
+   "code": "NWCH",
+   "slo": "Omrežnina",
+   "eng": "Network Charge"
+ },
+ {
+   "code": "NWCM",
+   "slo": "Mrežna povezava",
+   "eng": "Network Communication"
+ },
+ {
+   "code": "OFEE",
+   "slo": "Otvoritvena provizija",
+   "eng": "Opening Fee"
+ },
+ {
+   "code": "OTHR",
+   "slo": "Drugo",
+   "eng": "Other"
+ },
+ {
+   "code": "OTLC",
+   "slo": "Drugi računi - telekomunikacije",
+   "eng": "Other Telecom Related Bill"
+ },
+ {
+   "code": "PADD",
+   "slo": "Vnaprej odobrena obremenitev",
+   "eng": "Preauthorized debit"
+ },
+ {
+   "code": "PAYR",
+   "slo": "Plačilna lista",
+   "eng": "Payroll"
+ },
+ {
+   "code": "PENS",
+   "slo": "Pokojnina",
+   "eng": "Pension Payment"
+ },
+ {
+   "code": "PHON",
+   "slo": "Račun za telefon",
+   "eng": "Telephone Bill"
+ },
+ {
+   "code": "POPE",
+   "slo": "Vnos/vpis prodajnega mesta",
+   "eng": "Point Of Purchase Entry"
+ },
+ {
+   "code": "PPTI",
+   "slo": "Zavarovanje lastnine",
+   "eng": "Property Insurance"
+ },
+ {
+   "code": "PRCP",
+   "slo": "Plačilo izdatkov",
+   "eng": "Price Payment"
+ },
+ {
+   "code": "PRME",
+   "slo": "Plemenite kovine",
+   "eng": "Precious Metal"
+ },
+ {
+   "code": "PTSP",
+   "slo": "Plačilni pogoji",
+   "eng": "Payment Terms"
+ },
+ {
+   "code": "RCKE",
+   "slo": "Vnos/vpis ponovne prezentacije čeka",
+   "eng": "Re-presented Check Entry"
+ },
+ {
+   "code": "RCPT",
+   "slo": "Plačilo za izdajo potrdila",
+   "eng": "Receipt Payment"
+ },
+ {
+   "code": "REFU",
+   "slo": "Vračilo denarnih sredstev",
+   "eng": "Refund"
+ },
+ {
+   "code": "RENT",
+   "slo": "Najemnina",
+   "eng": "Rent"
+ },
+ {
+   "code": "RINP",
+   "slo": "Obročna plačila",
+   "eng": "Recurring Installment Payment"
+ },
+ {
+   "code": "RLWY",
+   "slo": "Železnica",
+   "eng": "Railway"
+ },
+ {
+   "code": "ROYA",
+   "slo": "Tantieme",
+   "eng": "Royalties"
+ },
+ {
+   "code": "SALA",
+   "slo": "Plače",
+   "eng": "Salary Payment"
+ },
+ {
+   "code": "SAVG",
+   "slo": "Varčevanje",
+   "eng": "Savings"
+ },
+ {
+   "code": "SCVE",
+   "slo": "Kupoprodajna storitev",
+   "eng": "Purchase Sale Of Services"
+ },
+ {
+   "code": "SECU",
+   "slo": "Vrednostni papirji",
+   "eng": "Securities"
+ },
+ {
+   "code": "SLPI",
+   "slo": "Kreditno plačilo s predizpolnjenim obrazcem",
+   "eng": "Payment Slip Instruction"
+ },
+ {
+   "code": "SSBE",
+   "slo": "Socialna podpora",
+   "eng": "Social Security Benefit"
+ },
+ {
+   "code": "STDY",
+   "slo": "Študij",
+   "eng": "Study"
+ },
+ {
+   "code": "SUBS",
+   "slo": "Naročnina",
+   "eng": "Subscription"
+ },
+ {
+   "code": "SUPP",
+   "slo": "Plačilo dobaviteljem",
+   "eng": "Supplier Payment"
+ },
+ {
+   "code": "TAXS",
+   "slo": "Plačilo davkov",
+   "eng": "Tax Payment"
+ },
+ {
+   "code": "TELI",
+   "slo": "Telefonsko izvedena transakcija",
+   "eng": "Telephone-Initiated Transaction"
+ },
+ {
+   "code": "TRAD",
+   "slo": "Trgovinske storitve",
+   "eng": "Trade Services"
+ },
+ {
+   "code": "TREA",
+   "slo": "Zakladniško plačilo",
+   "eng": "Treasury Payment"
+ },
+ {
+   "code": "TRFD",
+   "slo": "Skrbniški sklad",
+   "eng": "Trust Fund"
+ },
+ {
+   "code": "TRNC",
+   "slo": "Kreditno plačilo z delno predizpolnjenim obrazcem",
+   "eng": "Truncated Payment Slip"
+ },
+ {
+   "code": "VATX",
+   "slo": "Plačilo davka na dodano vrednost",
+   "eng": "Value Added Tax Payment"
+ },
+ {
+   "code": "VIEW",
+   "slo": "Oskrba vida",
+   "eng": "Vision Care"
+ },
+ {
+   "code": "WEBI",
+   "slo": "Internetno izvedena transakcija",
+   "eng": "Internet-Initiated Transaction"
+ },
+ {
+   "code": "WTER",
+   "slo": "Račun za vodo/vodarina",
+   "eng": "Water Bill"
+ }
+]
