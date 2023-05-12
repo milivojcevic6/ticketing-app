@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Luka",
+    "surname": "Uršič",
+    "email": "luka.urs@gmail.com",
+    "points": "25"
+  },
+  {
+    "name": "Milan",
+    "surname": "Mili",
+    "email": "mili@gmail.com",
+    "points": "30"
+  },
+  {
+    "name": "Random",
+    "surname": "Person",
+    "email": "random.person@gmail.com",
+    "points": "20"
+  }
+]
