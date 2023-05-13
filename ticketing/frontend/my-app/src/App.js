@@ -41,13 +41,11 @@ function App() {
         <div className="App">
             <Navbar bg="dark" variant="dark">
                 <Container>
-                    <Navbar.Brand href="/home" >Let's RUN it.</Navbar.Brand>
+                    <Navbar.Brand href="/home" >Ticketing app</Navbar.Brand>
                     <Nav className="mr-2">
-                        <Nav.Link href="/home">Home</Nav.Link>
-                        <Nav.Link href="/tasks">Tasks</Nav.Link>
-                        <Nav.Link href="/leaderboard">Leaderboard</Nav.Link>
-                        <Nav.Link href="/rules">Rules</Nav.Link>
+                        <Nav.Link href="/">Home</Nav.Link>
                         <Nav.Link href="/profile">Profile</Nav.Link>
+                        <Nav.Link href="/tickets">Tickets</Nav.Link>
                     </Nav>
                 </Container>
             </Navbar>
