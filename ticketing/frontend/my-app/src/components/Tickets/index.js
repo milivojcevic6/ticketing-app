@@ -10,7 +10,7 @@ function Tickets() {
             .catch((error) => console.error(error));
     }, []);
 
-    const fetchTickets = () => {
+    const fetchTickets = () => { 
         return fetch("/api/tickets")
             .then((response) => {
                 if (!response.ok) {
