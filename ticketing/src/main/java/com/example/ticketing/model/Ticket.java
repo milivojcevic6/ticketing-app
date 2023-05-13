@@ -10,10 +10,19 @@ public class Ticket {
     private Long id;
 
     private String ticketCode;
-    private Long eventId;
-    private Long userId;
+    //private Long eventId;
+   // private Long userId;
     private LocalDate issuedDate;
     private TicketStatus status;
+
+    //many to one connections
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "event_id")
+    private Event event;
 
     // Constructors, getters, and setters
 
@@ -33,21 +42,21 @@ public class Ticket {
         this.ticketCode = ticketCode;
     }
 
-    public Long getEventId() {
-        return eventId;
-    }
-
-    public void setEventId(Long eventId) {
-        this.eventId = eventId;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
+//    public Long getEventId() {
+//        return eventId;
+//    }
+//
+//    public void setEventId(Long eventId) {
+//        this.eventId = eventId;
+//    }
+//
+//    public Long getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(Long userId) {
+//        this.userId = userId;
+//    }
 
     public LocalDate getIssuedDate() {
         return issuedDate;

@@ -2,6 +2,8 @@ package com.example.ticketing.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 
 @Entity
 public class Event {
@@ -17,6 +19,14 @@ public class Event {
     private String locationUrl;
     private Double price;
     private Double ESNprice; //price with the ESNcard discount
+
+    //connections
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ticket> tickets;
 
     // Constructors, getters, and setters
 
