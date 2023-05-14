@@ -3,7 +3,7 @@ import {Badge} from "react-bootstrap";
 import axios from "axios";
 import testImage from "../../images/photo_2022-04-29_21-36-13.jpg"
 import * as Icon from 'react-feather';
-
+import "./home.css";
 
 function HomePage() {
 
@@ -81,7 +81,7 @@ function HomePage() {
                         </div>
                     </div>
                     <div className="row py-4">
-                        <div className="col-md-5 card p-2">
+                        <div className="col-lg-5 col-12 card p-2 mb-lg-0 mb-4">
                             <table className="table table-striped">
                                 <thead>
                                 <tr>
@@ -95,9 +95,9 @@ function HomePage() {
                                 <tbody>
 
                                 {events.map((event) => (
-                                    <tr key={event.id}>
+                                    <tr key={event.id} className={selected === event ? 'selected' : ''} onClick={() => setSelected(event)} >
                                         <th scope="row">{event.id}</th>
-                                        <td>{event.name}</td>
+                                        <td >{event.name}</td>
                                         <td>{event.location}</td>
                                         <td>{event.price}</td>
                                         <td>{event.esnprice}</td>
@@ -106,7 +106,7 @@ function HomePage() {
                                 </tbody>
                             </table>
                         </div>
-                        <div className="col-md-6 p-2 card ms-auto">
+                        <div className="col-lg-6 col-12 p-2 card ms-auto">
                             <img src={testImage} height={350} style={{ objectFit: "cover" }} className="card-img-top" alt="..."/>
                             <div className="card-body">
 
