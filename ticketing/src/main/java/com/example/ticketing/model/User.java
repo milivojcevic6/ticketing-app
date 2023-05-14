@@ -13,21 +13,23 @@ public class User {
 
     private String username;
     private String password;
+    private String firstName;
+    private String lastName;
     private String email;
 
-    private UserRole role;
-    private String section; // Add a new field to store the selected section
-
     // Relationships
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Event> events;
+    @ManyToMany
+    @JoinTable(
+            name = "user_section",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "section_id")
+    )
+    private List<Section> sections;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ticket> tickets;
 
     // Constructors, getters, and setters
-
     public Long getId() {
         return id;
     }
@@ -52,6 +54,22 @@ public class User {
         this.password = password;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -60,12 +78,12 @@ public class User {
         this.email = email;
     }
 
-    public List<Event> getEvents() {
-        return events;
+    public List<Section> getSections() {
+        return sections;
     }
 
-    public void setEvents(List<Event> events) {
-        this.events = events;
+    public void setSections(List<Section> sections) {
+        this.sections = sections;
     }
 
     public List<Ticket> getTickets() {
@@ -74,21 +92,5 @@ public class User {
 
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
-    }
-
-    public UserRole getRole() {
-        return role;
-    }
-
-    public void setRole(UserRole role) {
-        this.role = role;
-    }
-
-    public String getSection() {
-        return section;
-    }
-
-    public void setSection(String section) {
-        this.section = section;
     }
 }

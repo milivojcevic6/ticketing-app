@@ -4,18 +4,20 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "ticket")
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String ticketCode;
-    //private Long eventId;
-   // private Long userId;
     private LocalDate issuedDate;
     private TicketStatus status;
 
-    //many to one connections
+    @Lob // Indicates the field will store large binary data
+    private byte[] qrCodeImage; // Field to store the binary picture data
+
+    // Relationships
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -34,30 +36,6 @@ public class Ticket {
         this.id = id;
     }
 
-    public String getTicketCode() {
-        return ticketCode;
-    }
-
-    public void setTicketCode(String ticketCode) {
-        this.ticketCode = ticketCode;
-    }
-
-//    public Long getEventId() {
-//        return eventId;
-//    }
-//
-//    public void setEventId(Long eventId) {
-//        this.eventId = eventId;
-//    }
-//
-//    public Long getUserId() {
-//        return userId;
-//    }
-//
-//    public void setUserId(Long userId) {
-//        this.userId = userId;
-//    }
-
     public LocalDate getIssuedDate() {
         return issuedDate;
     }
@@ -72,5 +50,29 @@ public class Ticket {
 
     public void setStatus(TicketStatus status) {
         this.status = status;
+    }
+
+    public byte[] getQrCodeImage() {
+        return qrCodeImage;
+    }
+
+    public void setQrCodeImage(byte[] qrCodeImage) {
+        this.qrCodeImage = qrCodeImage;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
     }
 }

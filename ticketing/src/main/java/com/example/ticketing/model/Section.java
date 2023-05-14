@@ -4,31 +4,26 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
-
 @Entity
-@Table(name = "event")
-public class Event {
+@Table(name = "section")
+public class Section {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
     private String description;
-    private String type;
-    private Long capacity;
     private String location;
     private String locationUrl;
-    private Double price;
-    private Double ESNprice;
+    private String webUrl;
+    private String InstagramUrl;
+    private String LinkedInUrl;
+    private String FacebookUrl;
+    private String TikTokUrl;
 
     // Relationships
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Ticket> tickets;
+    @ManyToMany(mappedBy = "sections")
+    private List<User> users;
 
     // Constructors, getters, and setters
 
@@ -56,22 +51,6 @@ public class Event {
         this.description = description;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Long getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(Long capacity) {
-        this.capacity = capacity;
-    }
-
     public String getLocation() {
         return location;
     }
@@ -88,35 +67,52 @@ public class Event {
         this.locationUrl = locationUrl;
     }
 
-    public Double getPrice() {
-        return price;
+    public String getWebUrl() {
+        return webUrl;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setWebUrl(String webUrl) {
+        this.webUrl = webUrl;
     }
 
-    public Double getESNprice() {
-        return ESNprice;
+    public String getInstagramUrl() {
+        return InstagramUrl;
     }
 
-    public void setESNprice(Double ESNprice) {
-        this.ESNprice = ESNprice;
+    public void setInstagramUrl(String instagramUrl) {
+        InstagramUrl = instagramUrl;
     }
 
-    public User getUser() {
-        return user;
+    public String getLinkedInUrl() {
+        return LinkedInUrl;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setLinkedInUrl(String linkedInUrl) {
+        LinkedInUrl = linkedInUrl;
     }
 
-    public List<Ticket> getTickets() {
-        return tickets;
+    public String getFacebookUrl() {
+        return FacebookUrl;
     }
 
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
+    public void setFacebookUrl(String facebookUrl) {
+        FacebookUrl = facebookUrl;
+    }
+
+    public String getTikTokUrl() {
+        return TikTokUrl;
+    }
+
+    public void setTikTokUrl(String tikTokUrl) {
+        TikTokUrl = tikTokUrl;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }
+
