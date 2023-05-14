@@ -112,6 +112,9 @@ function HomePage() {
                                 ))}
                                 </tbody>
                             </table>
+                            <div className="bottom-bar position-sticky fixed-bottom"  >
+                                <h6 className="mt-2"> <Icon.PlusSquare/> New event</h6>
+                            </div>
                         </div>
                         <div className="col-lg-6 col-12 p-2 card ms-auto scrollable-div">
                             <img src={testImage} height={250} style={{ objectFit: "cover" }} className="card-img-top" alt="..."/>
@@ -129,11 +132,14 @@ function HomePage() {
                                                 <span className="me-3"><Icon.Clock/> Implement time</span>
                                                 <span><Icon.UserCheck/> Implement #registered</span>
                                             </div>
+                                            {/*STUDENT*/}
                                             <div className="d-inline-flex my-4">
+                                                <button type="button" className="btn btn-primary me-3">Register</button>
                                                 <button type="button" className="btn btn-primary me-3">Use Ticket</button>
                                                 <button type="button" className="btn btn-primary">Rate Event</button>
                                             </div>
                                             <br/>
+                                            {/*SECTION*/}
                                             <div className="d-inline-flex my-2">
                                                 <button type="button" className="btn btn-primary me-3">Issue Ticket</button>
                                                 <button type="button" className="btn btn-primary me-3">Scan</button>
@@ -150,9 +156,14 @@ function HomePage() {
                         </div>
                     </div>
                 </div>
+                
+                
+                
+                {/*MODALS*/}
+                
 
             </div>
-
+            
 
         </div>
     )
