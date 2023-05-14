@@ -39,18 +39,21 @@ function App() {
     return (
 
         <div className="App">
-            <Navbar bg="dark" variant="dark">
+            <Navbar bg="dark" variant="dark" expand="md">
                 <Container>
                     <Navbar.Brand href="/" >
                         <img src={logo} height={20} className="d-inline-block" alt=""/>{' '}
                         Ticketing app
                     </Navbar.Brand>
-                    <Nav className="mr-2">
-                        <Nav.Link href="/">Home</Nav.Link>
-                        <Nav.Link href="/tickets">TicketWallet</Nav.Link>
-                        <Nav.Link href="/profile">Profile</Nav.Link>
-                        <Nav.Link href="/">Log out</Nav.Link>
-                    </Nav>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="">
+                            <Nav.Link href="/">Home</Nav.Link>
+                            <Nav.Link href="/tickets">TicketWallet</Nav.Link>
+                            <Nav.Link href="/profile">Profile</Nav.Link>
+                            <Nav.Link href="/">Log out</Nav.Link>
+                        </Nav>
+                    </Navbar.Collapse>
                 </Container>
             </Navbar>
             <br/>
