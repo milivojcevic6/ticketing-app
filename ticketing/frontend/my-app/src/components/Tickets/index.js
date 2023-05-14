@@ -17,14 +17,14 @@ function Tickets() {
                 </tr>
                 </thead>
                 <tbody>
-                {tickets.map((ticket) => (
+                {/*tickets.map((ticket) => (
                     <tr key={ticket.id}>
                         <td>{ticket.eventName}</td>
                         <td>{ticket.eventLocation}</td>
                         <td>{ticket.issuedDate}</td>
                         <td>{ticket.status}</td>
                     </tr>
-                ))}
+                ))*/}
                 <tr>
                     <td>PubQuiz</td>
                     <td>Center Mladih Koper</td>

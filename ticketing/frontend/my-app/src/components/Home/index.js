@@ -2,24 +2,26 @@ import React, {useEffect, useState} from "react";
 import {Badge} from "react-bootstrap";
 import axios from "axios";
 import testImage from "../../images/photo_2022-04-29_21-36-13.jpg"
+import * as Icon from 'react-feather';
+
 
 function HomePage() {
-    
+
     const [events, setEvents] = useState([])
     const [selected, setSelected] = useState()
-    
+
     useEffect(() => {
         loadEvents()
     }, [])
-    
+
     const loadEvents = async () => {
         const result = await axios.get("http://localhost:8080/api/events")
         console.log(result);
         setEvents(result.data)
         setSelected(result.data[0])
-        
+        console.log(selected)
     }
-    
+
     return (
 
         <div>
@@ -67,7 +69,7 @@ function HomePage() {
             <br/>
             <br/>
             <br/>*/}
-            
+
             <div>
                 <div className="container-fluid">
                     <div className="row">
@@ -106,20 +108,45 @@ function HomePage() {
                         </div>
                         <div className="col-md-6 p-2 card ms-auto">
                             <img src={testImage} height={350} style={{ objectFit: "cover" }} className="card-img-top" alt="..."/>
-                                <div className="card-body">
-                                    <h5 className="card-title">Event Name</h5>
-                                    <p className="card-text">This is a wider card with supporting text below as a
-                                        natural lead-in to additional content. This content is a little bit longer.</p>
-                                    <p className="card-text"><small className="text-muted">Last updated 3 mins
-                                        ago</small></p>
-                                </div>
+                            <div className="card-body">
+
+                                {
+                                    selected?.id ?
+                                        <div>
+                                            <h5 className="card-title">
+                                                <p>{selected.name}</p>
+                                            </h5>
+                                            <p className="card-text">{selected.description}</p>
+                                            <div className="d-inline-flex">
+                                                <span className="me-3"><Icon.MapPin/> {selected.location}</span>
+                                                <span className="me-3"><Icon.Clock/> Implement time</span>
+                                                <span><Icon.UserCheck/> Implement #registered</span>
+                                            </div>
+                                            <div className="d-inline-flex my-4">
+                                                <button type="button" className="btn btn-primary me-3">Use Ticket</button>
+                                                <button type="button" className="btn btn-primary">Rate Event</button>
+                                            </div>
+                                            <br/>
+                                            <div className="d-inline-flex my-2">
+                                                <button type="button" className="btn btn-primary me-3">Issue Ticket</button>
+                                                <button type="button" className="btn btn-primary me-3">Scan</button>
+                                                <button type="button" className="btn btn-primary me-3">User List</button>
+                                                <button type="button" className="btn btn-primary">Archive </button>
+                                            </div>
+                                            <p className="card-text"><small className="text-muted">Last updated 3 mins ago</small></p>
+                                        </div>
+                                        :
+                                        <p>No event loaded</p>
+                                }
+
+                            </div>
                         </div>
                     </div>
                 </div>
 
             </div>
-            
-            
+
+
         </div>
     )
 }
