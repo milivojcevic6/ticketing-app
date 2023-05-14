@@ -5,3 +5,25 @@
 tr:hover {
     cursor: pointer;
 }
+
+.intro {
+    color: #ec008c;
+}
+
+.scrollable-div {
+    max-height: 700px;
+    overflow: auto;
+}
+
+.scrollable-div-mobile {
+    max-height: 700px;
+    overflow: auto;
+}
+
+@media (max-width: 480px) {
+    .scrollable-div-mobile {
+        /* Add mobile styles here */
+        max-height: 200px;
+        overflow-y: scroll;
+    }
+}

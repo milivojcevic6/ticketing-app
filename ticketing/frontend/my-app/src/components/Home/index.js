@@ -73,32 +73,39 @@ function HomePage() {
             <div>
                 <div className="container-fluid">
                     <div className="row">
-                        <div className="col-12 px-0">
-                            <div className="card">
-                                <div className="card-body">
-                                    Discover a world of exciting events with ESN Primorska's ticketing app. Browse, register, and enjoy!                                </div>
+                        <div className="col-lg-5 col-12 px-0">
+                            <form className="d-flex">
+                                <input className="form-control me-2" type="search" placeholder="Search"
+                                       aria-label="Search"/>
+                                    <button className="btn btn-outline-success" type="submit"><Icon.Search/></button>
+                            </form>
+                        </div>
+                        <div className="col-lg-6 col-12 pt-2 text-center ms-auto">
+                            <div className=""> {/*card*/}
+                                <div className="intro"> {/*card-body*/}
+                                    Discover our events! Browse, register, and enjoy!                                </div>
                             </div>
                         </div>
                     </div>
                     <div className="row py-4">
-                        <div className="col-lg-5 col-12 card p-2 mb-lg-0 mb-4">
-                            <table className="table table-striped">
+                        <div className="col-lg-5 col-12 card p-2 mb-lg-0 mb-4 scrollable-div-mobile">
+                            <table className="table table-hover text-start">
                                 <thead>
                                 <tr>
-                                    <th scope="col">#</th>
                                     <th scope="col">Event Name</th>
                                     <th scope="col">Event Location</th>
+                                    <th scope="col">Date</th>
                                     <th scope="col">Price</th>
-                                    <th scope="col">ESNprice</th>
+                                    <th scope="col">ESN price</th>
                                 </tr>
                                 </thead>
                                 <tbody>
 
                                 {events.map((event) => (
                                     <tr key={event.id} className={selected === event ? 'selected' : ''} onClick={() => setSelected(event)} >
-                                        <th scope="row">{event.id}</th>
                                         <td >{event.name}</td>
                                         <td>{event.location}</td>
+                                        <td scope="row">01.01</td>
                                         <td>{event.price}</td>
                                         <td>{event.esnprice}</td>
                                     </tr>
@@ -106,8 +113,8 @@ function HomePage() {
                                 </tbody>
                             </table>
                         </div>
-                        <div className="col-lg-6 col-12 p-2 card ms-auto">
-                            <img src={testImage} height={350} style={{ objectFit: "cover" }} className="card-img-top" alt="..."/>
+                        <div className="col-lg-6 col-12 p-2 card ms-auto scrollable-div">
+                            <img src={testImage} height={250} style={{ objectFit: "cover" }} className="card-img-top" alt="..."/>
                             <div className="card-body">
 
                                 {
