@@ -33,7 +33,7 @@ import {Container, Image, Nav, Navbar} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import AppRouter from "./AppRouter";
 import Footer from "./components/Footer";
-import logo from './logo.png';
+import logo from './images/logic.png';
 
 function App() {
     return (
@@ -41,14 +41,15 @@ function App() {
         <div className="App">
             <Navbar bg="dark" variant="dark">
                 <Container>
-                    <Navbar.Brand href="/home" >
-                        {/*<img src={logo} height={30} className="d-inline-block align-top" alt=""/>{' '}*/}
+                    <Navbar.Brand href="/" >
+                        <img src={logo} height={20} className="d-inline-block" alt=""/>{' '}
                         Ticketing app
                     </Navbar.Brand>
                     <Nav className="mr-2">
                         <Nav.Link href="/">Home</Nav.Link>
+                        <Nav.Link href="/tickets">TicketWallet</Nav.Link>
                         <Nav.Link href="/profile">Profile</Nav.Link>
-                        <Nav.Link href="/tickets">Tickets</Nav.Link>
+                        <Nav.Link href="/">Log out</Nav.Link>
                     </Nav>
                 </Container>
             </Navbar>

@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {Badge} from "react-bootstrap";
 import axios from "axios";
+import testImage from "../../images/photo_2022-04-29_21-36-13.jpg"
 
 function HomePage() {
     
     const [events, setEvents] = useState([])
+    const [selected, setSelected] = useState()
     
     useEffect(() => {
         loadEvents()
@@ -14,6 +16,8 @@ function HomePage() {
         const result = await axios.get("http://localhost:8080/api/events")
         console.log(result);
         setEvents(result.data)
+        setSelected(result.data[0])
+        
     }
     
     return (
@@ -67,11 +71,19 @@ function HomePage() {
             <div>
                 <div className="container-fluid">
                     <div className="row">
-                        <div className="col-md-6 px-0">
+                        <div className="col-12 px-0">
+                            <div className="card">
+                                <div className="card-body">
+                                    Discover a world of exciting events with ESN Primorska's ticketing app. Browse, register, and enjoy!                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row py-4">
+                        <div className="col-md-5 card p-2">
                             <table className="table table-striped">
                                 <thead>
                                 <tr>
-                                    <th scope="col">Number</th>
+                                    <th scope="col">#</th>
                                     <th scope="col">Event Name</th>
                                     <th scope="col">Event Location</th>
                                     <th scope="col">Price</th>
@@ -91,6 +103,16 @@ function HomePage() {
                                 ))}
                                 </tbody>
                             </table>
+                        </div>
+                        <div className="col-md-6 p-2 card ms-auto">
+                            <img src={testImage} height={350} style={{ objectFit: "cover" }} className="card-img-top" alt="..."/>
+                                <div className="card-body">
+                                    <h5 className="card-title">Event Name</h5>
+                                    <p className="card-text">This is a wider card with supporting text below as a
+                                        natural lead-in to additional content. This content is a little bit longer.</p>
+                                    <p className="card-text"><small className="text-muted">Last updated 3 mins
+                                        ago</small></p>
+                                </div>
                         </div>
                     </div>
                 </div>
