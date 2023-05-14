@@ -2,23 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./tickets.css";
 
 function Tickets() {
-    const [tickets, setTickets] = useState([]);
 
-    useEffect(() => {
-        fetchTickets()
-            .then((data) => setTickets(data))
-            .catch((error) => console.error(error));
-    }, []);
-
-    const fetchTickets = () => { 
-        return fetch("/api/tickets")
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Error retrieving tickets");
-                }
-                return response.json();
-            });
-    };
 
     return (
         <div>
