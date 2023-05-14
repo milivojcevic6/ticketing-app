@@ -4,15 +4,21 @@ import axios from "axios";
 import testImage from "../../images/photo_2022-04-29_21-36-13.jpg"
 import * as Icon from 'react-feather';
 import "./home.css";
+import { Modal } from 'react-bootstrap';
 
 function HomePage() {
 
     const [events, setEvents] = useState([])
     const [selected, setSelected] = useState()
-
+    const [showModal, setShowModal] = useState(false);
+    
     useEffect(() => {
         loadEvents()
     }, [])
+    
+    const handleToggleModal = () => {
+        setShowModal(!showModal);
+    };
 
     const loadEvents = async () => {
         const result = await axios.get("http://localhost:8080/api/events")
@@ -112,7 +118,7 @@ function HomePage() {
                                 ))}
                                 </tbody>
                             </table>
-                            <div className="bottom-bar position-sticky fixed-bottom"  >
+                            <div className="bottom-bar position-sticky fixed-bottom" onClick={handleToggleModal} >
                                 <h6 className="mt-2"> <Icon.PlusSquare/> New event</h6>
                             </div>
                         </div>
@@ -132,18 +138,18 @@ function HomePage() {
                                                 <span className="me-3"><Icon.Clock/> Implement time</span>
                                                 <span><Icon.UserCheck/> Implement #registered</span>
                                             </div>
-                                            {/*STUDENT*/}
+                                            {/*STUDENT
                                             <div className="d-inline-flex my-4">
                                                 <button type="button" className="btn btn-primary me-3">Register</button>
                                                 <button type="button" className="btn btn-primary me-3">Use Ticket</button>
                                                 <button type="button" className="btn btn-primary">Rate Event</button>
-                                            </div>
+                                            </div>*/}
                                             <br/>
                                             {/*SECTION*/}
-                                            <div className="d-inline-flex my-2">
+                                            <div className="d-inline-flex my-4">
                                                 <button type="button" className="btn btn-primary me-3">Issue Ticket</button>
                                                 <button type="button" className="btn btn-primary me-3">Scan</button>
-                                                <button type="button" className="btn btn-primary me-3">User List</button>
+                                                <button type="button" className="btn btn-primary me-3">Attendees</button>
                                                 <button type="button" className="btn btn-primary">Archive </button>
                                             </div>
                                             <p className="card-text"><small className="text-muted">Last updated 3 mins ago</small></p>
@@ -161,6 +167,68 @@ function HomePage() {
                 
                 {/*MODALS*/}
                 
+                <Modal show={showModal} onHide={handleToggleModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>New Event</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <form>
+                            <div className="mb-3">
+                                <label htmlFor="name" className="form-label">Name</label>
+                                <input type="text" className="form-control" id="name" placeholder="e.g. Erasmus in Schools"/>
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="description" className="form-label">Description</label>
+                                <textarea className="form-control" id="description" rows="3"
+                                          placeholder="e.g. During the Erasmus in Schools event, students will have the opportunity to interact with international students and teachers."></textarea>
+                            </div>
+                            
+                            <div className="row">
+                                <div className="mb-3 col-6">
+                                    <label htmlFor="location" className="form-label">Location</label>
+                                    <input type="text" className="form-control" id="location" placeholder="e.g. OS Koper"/>
+                                </div>
+                                <div className="mb-3 col-6">
+                                    <label htmlFor="capacity" className="form-label">Capacity</label>
+                                    <input type="number" className="form-control" id="capacity" placeholder="e.g. 10"/>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="mb-3 col-6">
+                                    <label htmlFor="locationUrl" className="form-label">Location URL</label>
+                                    <input type="url" className="form-control" id="locationUrl"
+                                           placeholder="e.g. https://maps.google.com/..."/>
+                                </div>
+                                <div className="mb-3 col-6">
+                                    <label htmlFor="type" className="form-label">Type</label>
+                                    <select className="form-select" id="type" aria-label="Type">
+                                        <option selected>Education</option>
+                                        <option value="1">Spcial</option>
+                                        <option value="2">Sport</option>
+                                        <option value="3">Trip</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div  className="row">
+                                <div className="mb-3 col-6">
+                                    <label htmlFor="price" className="form-label">Price</label>
+                                    <input type="number" className="form-control" id="price" placeholder="0.0"/>
+                                </div>
+                                <div className="mb-3 col-6">
+                                    <label htmlFor="esnprice" className="form-label">ESN Price</label>
+                                    <input type="number" className="form-control" id="esnprice" placeholder="0.0"/>
+                                </div>
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="image" className="form-label">Upload image...</label>
+                            </div>
+                        </form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        {/*<button type="button" className="btn btn-secondary" onClick={handleToggleModal}>Close</button>*/}
+                        <button type="button" className="btn btn-primary">Create</button>
+                    </Modal.Footer>
+                </Modal>
 
             </div>
             

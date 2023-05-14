@@ -37,7 +37,7 @@
   }
 }
 
-.collapse:not(.show) {
+Nav .collapse:not(.show) {
   display: none;
   flex-grow: unset!important;
 }
