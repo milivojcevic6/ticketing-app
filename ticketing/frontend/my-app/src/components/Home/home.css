@@ -11,12 +11,12 @@ tr:hover {
 }
 
 .scrollable-div {
-    max-height: 700px;
+    max-height: 550px;
     overflow: auto;
 }
 
 .scrollable-div-mobile {
-    max-height: 700px;
+    max-height: 550px;
     overflow: auto;
     position: relative;
     display: flex;
