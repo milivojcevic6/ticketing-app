@@ -2,6 +2,10 @@ import React, {useEffect, useState} from "react";
 import {Badge} from "react-bootstrap";
 import axios from "axios";
 import testImage from "../../images/photo_2022-04-29_21-36-13.jpg"
+import Trip from "../../images/1.png"
+import Social from "../../images/2.png"
+import Sport from "../../images/3.png"
+import Education from "../../images/4.png"
 import * as Icon from 'react-feather';
 import "./home.css";
 import { Modal } from 'react-bootstrap';
@@ -11,7 +15,7 @@ function HomePage() {
     const [events, setEvents] = useState([])
     const [selected, setSelected] = useState()
     const [showModal, setShowModal] = useState(false);
-    
+
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [location, setLocation] = useState('');
@@ -21,13 +25,13 @@ function HomePage() {
     const [esnPrice, setEsnPrice] = useState(0.0);
     const [type, setType] = useState('');
     const [submitted, setSubmitted] = useState(false);
-    
+
     useEffect(() => {
         loadEvents()
             .then(response => console.log(response))
             .catch(error => console.log(error));
     }, [submitted])
-    
+
     const handleToggleModal = () => {
         setShowModal(!showModal);
     };
@@ -39,7 +43,7 @@ function HomePage() {
         setSelected(result.data[0])
         console.log(selected)
     }
-    
+
     /*
         const{name, description, type, capacity, location, locationUrl, price, esnprice}=newEvent
     const onInputChange = (e) => {
@@ -51,22 +55,22 @@ function HomePage() {
         e.preventDefault();
         await axios.post("http://localhost:8080/api/events", newEvent);
     }*/
-    
+
     function onSubmit(e) {
         console.log(name, description, type, capacity, location, locationUrl,  price, esnPrice)
         e.preventDefault();
         const newEvent = {
-            name: name, 
-            description: description, 
-            type: type, 
-            capacity: capacity, 
-            location: location, 
+            name: name,
+            description: description,
+            type: type,
+            capacity: capacity,
+            location: location,
             locationUrl: locationUrl,
-            price: price, 
+            price: price,
             esnprice: esnPrice
         };
         console.log(name, description, type, capacity, location, locationUrl,  price, esnPrice)
-        
+
         axios.post('http://localhost:8080/api/events', newEvent)
             .then(response => console.log(response))
             .catch(error => console.log(error));
@@ -77,7 +81,7 @@ function HomePage() {
     function onNameChange(event) {
         setName(event.target.value)
     }
-    
+
     function onDescriptionChange(event) {
         setDescription(event.target.value)
     }
@@ -101,7 +105,7 @@ function HomePage() {
     function onPriceChange(event) {
         setPrice(event.target.value)
     }
-    
+
     function onEsnPriceChange(event) {
         setEsnPrice(event.target.value)
     }
@@ -116,7 +120,7 @@ function HomePage() {
                             <form className="d-flex">
                                 <input className="form-control me-2" type="search" placeholder="Search"
                                        aria-label="Search"/>
-                                    <button className="btn btn-outline-success" type="submit"><Icon.Search/></button>
+                                <button className="btn btn-outline-success" type="submit"><Icon.Search/></button>
                             </form>
                         </div>
                         <div className="col-lg-6 col-12 pt-2 text-center ms-auto">
@@ -156,12 +160,21 @@ function HomePage() {
                             </div>
                         </div>
                         <div className="col-lg-6 col-12 p-2 card ms-auto scrollable-div">
-                            <img src={testImage} height={250} style={{ objectFit: "cover" }} className="card-img-top" alt="..."/>
-                            <div className="card-body">
 
-                                {
-                                    selected?.id ?
-                                        <div>
+
+                            {
+                                selected?.id ?
+                                    <div>
+                                        {selected.type==='Trip' ?
+                                            <img src={Trip} height={250} style={{ objectFit: 'cover', objectPosition: 'top' }} className="card-img-top" alt="..."/> :
+                                            selected.type==='Social' ?
+                                                <img src={Social} height={250} style={{ objectFit: 'cover', objectPosition: 'top' }} className="card-img-top" alt="..."/> :
+                                                selected.type==='Sport' ?
+                                                    <img src={Sport} height={250} style={{ objectFit: 'cover', objectPosition: 'top' }} className="card-img-top" alt="..."/> :
+                                                    <img src={Education} height={250} style={{ objectFit: 'cover', objectPosition: 'top' }} className="card-img-top" alt="..."/>
+
+                                        }
+                                        <div className="card-body">
                                             <h5 className="card-title">
                                                 <p>{selected.name}</p>
                                             </h5>
@@ -187,25 +200,26 @@ function HomePage() {
                                             </div>
                                             <p className="card-text"><small className="text-muted">Last updated 3 mins ago</small></p>
                                         </div>
-                                        :
-                                        <p>No event loaded</p>
-                                }
+                                    </div>
+                                    :
+                                    <p>No event loaded</p>
+                            }
 
-                            </div>
+
                         </div>
                     </div>
                 </div>
-                
-                
-                
+
+
+
                 {/*MODALS*/}
-                
+
                 <Modal show={showModal} onHide={handleToggleModal}>
                     <Modal.Header closeButton>
                         <Modal.Title>New Event</Modal.Title>
                     </Modal.Header>
                     <form onSubmit={onSubmit}>
-                    <Modal.Body>
+                        <Modal.Body>
                             <div className="mb-3">
                                 <label htmlFor="name" className="form-label">Name</label>
                                 <input type="text" className="form-control" id="name" placeholder="e.g. Erasmus in Schools" onChange={onNameChange} value={name} />
@@ -215,7 +229,7 @@ function HomePage() {
                                 <textarea className="form-control" id="description" rows="3"
                                           placeholder="e.g. During the Erasmus in Schools event, students will have the opportunity to interact with international students and teachers." onChange={onDescriptionChange} value={description} />
                             </div>
-                            
+
                             <div className="row">
                                 <div className="mb-3 col-6">
                                     <label htmlFor="location" className="form-label">Location</label>
@@ -253,17 +267,17 @@ function HomePage() {
                                     <input type="number" className="form-control" id="esnprice" placeholder="0.0" onChange={onEsnPriceChange} value={esnPrice}/>
                                 </div>
                             </div>
-                        
-                    </Modal.Body>
-                    <Modal.Footer>
-                        {/*<button type="button" className="btn btn-secondary" onClick={handleToggleModal}>Close</button>*/}
-                        <button type="submit" className="btn btn-primary" >Create</button>
-                    </Modal.Footer>
+
+                        </Modal.Body>
+                        <Modal.Footer>
+                            {/*<button type="button" className="btn btn-secondary" onClick={handleToggleModal}>Close</button>*/}
+                            <button type="submit" className="btn btn-primary" >Create</button>
+                        </Modal.Footer>
                     </form>
                 </Modal>
 
             </div>
-            
+
 
         </div>
     )
