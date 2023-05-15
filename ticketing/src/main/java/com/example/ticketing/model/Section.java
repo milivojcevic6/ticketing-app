@@ -11,6 +11,9 @@ public class Section {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String username;
+    private String password;
+    private String email;
     private String name;
     private String description;
     private String location;
@@ -29,7 +32,10 @@ public class Section {
     public Section() {
     }
 
-    public Section(String name,
+    public Section(String username,
+                   String password,
+                   String email,
+                   String name,
                    String description,
                    String location,
                    String locationUrl,
@@ -39,6 +45,9 @@ public class Section {
                    String facebookUrl,
                    String tikTokUrl,
                    List<User> users) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
         this.name = name;
         this.description = description;
         this.location = location;
@@ -51,7 +60,10 @@ public class Section {
         this.users = users;
     }
 
-    public Section(String name, String description, String location) {
+    public Section(String username, String password, String email, String name, String description, String location) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
         this.name = name;
         this.description = description;
         this.location = location;
@@ -63,6 +75,30 @@ public class Section {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getName() {

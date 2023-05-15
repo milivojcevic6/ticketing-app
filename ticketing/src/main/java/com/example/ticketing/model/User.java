@@ -33,31 +33,16 @@ public class User {
     public User() {
     }
 
+    public User(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
     public User(String username,
                 String password,
                 String firstName,
                 String lastName,
-                String email,
-                List<Section> sections,
-                List<Ticket> tickets) {
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.sections = sections;
-        this.tickets = tickets;
-    }
-
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
-
-    public User(String username,
-                String password,
-                String firstName,
-                String lastName, 
                 String email,
                 List<Section> sections) {
         this.username = username;

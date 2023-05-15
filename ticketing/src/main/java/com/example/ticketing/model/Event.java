@@ -2,6 +2,7 @@ package com.example.ticketing.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -15,6 +16,7 @@ public class Event {
     private String name;
     private String description;
     private String type;
+    private LocalDateTime eventDateTime;
     private Long capacity;
     private String location;
     private String locationUrl;
@@ -37,6 +39,7 @@ public class Event {
     public Event(String name,
                  String description,
                  String type,
+                 LocalDateTime eventDateTime,
                  Long capacity,
                  String location,
                  String locationUrl,
@@ -46,6 +49,7 @@ public class Event {
         this.name = name;
         this.description = description;
         this.type = type;
+        this.eventDateTime = eventDateTime;
         this.capacity = capacity;
         this.location = location;
         this.locationUrl = locationUrl;
@@ -85,6 +89,10 @@ public class Event {
     public void setType(String type) {
         this.type = type;
     }
+
+    public LocalDateTime getEventDateTime() {return eventDateTime;}
+
+    public void setEventDateTime(LocalDateTime eventDateTime) {this.eventDateTime = eventDateTime;}
 
     public Long getCapacity() {
         return capacity;

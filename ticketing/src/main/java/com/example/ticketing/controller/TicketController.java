@@ -18,6 +18,17 @@ public class TicketController {
         this.ticketRepository = ticketRepository;
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<Ticket> createTicket(@RequestBody Ticket ticket) {
+        Ticket createdTicket = ticketRepository.save(ticket);
+        return ResponseEntity.ok(createdTicket);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Ticket>> getAllTickets() {
+        return ResponseEntity.ok(ticketRepository.findAll());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Ticket> getTicketById(@PathVariable Long id) {
         Ticket ticket = ticketRepository.findById(id)
@@ -25,15 +36,35 @@ public class TicketController {
         return ResponseEntity.ok(ticket);
     }
 
-    @GetMapping
-    public ResponseEntity<List<Ticket>> getAllTickets() {
-        List<Ticket> tickets = ticketRepository.findAll();
-        return ResponseEntity.ok(tickets);
+    @PutMapping("/{id}")
+    public ResponseEntity<Ticket> updateTicket(@PathVariable Long id, @RequestBody Ticket updatedTicket) {
+        Ticket existingTicket = ticketRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid ticket ID: " + id));
+
+        if (updatedTicket.getIssuedDate() != null) {
+            existingTicket.setIssuedDate(updatedTicket.getIssuedDate());
+        }
+        if (updatedTicket.getStatus() != null) {
+            existingTicket.setStatus(updatedTicket.getStatus());
+        }
+        if (updatedTicket.getQrCodeImage() != null) {
+            existingTicket.setQrCodeImage(updatedTicket.getQrCodeImage());
+        }
+        if (updatedTicket.getUser() != null) {
+            existingTicket.setUser(updatedTicket.getUser());
+        }
+        if (updatedTicket.getEvent() != null) {
+            existingTicket.setEvent(updatedTicket.getEvent());
+        }
+        // Update other attributes as needed
+
+        Ticket savedTicket = ticketRepository.save(existingTicket);
+        return ResponseEntity.ok(savedTicket);
     }
 
-    @PostMapping
-    public ResponseEntity<Ticket> createTicket(@RequestBody Ticket ticket) {
-        Ticket createdTicket = ticketRepository.save(ticket);
-        return ResponseEntity.ok(createdTicket);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteTicket(@PathVariable Long id) {
+        ticketRepository.deleteById(id);
+        return ResponseEntity.ok("Ticket deleted successfully");
     }
 }
