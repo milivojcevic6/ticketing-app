@@ -12,9 +12,21 @@ function HomePage() {
     const [selected, setSelected] = useState()
     const [showModal, setShowModal] = useState(false);
     
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
+    const [location, setLocation] = useState('');
+    const [locationUrl, setLocationUrl] = useState('');
+    const [capacity, setCapacity] = useState(0.0);
+    const [price, setPrice] = useState(0.0);
+    const [esnPrice, setEsnPrice] = useState(0.0);
+    const [type, setType] = useState('');
+    const [submitted, setSubmitted] = useState(false);
+    
     useEffect(() => {
         loadEvents()
-    }, [])
+            .then(response => console.log(response))
+            .catch(error => console.log(error));
+    }, [submitted])
     
     const handleToggleModal = () => {
         setShowModal(!showModal);
@@ -27,55 +39,76 @@ function HomePage() {
         setSelected(result.data[0])
         console.log(selected)
     }
+    
+    /*
+        const{name, description, type, capacity, location, locationUrl, price, esnprice}=newEvent
+    const onInputChange = (e) => {
+        setNewEvent({...newEvent, [e.target.name]: e.target.value})
+    }
+    
+    const onSubmit = async (e) => {
+        console.log(name, description, type, capacity, location, locationUrl,  price, esnPrice)
+        e.preventDefault();
+        await axios.post("http://localhost:8080/api/events", newEvent);
+    }*/
+    
+    function onSubmit(e) {
+        console.log(name, description, type, capacity, location, locationUrl,  price, esnPrice)
+        e.preventDefault();
+        const newEvent = {
+            name: name, 
+            description: description, 
+            type: type, 
+            capacity: capacity, 
+            location: location, 
+            locationUrl: locationUrl,
+            price: price, 
+            esnprice: esnPrice
+        };
+        console.log(name, description, type, capacity, location, locationUrl,  price, esnPrice)
+        
+        axios.post('http://localhost:8080/api/events', newEvent)
+            .then(response => console.log(response))
+            .catch(error => console.log(error));
+        setSubmitted(true);
+        setShowModal(false);
+    }
+
+    function onNameChange(event) {
+        setName(event.target.value)
+    }
+    
+    function onDescriptionChange(event) {
+        setDescription(event.target.value)
+    }
+
+    function onLocationChange(event) {
+        setLocation(event.target.value)
+    }
+
+    function onCapacityChange(event) {
+        setCapacity(event.target.value)
+    }
+
+    function onLocationUrlChange(event) {
+        setLocationUrl(event.target.value)
+    }
+
+    function onTypeChange(event) {
+        setType(event.target.value)
+    }
+
+    function onPriceChange(event) {
+        setPrice(event.target.value)
+    }
+    
+    function onEsnPriceChange(event) {
+        setEsnPrice(event.target.value)
+    }
 
     return (
 
         <div>
-            {/*}<h1>
-                Welcome!
-            </h1>
-            <br/>
-            <div style={{marginLeft: "35%", width: "30%"}}>
-                <a href="tasks">
-                    <h2 style={{ float: "left"}}>
-                        <Badge bg="secondary" as="Button"
-                               style={{width: "200px", height: "70px"}}>
-                            Tasks
-                        </Badge>
-                    </h2>
-                </a>
-                <a href="rules">
-                    <h2  style={{ float: "right"}}>
-                        <Badge bg="secondary" as="Button"
-                               style={{width: "200px", height: "70px"}}>
-                            Rules
-                        </Badge>
-                    </h2>
-                </a>
-                <a href="leaderboard">
-                    <h2  style={{ float: "left"}}>
-                        <Badge bg="secondary" as="Button"
-                               style={{width: "200px", height: "70px"}}>
-                            Leaderboard
-                        </Badge>
-                    </h2>
-                </a>
-                <a href="profile">
-                    <h2  style={{ float: "right"}}>
-                        <Badge bg="secondary" as="Button"
-                               style={{width: "200px", height: "70px"}}>
-                            Profile
-                        </Badge>
-                    </h2>
-                </a>
-            </div>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>*/}
-
             <div>
                 <div className="container-fluid">
                     <div className="row">
@@ -171,63 +204,62 @@ function HomePage() {
                     <Modal.Header closeButton>
                         <Modal.Title>New Event</Modal.Title>
                     </Modal.Header>
+                    <form onSubmit={onSubmit}>
                     <Modal.Body>
-                        <form>
                             <div className="mb-3">
                                 <label htmlFor="name" className="form-label">Name</label>
-                                <input type="text" className="form-control" id="name" placeholder="e.g. Erasmus in Schools"/>
+                                <input type="text" className="form-control" id="name" placeholder="e.g. Erasmus in Schools" onChange={onNameChange} value={name} />
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="description" className="form-label">Description</label>
                                 <textarea className="form-control" id="description" rows="3"
-                                          placeholder="e.g. During the Erasmus in Schools event, students will have the opportunity to interact with international students and teachers."></textarea>
+                                          placeholder="e.g. During the Erasmus in Schools event, students will have the opportunity to interact with international students and teachers." onChange={onDescriptionChange} value={description} />
                             </div>
                             
                             <div className="row">
                                 <div className="mb-3 col-6">
                                     <label htmlFor="location" className="form-label">Location</label>
-                                    <input type="text" className="form-control" id="location" placeholder="e.g. OS Koper"/>
+                                    <input type="text" className="form-control" id="location" placeholder="e.g. OS Koper" onChange={onLocationChange} value={location} />
                                 </div>
                                 <div className="mb-3 col-6">
                                     <label htmlFor="capacity" className="form-label">Capacity</label>
-                                    <input type="number" className="form-control" id="capacity" placeholder="e.g. 10"/>
+                                    <input type="number" className="form-control" id="capacity" placeholder="e.g. 10" onChange={onCapacityChange} value={capacity} />
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="mb-3 col-6">
                                     <label htmlFor="locationUrl" className="form-label">Location URL</label>
                                     <input type="url" className="form-control" id="locationUrl"
-                                           placeholder="e.g. https://maps.google.com/..."/>
+                                           placeholder="e.g. https://maps.google.com/..."  onChange={onLocationUrlChange} value={locationUrl}/>
                                 </div>
                                 <div className="mb-3 col-6">
                                     <label htmlFor="type" className="form-label">Type</label>
-                                    <select className="form-select" id="type" aria-label="Type">
-                                        <option selected>Education</option>
-                                        <option value="1">Spcial</option>
-                                        <option value="2">Sport</option>
-                                        <option value="3">Trip</option>
+                                    <select className="form-select" id="type" aria-label="Type" onChange={onTypeChange} value={type} >
+                                        <option value="">--Please choose an option--</option>
+                                        <option value="Education">Education</option>
+                                        <option value="Social">Social</option>
+                                        <option value="Sport">Sport</option>
+                                        <option value="Trip">Trip</option>
                                     </select>
                                 </div>
                             </div>
                             <div  className="row">
                                 <div className="mb-3 col-6">
                                     <label htmlFor="price" className="form-label">Price</label>
-                                    <input type="number" className="form-control" id="price" placeholder="0.0"/>
+                                    <input type="number" className="form-control" id="price" placeholder="0.0" onChange={onPriceChange} value={price}/>
                                 </div>
                                 <div className="mb-3 col-6">
                                     <label htmlFor="esnprice" className="form-label">ESN Price</label>
-                                    <input type="number" className="form-control" id="esnprice" placeholder="0.0"/>
+                                    <input type="number" className="form-control" id="esnprice" placeholder="0.0" onChange={onEsnPriceChange} value={esnPrice}/>
                                 </div>
                             </div>
-                            <div className="mb-3">
-                                <label htmlFor="image" className="form-label">Upload image...</label>
-                            </div>
-                        </form>
+                        
                     </Modal.Body>
                     <Modal.Footer>
                         {/*<button type="button" className="btn btn-secondary" onClick={handleToggleModal}>Close</button>*/}
-                        <button type="button" className="btn btn-primary">Create</button>
+                        <button type="submit" className="btn btn-primary" >Create</button>
                     </Modal.Footer>
+                    </form>
                 </Modal>
 
             </div>
