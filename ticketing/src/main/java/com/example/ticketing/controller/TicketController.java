@@ -18,7 +18,7 @@ public class TicketController {
         this.ticketRepository = ticketRepository;
     }
 
-    @PostMapping("/register")
+    @PostMapping
     public ResponseEntity<Ticket> createTicket(@RequestBody Ticket ticket) {
         Ticket createdTicket = ticketRepository.save(ticket);
         return ResponseEntity.ok(createdTicket);

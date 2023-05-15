@@ -19,7 +19,7 @@ public class SectionController {
         this.sectionRepository = sectionRepository;
     }
 
-    @PostMapping("/register")
+    @PostMapping
     public ResponseEntity<?> createSection(@RequestBody Section section) {
         // Perform validation and checks before saving the user
         if (section.getUsername() == null || section.getPassword() == null || section.getEmail() == null) {

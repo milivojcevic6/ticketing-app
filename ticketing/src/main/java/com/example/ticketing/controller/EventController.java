@@ -20,7 +20,7 @@ public class EventController {
         this.eventRepository = eventRepository;
     }
 
-    @PostMapping("/register")
+    @PostMapping
     public ResponseEntity<Event> createEvent(@RequestBody Event event) {
         Event createdEvent = eventRepository.save(event);
         return ResponseEntity.ok(createdEvent);
