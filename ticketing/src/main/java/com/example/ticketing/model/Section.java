@@ -16,16 +16,46 @@ public class Section {
     private String location;
     private String locationUrl;
     private String webUrl;
-    private String InstagramUrl;
-    private String LinkedInUrl;
-    private String FacebookUrl;
-    private String TikTokUrl;
+    private String instagramUrl;
+    private String linkedInUrl;
+    private String facebookUrl;
+    private String tikTokUrl;
 
     // Relationships
     @ManyToMany(mappedBy = "sections")
     private List<User> users;
 
     // Constructors, getters, and setters
+    public Section() {
+    }
+
+    public Section(String name,
+                   String description,
+                   String location,
+                   String locationUrl,
+                   String webUrl,
+                   String instagramUrl,
+                   String linkedInUrl,
+                   String facebookUrl,
+                   String tikTokUrl,
+                   List<User> users) {
+        this.name = name;
+        this.description = description;
+        this.location = location;
+        this.locationUrl = locationUrl;
+        this.webUrl = webUrl;
+        this.instagramUrl = instagramUrl;
+        this.linkedInUrl = linkedInUrl;
+        this.facebookUrl = facebookUrl;
+        this.tikTokUrl = tikTokUrl;
+        this.users = users;
+    }
+
+    public Section(String name, String description, String location) {
+        this.name = name;
+        this.description = description;
+        this.location = location;
+    }
 
     public Long getId() {
         return id;
@@ -76,35 +106,33 @@ public class Section {
     }
 
     public String getInstagramUrl() {
-        return InstagramUrl;
+        return instagramUrl;
     }
 
     public void setInstagramUrl(String instagramUrl) {
-        InstagramUrl = instagramUrl;
+        instagramUrl = instagramUrl;
     }
 
     public String getLinkedInUrl() {
-        return LinkedInUrl;
+        return linkedInUrl;
     }
 
     public void setLinkedInUrl(String linkedInUrl) {
-        LinkedInUrl = linkedInUrl;
+        linkedInUrl = linkedInUrl;
     }
 
     public String getFacebookUrl() {
-        return FacebookUrl;
+        return facebookUrl;
     }
 
     public void setFacebookUrl(String facebookUrl) {
-        FacebookUrl = facebookUrl;
+        facebookUrl = facebookUrl;
     }
 
-    public String getTikTokUrl() {
-        return TikTokUrl;
-    }
+    public String getTikTokUrl() {return tikTokUrl;}
 
     public void setTikTokUrl(String tikTokUrl) {
-        TikTokUrl = tikTokUrl;
+        tikTokUrl = tikTokUrl;
     }
 
     public List<User> getUsers() {

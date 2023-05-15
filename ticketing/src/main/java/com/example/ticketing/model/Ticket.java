@@ -17,7 +17,6 @@ public class Ticket {
     private byte[] qrCodeImage; // Field to store the binary picture data
 
     // Relationships
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -27,6 +26,16 @@ public class Ticket {
     private Event event;
 
     // Constructors, getters, and setters
+    public Ticket() {
+    }
+
+    public Ticket(LocalDate issuedDate, TicketStatus status, byte[] qrCodeImage, User user, Event event) {
+        this.issuedDate = issuedDate;
+        this.status = status;
+        this.qrCodeImage = qrCodeImage;
+        this.user = user;
+        this.event = event;
+    }
 
     public Long getId() {
         return id;

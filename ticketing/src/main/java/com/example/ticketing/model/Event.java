@@ -24,13 +24,35 @@ public class Event {
     // Relationships
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "section_id")
+    private Section section;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ticket> tickets;
 
     // Constructors, getters, and setters
+    public Event() {
+    }
+
+    public Event(String name,
+                 String description,
+                 String type,
+                 Long capacity,
+                 String location,
+                 String locationUrl,
+                 Double price,
+                 Double ESNprice,
+                 Section section) {
+        this.name = name;
+        this.description = description;
+        this.type = type;
+        this.capacity = capacity;
+        this.location = location;
+        this.locationUrl = locationUrl;
+        this.price = price;
+        this.ESNprice = ESNprice;
+        this.section = section;
+    }
 
     public Long getId() {
         return id;
@@ -104,13 +126,9 @@ public class Event {
         this.ESNprice = ESNprice;
     }
 
-    public User getUser() {
-        return user;
-    }
+    public Section getSection() {return section;}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+    public void setSection(Section section) {this.section = section;}
 
     public List<Ticket> getTickets() {
         return tickets;
