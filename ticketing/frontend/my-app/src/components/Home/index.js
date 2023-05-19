@@ -9,12 +9,15 @@ import Education from "../../images/4.png"
 import * as Icon from 'react-feather';
 import "./home.css";
 import { Modal } from 'react-bootstrap';
+import SearchBar from "../../mini-components/SearchBar";
 
 function HomePage() {
 
     const [events, setEvents] = useState([])
+    const [eventsShow, setEventsShow] = useState([])
     const [selected, setSelected] = useState()
     const [showModal, setShowModal] = useState(false);
+    const [keyword, setKeyword] = useState('');
 
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
@@ -40,11 +43,36 @@ function HomePage() {
         const result = await axios.get("http://localhost:8080/api/events")
         console.log(result);
         setEvents(result.data)
+        setEventsShow(result.data);
         setSelected(result.data[0])
         console.log(selected)
     }
 
-    /*
+    const updateKeyword = (keyword) => {
+        if (keyword.trim() === '') {
+            // If the keyword is empty, reset the filtered events and keyword state
+            setKeyword('');
+            setEventsShow(events);
+        } else {
+            const filtered = events.filter(event => {
+                return `${event.name.toLowerCase()}`.includes(keyword.toLowerCase());
+            });
+            setKeyword(keyword);
+            setEventsShow(filtered);
+        }
+    };
+
+
+    /*const updateKeyword = (keyword) => {
+        const filtered = events.filter(event => {
+            return `${event.name.toLowerCase()}`.includes(keyword.toLowerCase());
+        })
+        setKeyword(keyword);
+        setEventsShow(filtered);
+    }
+
+
+    
         const{name, description, type, capacity, location, locationUrl, price, esnprice}=newEvent
     const onInputChange = (e) => {
         setNewEvent({...newEvent, [e.target.name]: e.target.value})
@@ -117,11 +145,12 @@ function HomePage() {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-lg-5 col-12 px-0">
-                            <form className="d-flex">
+                            {/*<form className="d-flex">
                                 <input className="form-control me-2" type="search" placeholder="Search"
                                        aria-label="Search"/>
                                 <button className="btn btn-outline-success" type="submit"><Icon.Search/></button>
-                            </form>
+                            </form>*/}
+                            <SearchBar  keyword={keyword} onChange={updateKeyword}/>
                         </div>
                         <div className="col-lg-6 col-12 pt-2 text-center ms-auto">
                             <div className=""> {/*card*/}
@@ -144,7 +173,7 @@ function HomePage() {
                                 </thead>
                                 <tbody>
 
-                                {events.map((event) => (
+                                {eventsShow.map((event) => (
                                     <tr key={event.id} className={selected === event ? 'selected' : ''} onClick={() => setSelected(event)} >
                                         <td >{event.name}</td>
                                         <td>{event.location}</td>
@@ -271,7 +300,7 @@ function HomePage() {
                         </Modal.Body>
                         <Modal.Footer>
                             {/*<button type="button" className="btn btn-secondary" onClick={handleToggleModal}>Close</button>*/}
-                            <button type="submit" className="btn btn-primary" >Create</button>
+                            <button type="submit" className="btn btn-primary">Create</button>
                         </Modal.Footer>
                     </form>
                 </Modal>
