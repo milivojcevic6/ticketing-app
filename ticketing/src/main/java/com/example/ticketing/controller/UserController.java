@@ -1,87 +1,116 @@
 package com.example.ticketing.controller;
 
-import com.example.ticketing.model.User;
+import com.example.ticketing.model.Userr;
 import com.example.ticketing.repository.UserRepository;
+import com.example.ticketing.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PostMapping;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 
+    /*Autowired
+    private UserRepository userRepository;*/
+
+    private UserService userService;
+    private PasswordEncoder passwordEncoder;
+
     @Autowired
-    private UserRepository userRepository;
+    public void setUserService(UserService userService){
+        this.userService = userService;
+    }
+
+    @Autowired
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder){
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @PostMapping("/register")
+    public Userr saveUser(@RequestBody Userr user){
+        String password = user.getPassword();
+        String newpass = passwordEncoder.encode(password);
+        String uname = user.getUsername();
+        String mail = user.getEmail();
+        Set<String> authorities = user.getAuthorities();
+
+        Userr newUser = new Userr(uname, newpass, mail, authorities);
+        userService.addUser(newUser);
+        return newUser;
+    }
 
     // Endpoint for user registration
-    @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
+    /*@PostMapping("/register")
+    public ResponseEntity<?> registerUser(@RequestBody Userr userr) {
         // Perform validation and checks before saving the user
-        if (user.getUsername() == null || user.getPassword() == null || user.getEmail() == null) {
+        if (userr.getUsername() == null || userr.getPassword() == null || userr.getEmail() == null) {
             return ResponseEntity.badRequest().body("Please provide username, password, and email");
         }
 
         // Check if the username or email is already taken
-        if (userRepository.findByUsername(user.getUsername()) != null) {
+        if (userRepository.findByUsername(userr.getUsername()) != null) {
             return ResponseEntity.badRequest().body("Username already exists");
         }
-        if (userRepository.findByEmail(user.getEmail()) != null) {
+        if (userRepository.findByEmail(userr.getEmail()) != null) {
             return ResponseEntity.badRequest().body("Email already exists");
         }
 
         // Save the user to the database
-        userRepository.save(user);
+        userRepository.save(userr);
 
         // Return a success response
         return ResponseEntity.ok("User registered successfully");
     }
 
     @GetMapping("/users")
-    ResponseEntity<List<User>> getAllUsers(){
+    ResponseEntity<List<Userr>> getAllUsers(){
         return ResponseEntity.ok(userRepository.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        User user = userRepository.findById(id)
+    public ResponseEntity<Userr> getUserById(@PathVariable Long id) {
+        Userr userr = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user ID: " + id));
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(userr);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
-        User existingUser = userRepository.findById(id)
+    public ResponseEntity<Userr> updateUser(@PathVariable Long id, @RequestBody Userr updatedUserr) {
+        Userr existingUserr = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user ID: " + id));
 
-        if (updatedUser.getUsername() != null) {
-            existingUser.setUsername(updatedUser.getUsername());
+        if (updatedUserr.getUsername() != null) {
+            existingUserr.setUsername(updatedUserr.getUsername());
         }
-        if (updatedUser.getPassword() != null) {
-            existingUser.setPassword(updatedUser.getPassword());
+        if (updatedUserr.getPassword() != null) {
+            existingUserr.setPassword(updatedUserr.getPassword());
         }
-        if (updatedUser.getFirstName() != null) {
-            existingUser.setFirstName(updatedUser.getFirstName());
+        if (updatedUserr.getFirstName() != null) {
+            existingUserr.setFirstName(updatedUserr.getFirstName());
         }
-        if (updatedUser.getLastName() != null) {
-            existingUser.setLastName(updatedUser.getLastName());
+        if (updatedUserr.getLastName() != null) {
+            existingUserr.setLastName(updatedUserr.getLastName());
         }
-        if (updatedUser.getEmail() != null) {
-            existingUser.setEmail(updatedUser.getEmail());
+        if (updatedUserr.getEmail() != null) {
+            existingUserr.setEmail(updatedUserr.getEmail());
         }
-        if (updatedUser.getSections() != null) {
-            existingUser.setSections(updatedUser.getSections());
+        if (updatedUserr.getSections() != null) {
+            existingUserr.setSections(updatedUserr.getSections());
         }
 
-        User savedUser = userRepository.save(existingUser);
-        return ResponseEntity.ok(savedUser);
+        Userr savedUserr = userRepository.save(existingUserr);
+        return ResponseEntity.ok(savedUserr);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         userRepository.deleteById(id);
         return ResponseEntity.ok("User deleted successfully");
-    }
+    }*/
 
 }

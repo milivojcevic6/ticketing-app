@@ -19,7 +19,7 @@ public class Ticket {
     // Relationships
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Userr userr;
 
     @ManyToOne
     @JoinColumn(name = "event_id")
@@ -29,11 +29,11 @@ public class Ticket {
     public Ticket() {
     }
 
-    public Ticket(LocalDate issuedDate, TicketStatus status, byte[] qrCodeImage, User user, Event event) {
+    public Ticket(LocalDate issuedDate, TicketStatus status, byte[] qrCodeImage, Userr userr, Event event) {
         this.issuedDate = issuedDate;
         this.status = status;
         this.qrCodeImage = qrCodeImage;
-        this.user = user;
+        this.userr = userr;
         this.event = event;
     }
 
@@ -69,12 +69,12 @@ public class Ticket {
         this.qrCodeImage = qrCodeImage;
     }
 
-    public User getUser() {
-        return user;
+    public Userr getUser() {
+        return userr;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(Userr userr) {
+        this.userr = userr;
     }
 
     public Event getEvent() {

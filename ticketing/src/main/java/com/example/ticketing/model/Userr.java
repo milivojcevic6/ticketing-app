@@ -3,14 +3,16 @@ package com.example.ticketing.model;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class Userr {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String username;
     private String password;
     private String firstName;
@@ -26,25 +28,30 @@ public class User {
     )
     private List<Section> sections;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "userr", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ticket> tickets;
 
+    @ElementCollection
+    @CollectionTable(name = "user_authorities", joinColumns = @JoinColumn(name = "user_id"))
+    private Set<String> authorities;
+
     // Constructors, getters, and setters
-    public User() {
+    public Userr() {
     }
 
-    public User(String username, String password, String email) {
+    public Userr(String username, String password, String email, Set<String> authorities) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.authorities = authorities;
     }
 
-    public User(String username,
-                String password,
-                String firstName,
-                String lastName,
-                String email,
-                List<Section> sections) {
+    public Userr(String username,
+                 String password,
+                 String firstName,
+                 String lastName,
+                 String email,
+                 List<Section> sections) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -115,5 +122,13 @@ public class User {
 
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
+    }
+
+    public Set<String> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<String> authorities) {
+        this.authorities = authorities;
     }
 }

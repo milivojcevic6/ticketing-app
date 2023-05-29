@@ -26,7 +26,7 @@ public class Section {
 
     // Relationships
     @ManyToMany(mappedBy = "sections")
-    private List<User> users;
+    private List<Userr> userrs;
 
     // Constructors, getters, and setters
     public Section() {
@@ -44,7 +44,7 @@ public class Section {
                    String linkedInUrl,
                    String facebookUrl,
                    String tikTokUrl,
-                   List<User> users) {
+                   List<Userr> userrs) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -57,7 +57,7 @@ public class Section {
         this.linkedInUrl = linkedInUrl;
         this.facebookUrl = facebookUrl;
         this.tikTokUrl = tikTokUrl;
-        this.users = users;
+        this.userrs = userrs;
     }
 
     public Section(String username, String password, String email, String name, String description, String location) {
@@ -171,12 +171,12 @@ public class Section {
         tikTokUrl = tikTokUrl;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public List<Userr> getUsers() {
+        return userrs;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setUsers(List<Userr> userrs) {
+        this.userrs = userrs;
     }
 }
 
