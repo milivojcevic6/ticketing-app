@@ -1,18 +1,49 @@
 package com.example.ticketing.controller;
 
 import com.example.ticketing.model.Section;
+import com.example.ticketing.model.Userr;
 import com.example.ticketing.repository.SectionRepository;
+import com.example.ticketing.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/sections")
 public class SectionController {
 
-    private final SectionRepository sectionRepository;
+    private UserService userService;
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public void setUserService(UserService userService){
+        this.userService = userService;
+    }
+
+    @Autowired
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder){
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @PostMapping("/register")
+    public Section saveUser(@RequestBody Section user){
+        String password = user.getPassword();
+        String newpass = passwordEncoder.encode(password);
+        String uname = user.getUsername();
+        String mail = user.getEmail();
+        Set<String> authorities = user.getAuthorities();
+
+        Section newSection = new Section(uname, newpass, mail, authorities);
+        userService.addSection(newSection);
+        return newSection;
+    }
+
+
+    /*private final SectionRepository sectionRepository;
 
     @Autowired
     public SectionController(SectionRepository sectionRepository) {
@@ -98,5 +129,5 @@ public class SectionController {
     public ResponseEntity<?> deleteSection(@PathVariable Long id) {
         sectionRepository.deleteById(id);
         return ResponseEntity.ok("Section deleted successfully");
-    }
+    }*/
 }

@@ -60,11 +60,12 @@ public class WebConfig {
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         return http.csrf().disable().authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/api/users/register", "/api/events").permitAll();
+            auth.requestMatchers("/api/users/register", "/api/events", "/api/sections/register").permitAll();
             auth.requestMatchers("").hasAnyRole("admin", "user", "section");  //change roles?
             auth.requestMatchers("").hasRole("admin");
         })
                 .formLogin()
+                .loginPage("/login")
                 .successForwardUrl("/api/events")
                 .and()
                 .build();

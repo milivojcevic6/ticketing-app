@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Badge} from "react-bootstrap";
-import axios from "axios";
+import axios from "../../api/axios";
 import testImage from "../../images/photo_2022-04-29_21-36-13.jpg"
 import Trip from "../../images/1.png"
 import Social from "../../images/2.png"
@@ -40,7 +40,7 @@ function HomePage() {
     };
 
     const loadEvents = async () => {
-        const result = await axios.get("http://localhost:8080/api/events")
+        const result = await axios.get("/api/events")
         console.log(result);
         setEvents(result.data)
         setEventsShow(result.data);
@@ -99,7 +99,7 @@ function HomePage() {
         };
         console.log(name, description, type, capacity, location, locationUrl,  price, esnPrice)
 
-        axios.post('http://localhost:8080/api/events', newEvent)
+        axios.post('/api/events', newEvent)
             .then(response => console.log(response))
             .catch(error => console.log(error));
         setSubmitted(true);

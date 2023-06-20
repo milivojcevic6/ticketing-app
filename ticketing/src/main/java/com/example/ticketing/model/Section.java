@@ -3,6 +3,7 @@ package com.example.ticketing.model;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "section")
@@ -27,6 +28,10 @@ public class Section {
     // Relationships
     @ManyToMany(mappedBy = "sections")
     private List<Userr> userrs;
+
+    @ElementCollection
+    @CollectionTable(name = "section_authorities", joinColumns = @JoinColumn(name = "section_id"))
+    private Set<String> authorities;
 
     // Constructors, getters, and setters
     public Section() {
@@ -69,6 +74,12 @@ public class Section {
         this.location = location;
     }
 
+    public Section(String username, String password, String email, Set<String> authorities) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.authorities = authorities;
+    }
     public Long getId() {
         return id;
     }
@@ -177,6 +188,14 @@ public class Section {
 
     public void setUsers(List<Userr> userrs) {
         this.userrs = userrs;
+    }
+
+    public Set<String> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<String> authorities) {
+        this.authorities = authorities;
     }
 }
 
