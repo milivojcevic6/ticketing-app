@@ -1,7 +1,7 @@
 ﻿import React, {useEffect, useRef, useState, useContext} from 'react';
 import './login.css';
 import loginImage from '../../logo.png';
-import axios from "axios";
+import axios from "../../api/axios";
 //import {AuthContext} from '../../context/AuthProvider'
 
 function Login() {
@@ -29,13 +29,23 @@ function Login() {
         setIsLogin(!isLogin);
     };
     
-    const handleSubmit = async (e) => {
+    const login = async (e) => {
         e.preventDefault()
         console.log(username, password);
         //axios
         setUsername('');
         setPassword('');
         setSuccess(true);
+        
+        const newUser = {
+            username: username,
+            password: password
+        }
+        
+        axios.post('/login', newUser)
+            .then(response => console.log(response))
+            .catch(error => console.log(error));
+
     }
 
     function register(e) {
@@ -53,12 +63,12 @@ function Login() {
         };
 
         if(role==="section"){
-            axios.post('http://localhost:8080/api/sections/register', newUser)
+            axios.post('/api/sections/register', newUser)
                 .then(response => console.log(response))
                 .catch(error => console.log(error));
         }
         else {
-            axios.post('http://localhost:8080/api/users/register', newUser)
+            axios.post('/api/users/register', newUser)
                 .then(response => console.log(response))
                 .catch(error => console.log(error));
         }
@@ -106,7 +116,7 @@ function Login() {
                         </button>
                     </div>
                     {isLogin ? (
-                        <form className="login-form" onSubmit={handleSubmit}>
+                        <form className="login-form" onSubmit={login}>
                             <input
                                 type="text"
                                 placeholder="Username"

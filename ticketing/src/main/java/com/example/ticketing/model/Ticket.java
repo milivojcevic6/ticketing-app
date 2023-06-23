@@ -16,10 +16,14 @@ public class Ticket {
     @Lob // Indicates the field will store large binary data
     private byte[] qrCodeImage; // Field to store the binary picture data
 
+//    // Relationships
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    private Userr userr;
     // Relationships
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private Userr userr;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "event_id")
@@ -29,11 +33,11 @@ public class Ticket {
     public Ticket() {
     }
 
-    public Ticket(LocalDate issuedDate, TicketStatus status, byte[] qrCodeImage, Userr userr, Event event) {
+    public Ticket(LocalDate issuedDate, TicketStatus status, byte[] qrCodeImage, User user, Event event) {
         this.issuedDate = issuedDate;
         this.status = status;
         this.qrCodeImage = qrCodeImage;
-        this.userr = userr;
+        this.user = user;
         this.event = event;
     }
 
@@ -69,12 +73,12 @@ public class Ticket {
         this.qrCodeImage = qrCodeImage;
     }
 
-    public Userr getUser() {
-        return userr;
+    public User getUser() {
+        return user;
     }
 
-    public void setUser(Userr userr) {
-        this.userr = userr;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Event getEvent() {

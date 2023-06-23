@@ -11,11 +11,12 @@ public class Section {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(unique = true)
     private String username;
     private String password;
     private String email;
     private String name;
+    private String role;
     private String description;
     private String location;
     private String locationUrl;
@@ -25,13 +26,16 @@ public class Section {
     private String facebookUrl;
     private String tikTokUrl;
 
+//    // Relationships
+//    @ManyToMany(mappedBy = "sections")
+//    private List<Userr> userrs;
     // Relationships
     @ManyToMany(mappedBy = "sections")
-    private List<Userr> userrs;
-
-    @ElementCollection
-    @CollectionTable(name = "section_authorities", joinColumns = @JoinColumn(name = "section_id"))
-    private Set<String> authorities;
+    private List<User> users;
+//
+//    @ElementCollection
+//    @CollectionTable(name = "section_authorities", joinColumns = @JoinColumn(name = "section_id"))
+//    private Set<String> authorities;
 
     // Constructors, getters, and setters
     public Section() {
@@ -49,7 +53,7 @@ public class Section {
                    String linkedInUrl,
                    String facebookUrl,
                    String tikTokUrl,
-                   List<Userr> userrs) {
+                   List<User> users) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -62,7 +66,7 @@ public class Section {
         this.linkedInUrl = linkedInUrl;
         this.facebookUrl = facebookUrl;
         this.tikTokUrl = tikTokUrl;
-        this.userrs = userrs;
+        this.users = users;
     }
 
     public Section(String username, String password, String email, String name, String description, String location) {
@@ -74,11 +78,11 @@ public class Section {
         this.location = location;
     }
 
-    public Section(String username, String password, String email, Set<String> authorities) {
+    public Section(String username, String password, String email, String role) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.authorities = authorities;
+        this.role = role;
     }
     public Long getId() {
         return id;
@@ -182,20 +186,29 @@ public class Section {
         tikTokUrl = tikTokUrl;
     }
 
-    public List<Userr> getUsers() {
-        return userrs;
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setUsers(List<Userr> userrs) {
-        this.userrs = userrs;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
-    public Set<String> getAuthorities() {
-        return authorities;
+//    public Set<String> getAuthorities() {
+//        return authorities;
+//    }
+//
+//    public void setAuthorities(Set<String> authorities) {
+//        this.authorities = authorities;
+//    }
+
+
+    public String getRole() {
+        return role;
     }
 
-    public void setAuthorities(Set<String> authorities) {
-        this.authorities = authorities;
+    public void setRole(String role) {
+        this.role = role;
     }
 }
 

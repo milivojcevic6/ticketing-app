@@ -1,15 +1,10 @@
 package com.example.ticketing.controller;
 
-import com.example.ticketing.model.Userr;
-import com.example.ticketing.repository.UserRepository;
+import com.example.ticketing.model.User;
 import com.example.ticketing.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.PostMapping;
-import java.util.List;
-import java.util.Set;
 
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
@@ -33,15 +28,15 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public Userr saveUser(@RequestBody Userr user){
+    public User saveUser(@RequestBody User user){
         String password = user.getPassword();
         String newpass = passwordEncoder.encode(password);
         String uname = user.getUsername();
         String mail = user.getEmail();
-        Set<String> authorities = user.getAuthorities();
+        String authorities = user.getRole();
 
-        Userr newUser = new Userr(uname, newpass, mail, authorities);
-        userService.addUser(newUser);
+        User newUser = new User(uname, newpass, mail, authorities);
+        userService.saveUser(newUser);
         return newUser;
     }
 

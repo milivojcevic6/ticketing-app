@@ -1,27 +1,27 @@
 package com.example.ticketing.controller;
 
 import com.example.ticketing.model.Section;
-import com.example.ticketing.model.Userr;
-import com.example.ticketing.repository.SectionRepository;
-import com.example.ticketing.service.UserService;
+import com.example.ticketing.service.SectionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Set;
-
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
 @RequestMapping("/api/sections")
 public class SectionController {
 
-    private UserService userService;
+    //private UserService userService;
+    private SectionService sectionService;
     private PasswordEncoder passwordEncoder;
 
+//    @Autowired
+//    public void setUserService(UserService userService){
+//        this.userService = userService;
+//    }
     @Autowired
-    public void setUserService(UserService userService){
-        this.userService = userService;
+    public void setSectionService(SectionService sectionService){
+        this.sectionService = sectionService;
     }
 
     @Autowired
@@ -35,10 +35,12 @@ public class SectionController {
         String newpass = passwordEncoder.encode(password);
         String uname = user.getUsername();
         String mail = user.getEmail();
-        Set<String> authorities = user.getAuthorities();
+        //Set<String> authorities = user.getAuthorities();
+        String authorities = user.getRole();
 
         Section newSection = new Section(uname, newpass, mail, authorities);
-        userService.addSection(newSection);
+        sectionService.saveSection(newSection);
+
         return newSection;
     }
 
