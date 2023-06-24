@@ -51,6 +51,24 @@ public class UserController {
         return newUser;
     }
 
+    @PostMapping("update")
+    public User updateUser(@RequestBody User user){
+        User updated = userService.getUserById(user.getId()).get();
+        updated.setFirstName(user.getFirstName());
+        updated.setLastName(user.getLastName());
+        updated.setEmail(user.getEmail());
+        updated.setPassword(user.getPassword());
+        updated.setSections(user.getSections());
+        updated.setTickets(user.getTickets());
+        userService.saveUser(updated);
+        return updated;
+    }
+
+    @PostMapping("delete/{id}")
+    public void deleteUser(@PathVariable String id){
+        userService.deleteUser(userService.getUserById(Long.parseLong(id)).get());
+    }
+
     // Endpoint for user registration
     /*@PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody Userr userr) {
