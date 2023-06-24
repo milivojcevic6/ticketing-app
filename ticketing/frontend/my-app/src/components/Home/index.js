@@ -10,11 +10,14 @@ import * as Icon from 'react-feather';
 import "./home.css";
 import { Modal } from 'react-bootstrap';
 import SearchBar from "../../mini-components/SearchBar";
-import {LoginContext} from "../../context/LoginContext";
+import LoginContext from "../../context/LoginContext";
 
 function HomePage() {
 
-    const {user} = useContext(LoginContext);
+    //const {user} = useContext(LoginContext);
+
+    const user = JSON.parse(sessionStorage.getItem('user'))
+    
     const [events, setEvents] = useState([])
     const [eventsShow, setEventsShow] = useState([])
     const [selected, setSelected] = useState()
@@ -158,7 +161,8 @@ function HomePage() {
                             <div className=""> {/*card*/}
                                 <div className="intro"> {/*card-body*/}
                                     Discover our events! Browse, register, and enjoy!
-                                    <div>{user.id}</div>
+                                    <div>{user?.id}</div>
+                                    <div>{user?.role}</div>
                                 </div>
                             </div>
                         </div>

@@ -308,8 +308,8 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable();
 //        http.authorizeRequests().requestMatchers("/", "/home", "/login", "/register").permitAll();
-        http.authorizeRequests().requestMatchers("/home", "/login", "/register", "/auth/authenticate", "/api/tickets").permitAll();
-//                .requestMatchers("/api/events").hasAuthority(USER);
+        http.authorizeRequests().requestMatchers( "/login", "/register", "/auth/authenticate", "/api/tickets").permitAll();
+            //.requestMatchers("/api/events", "http://localhost:3000").hasAuthority(USER);
 //                .antMatchers("/admin").hasAnyAuthority("ADMIN")
 //                .antMatchers("/","/home","/generate/test ").hasAnyAuthority("USER","ADMIN");
         http.formLogin()

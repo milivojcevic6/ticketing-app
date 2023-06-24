@@ -3,13 +3,13 @@ import './login.css';
 import loginImage from '../../logo.png';
 import axios from "../../api/axios";
 //import {AuthContext} from '../../context/AuthProvider'
-import {LoginContext} from "../../context/LoginContext";
+import LoginContext from "../../context/LoginContext";
 
 function Login() {
     const userRef = useRef();
     const errRef = useRef();
     
-    const {user, setUser, loged, setLoged} = useContext(LoginContext);
+    const {user, getUser, userIsAuthenticated, userLogin, userLogout} = useContext(LoginContext);
     
     const [isLogin, setIsLogin] = useState(true);
     const [username, setUsername] = useState("");
@@ -20,28 +20,25 @@ function Login() {
     const [success, setSuccess] = useState(false);
     const [loginSuccess, setLoginSuccess] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
+    const [loged, setLoged] = useState(false);
+    
+       
+    const setLogging = () => {
+        const isUser = userIsAuthenticated
+        setLoged(isUser)
+    }
     
     useEffect(() => {
         userRef.current.focus();
     }, [])
     
-    useEffect(() => {
+    /*useEffect(() => {
         setErrMsg('');
-    },[username, password])
+    },[username, password])*/
     
     const handleTabChange = () => {
         setIsLogin(!isLogin);
     };
-
-    const convert = (obj) => {
-        console.log('Od fn', obj);
-        return Object.keys(obj).map(key => (
-            {
-            name: key,
-            value: obj[key],
-            type: "foo"
-        }));
-    }
     
     /*const login1 = async (e) => {
         e.preventDefault()
@@ -82,8 +79,9 @@ function Login() {
         const result = await axios.post('/auth/authenticate', newUser)
         console.log(result);
         setCurrentUser(result.data)
-        setUser(result.data)
-        setLoged(true)
+        //setUser(result.data)
+        userLogin(result.data)  //SET SESSION
+        //setLoged(true)
         console.log('currrrr', currentUser)
     }
     

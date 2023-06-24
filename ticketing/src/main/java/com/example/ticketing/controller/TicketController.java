@@ -34,7 +34,7 @@ public class TicketController {
 
     @GetMapping("/test")
     public ResponseEntity<byte[]> test() {
-        byte[] qrCodeBytes = getTicketById(1L).getBody().getQrCodeImage();
+        byte[] qrCodeBytes = getTicketById(2L).getBody().getQrCodeImage();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_JPEG);
         headers.setContentLength(qrCodeBytes.length);

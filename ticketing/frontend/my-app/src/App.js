@@ -34,7 +34,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import AppRouter from "./AppRouter";
 import Footer from "./components/Footer";
 import logo from './images/logic.png';
-import {LoginContext} from "./context/LoginContext";
+import LoginContext, {AuthProvider} from "./context/LoginContext";
 
 function App() {
     const [loged, setLoged] = useState(false);
@@ -55,7 +55,7 @@ function App() {
     return (
 
         <div className="App">
-            <LoginContext.Provider value={{user, setUser, loged, setLoged}}>
+            <AuthProvider>
                 <Navbar bg="dark" variant="dark" expand="md">
                     <Container>
                         <Navbar.Brand href="/" >
@@ -82,7 +82,7 @@ function App() {
                     <AppRouter/>
                 </Container>
                 <Footer/>
-            </LoginContext.Provider>
+            </AuthProvider>
         </div>
     );
 }
