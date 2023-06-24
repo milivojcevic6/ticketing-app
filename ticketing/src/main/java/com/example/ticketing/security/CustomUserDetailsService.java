@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +40,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             User user = userOptional.get();
             System.out.println("User found: " + user.getUsername());
 
-            List<SimpleGrantedAuthority> authorities = Collections.singletonList
+            Collection<SimpleGrantedAuthority> authorities = Collections.singletonList
                     (new SimpleGrantedAuthority(user.getRole()));
             return mapUserToCustomUserDetails(user, authorities);
 
@@ -50,7 +51,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             Section section = sectionOptional.get();
             System.out.println("Section found: " + section.getUsername());
 
-            List<SimpleGrantedAuthority> authorities = Collections.singletonList
+            Collection<SimpleGrantedAuthority> authorities = Collections.singletonList
                     (new SimpleGrantedAuthority(section.getRole()));
             return mapSectionToCustomUserDetails(section, authorities);
         }
@@ -58,7 +59,9 @@ public class CustomUserDetailsService implements UserDetailsService {
         return null;
     }
 
-    private UserDetails mapSectionToCustomUserDetails(Section section, List<SimpleGrantedAuthority> authorities) {
+    private UserDetails mapSectionToCustomUserDetails(
+            Section section,
+            Collection <SimpleGrantedAuthority> authorities) {
         CustomUserDetails customUserDetails = new CustomUserDetails();
         customUserDetails.setId(section.getId());
         customUserDetails.setUsername(section.getUsername());
@@ -69,7 +72,9 @@ public class CustomUserDetailsService implements UserDetailsService {
         return customUserDetails;
     }
 
-    private UserDetails mapUserToCustomUserDetails(User user, List<SimpleGrantedAuthority> authorities) {
+    private UserDetails mapUserToCustomUserDetails(
+            User user,
+            Collection <SimpleGrantedAuthority> authorities) {
         CustomUserDetails customUserDetails = new CustomUserDetails();
         customUserDetails.setId(user.getId());
         customUserDetails.setUsername(user.getUsername());

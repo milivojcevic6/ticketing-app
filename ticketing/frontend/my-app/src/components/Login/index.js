@@ -16,7 +16,7 @@ function Login() {
     const [role, setRole] = useState("");
     const [errMsg, setErrMsg] = useState("");
     const [success, setSuccess] = useState(false);
-    
+    const [loginSuccess, setLoginSuccess] = useState(false);
     useEffect(() => {
         userRef.current.focus();
     }, [])
@@ -33,18 +33,23 @@ function Login() {
         e.preventDefault()
         console.log(username, password);
         //axios
-        setUsername('');
-        setPassword('');
-        setSuccess(true);
+        
         
         const newUser = {
             username: username,
             password: password
         }
         
-        axios.post('/login', newUser)
+        axios.post('/auth/authenticate', newUser)
             .then(response => console.log(response))
             .catch(error => console.log(error));
+        
+        console.log('AAA')
+        
+
+        //setUsername('');
+        //setPassword('');
+        setLoginSuccess(true);
 
     }
 
@@ -52,15 +57,18 @@ function Login() {
         console.log(username, password, email, role)
         e.preventDefault();
         
-        const authorities = [role];
-        console.log(authorities)
+        //const authorities = [role];
+        //console.log(authorities)
         
         const newUser = {
             username: username,
             email: email,
             password:password,
-            authorities: authorities
+            role: role
         };
+        
+        console.log(role)
+        console.log('Type ' + typeof(role))
 
         if(role==="section"){
             axios.post('/api/sections/register', newUser)
@@ -134,6 +142,11 @@ function Login() {
                                 required
                             />
                             <button type="submit">Login</button>
+                            {loginSuccess ? (
+                                <div></div> //ADD REDIRECT?
+                            ): (
+                                <div></div>
+                            )}
                         </form>
                     ) : (
                         <form className="register-form" onSubmit={register}>

@@ -29,13 +29,14 @@ public class UserController {
 
     @PostMapping("/register")
     public User saveUser(@RequestBody User user){
+        System.out.println(user.toString());
         String password = user.getPassword();
-        String newpass = passwordEncoder.encode(password);
         String uname = user.getUsername();
         String mail = user.getEmail();
         String authorities = user.getRole();
 
-        User newUser = new User(uname, newpass, mail, authorities);
+        System.out.println("User: "+uname+" with role: " + user.getRole());
+        User newUser = new User(uname, password, mail, authorities);
         userService.saveUser(newUser);
         return newUser;
     }

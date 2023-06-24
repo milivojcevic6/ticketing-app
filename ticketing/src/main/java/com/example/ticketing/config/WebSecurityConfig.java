@@ -314,6 +314,7 @@ public class WebSecurityConfig {
 //                .antMatchers("/","/home","/generate/test ").hasAnyAuthority("USER","ADMIN");
         http.formLogin()
                 .defaultSuccessUrl("/api/events")
+                //.defaultSuccessUrl("http://localhost:3000")
                 .and().logout();
 
         return http.build();

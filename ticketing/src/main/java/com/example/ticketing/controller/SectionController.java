@@ -32,13 +32,13 @@ public class SectionController {
     @PostMapping("/register")
     public Section saveUser(@RequestBody Section user){
         String password = user.getPassword();
-        String newpass = passwordEncoder.encode(password);
         String uname = user.getUsername();
         String mail = user.getEmail();
         //Set<String> authorities = user.getAuthorities();
         String authorities = user.getRole();
+        System.out.println("Section: "+uname+" with role: " +authorities);
 
-        Section newSection = new Section(uname, newpass, mail, authorities);
+        Section newSection = new Section(uname, password, mail, authorities);
         sectionService.saveSection(newSection);
 
         return newSection;
