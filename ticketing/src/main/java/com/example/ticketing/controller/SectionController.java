@@ -1,10 +1,14 @@
 package com.example.ticketing.controller;
 
 import com.example.ticketing.model.Section;
+import com.example.ticketing.model.Ticket;
 import com.example.ticketing.service.SectionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
@@ -42,6 +46,11 @@ public class SectionController {
         sectionService.saveSection(newSection);
 
         return newSection;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Section>> getAllTickets() {
+        return ResponseEntity.ok(sectionService.getSections());
     }
 
 
