@@ -36,14 +36,14 @@ public class AuthController {
             User user = userOptional.get();
             CustomUserDetails userDetails = new CustomUserDetails(user);
             currentUser.loadUserByUsername(userDetails.getUsername());
-            return ResponseEntity.ok(new AuthResponse(user.getId(), user.getFirstName(), user.getRole()));
+            return ResponseEntity.ok(new AuthResponse(user.getId(), user.getUsername(), user.getEmail(), user.getRole()));
         }
         Optional<Section> sectionOptional = sectionService.validUsernameAndPassword(loginRequest.getUsername(), loginRequest.getPassword());
         if (sectionOptional.isPresent()) {
             Section section = sectionOptional.get();
             CustomUserDetails userDetails = new CustomUserDetails(section);
             currentUser.loadUserByUsername(userDetails.getUsername());
-            return ResponseEntity.ok(new AuthResponse(section.getId(), section.getName(), section.getRole()));
+            return ResponseEntity.ok(new AuthResponse(section.getId(), section.getUsername(), section.getEmail(), section.getRole()));
         }
         System.out.println("out++++++++++=");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
