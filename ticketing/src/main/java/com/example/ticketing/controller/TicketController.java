@@ -84,7 +84,7 @@ public class TicketController {
         return ResponseEntity.ok("Ticket deleted successfully");
     }
 
-    @GetMapping("/check/{content}")
+    @GetMapping("/check/ok/{content}")
     public String checkTicketContent(@PathVariable String content) {
         Ticket ticket = ticketService.findTicketByContent(content);
         if (ticket != null) {
@@ -103,7 +103,6 @@ public class TicketController {
     public String checkTicketManually(@RequestBody User user, @RequestBody Event event) {
         Ticket ticket = ticketService.findTicketByManually(user, event);
         if (ticket != null) {
-            System.out.println("NOT NULL");
             if(ticket.getStatus() == USED)
                 return "Already used!";
             ticket.setStatus(USED);
@@ -112,6 +111,18 @@ public class TicketController {
         } else {
             return "Failed";
         }
+    }
+
+    @GetMapping("/check/{content}")
+    public String getTicketHolderName(@PathVariable String content){
+
+        Ticket ticket = ticketService.findTicketByContent(content);
+        if(ticket!=null){
+            return "Event: " + ticket.getEvent().getName() + "\n" +
+                    "First name: " + ticket.getUser().getFirstName() +"\n" +
+                    "Last name: " + ticket.getUser().getLastName();
+        }
+        return "Ticket doesn't exist";
     }
 
 }
