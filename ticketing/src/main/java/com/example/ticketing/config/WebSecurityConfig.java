@@ -309,11 +309,12 @@ public class WebSecurityConfig {
         http.cors().and().csrf().disable();
 //        http.authorizeRequests().requestMatchers("/", "/home", "/login", "/register").permitAll();
         http.authorizeRequests().requestMatchers("/home", "/login", "/register", "/auth/authenticate").permitAll()
-                .requestMatchers("/api/events").hasAuthority(USER);
+                .requestMatchers("/api/events", "/api/events/**", "http://localhost:3000").hasAuthority(USER);
 //                .antMatchers("/admin").hasAnyAuthority("ADMIN")
 //                .antMatchers("/","/home","/generate/test ").hasAnyAuthority("USER","ADMIN");
         http.formLogin()
-                .defaultSuccessUrl("/api/events")
+                .loginPage("http://localhost:3000/login")
+                //.defaultSuccessUrl("/api/events")
                 //.defaultSuccessUrl("http://localhost:3000")
                 .and().logout();
 

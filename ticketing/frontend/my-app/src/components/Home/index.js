@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Badge} from "react-bootstrap";
 import axios from "../../api/axios";
 import testImage from "../../images/photo_2022-04-29_21-36-13.jpg"
@@ -10,9 +10,11 @@ import * as Icon from 'react-feather';
 import "./home.css";
 import { Modal } from 'react-bootstrap';
 import SearchBar from "../../mini-components/SearchBar";
+import {LoginContext} from "../../context/LoginContext";
 
 function HomePage() {
 
+    const {user} = useContext(LoginContext);
     const [events, setEvents] = useState([])
     const [eventsShow, setEventsShow] = useState([])
     const [selected, setSelected] = useState()
@@ -155,7 +157,9 @@ function HomePage() {
                         <div className="col-lg-6 col-12 pt-2 text-center ms-auto">
                             <div className=""> {/*card*/}
                                 <div className="intro"> {/*card-body*/}
-                                    Discover our events! Browse, register, and enjoy!                                </div>
+                                    Discover our events! Browse, register, and enjoy!
+                                    <div>{user.id}</div>
+                                </div>
                             </div>
                         </div>
                     </div>

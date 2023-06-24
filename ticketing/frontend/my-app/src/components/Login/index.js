@@ -3,11 +3,13 @@ import './login.css';
 import loginImage from '../../logo.png';
 import axios from "../../api/axios";
 //import {AuthContext} from '../../context/AuthProvider'
+import {LoginContext} from "../../context/LoginContext";
 
 function Login() {
-    //const {setAuth} = useContext(AuthContext);
     const userRef = useRef();
     const errRef = useRef();
+    
+    const {user, setUser, loged, setLoged} = useContext(LoginContext);
     
     const [isLogin, setIsLogin] = useState(true);
     const [username, setUsername] = useState("");
@@ -17,6 +19,8 @@ function Login() {
     const [errMsg, setErrMsg] = useState("");
     const [success, setSuccess] = useState(false);
     const [loginSuccess, setLoginSuccess] = useState(false);
+    const [currentUser, setCurrentUser] = useState(null);
+    
     useEffect(() => {
         userRef.current.focus();
     }, [])
@@ -28,8 +32,18 @@ function Login() {
     const handleTabChange = () => {
         setIsLogin(!isLogin);
     };
+
+    const convert = (obj) => {
+        console.log('Od fn', obj);
+        return Object.keys(obj).map(key => (
+            {
+            name: key,
+            value: obj[key],
+            type: "foo"
+        }));
+    }
     
-    const login = async (e) => {
+    /*const login1 = async (e) => {
         e.preventDefault()
         console.log(username, password);
         //axios
@@ -39,20 +53,40 @@ function Login() {
             username: username,
             password: password
         }
+
         
-        axios.post('/auth/authenticate', newUser)
-            .then(response => console.log(response))
+       await axios.post('/auth/authenticate', newUser)
+            .then(response => {
+
+                console.log(response.data);
+                setCurrentUser(convert(response.data));
+                console.log('Logged in user', currentUser);
+                //setCurrentUser(response.data)
+                //console.log(user);
+                //console.log('currentUser', currentUser);
+                //setLoged(true);
+                //setLoginSuccess(true);
+            })
             .catch(error => console.log(error));
-        
-        console.log('AAA')
-        
+      
+    }*/
 
-        //setUsername('');
-        //setPassword('');
-        setLoginSuccess(true);
-
+    const login = async (e) => {
+        e.preventDefault()
+        
+        const newUser = {
+            username: username,
+            password: password
+        }
+        
+        const result = await axios.post('/auth/authenticate', newUser)
+        console.log(result);
+        setCurrentUser(result.data)
+        setUser(result.data)
+        setLoged(true)
+        console.log('currrrr', currentUser)
     }
-
+    
     function register(e) {
         console.log(username, password, email, role)
         e.preventDefault();
@@ -72,16 +106,22 @@ function Login() {
 
         if(role==="section"){
             axios.post('/api/sections/register', newUser)
-                .then(response => console.log(response))
+                .then(response => {
+                    console.log(response);
+                    setSuccess(true);
+                })
                 .catch(error => console.log(error));
         }
         else {
             axios.post('/api/users/register', newUser)
-                .then(response => console.log(response))
+                .then(response => {
+                    console.log(response);
+                    setSuccess(true);
+                })
                 .catch(error => console.log(error));
         }
 
-        setSuccess(true);
+        
         //setUsername('');
         //setPassword('');
         //setEmail('');
@@ -95,93 +135,96 @@ function Login() {
     }
     
     return (
-        <div>
-            { success ? (
-                <div className="alert alert-success" role="alert">
-                   You have successfully registered.
-                </div>
+            <div>
+                { success ? (
+                    <div className="alert alert-success" role="alert">
+                        You have successfully registered.
+                    </div>
                 ) : (
                     <div/>
-            )
-            } 
-            <div className="login-container">
-                <div className="image-container">
-                    <img src={loginImage} alt="Logo" className="logo" />
-                </div>
-                <div className="form-container">
-                    <div className="tabs">
-                        <button
-                            className={`tab-button ${isLogin ? 'active' : ''}`}
-                            onClick={handleTabChange}
-                        >
-                            Login
-                        </button>
-                        <button
-                            className={`tab-button ${isLogin ? '' : 'active'}`}
-                            onClick={handleTabChange}
-                        >
-                            Register
-                        </button>
+                )
+                }
+                <div className="login-container">
+                    <div className="image-container">
+                        <img src={loginImage} alt="Logo" className="logo" />
                     </div>
-                    {isLogin ? (
-                        <form className="login-form" onSubmit={login}>
-                            <input
-                                type="text"
-                                placeholder="Username"
-                                ref = {userRef}
-                                autoComplete="off"
-                                onChange={(e) => setUsername(e.target.value)}
-                                value={username}
-                                required
-                            />
-                            <input
-                                type="password"
-                                placeholder="Password"
-                                onChange={(e) => setPassword(e.target.value)}
-                                value={password}
-                                required
-                            />
-                            <button type="submit">Login</button>
-                            {loginSuccess ? (
-                                <div></div> //ADD REDIRECT?
-                            ): (
-                                <div></div>
-                            )}
-                        </form>
-                    ) : (
-                        <form className="register-form" onSubmit={register}>
-                            <input
-                                type="text"
-                                placeholder="Username"
-                                ref = {userRef}
-                                autoComplete="off"
-                                onChange={(e) => setUsername(e.target.value)}
-                                value={username}
-                                required
-                            />
-                            <input type="email"
-                                   placeholder="Email"
-                                   onChange={(e) => setEmail(e.target.value)}
-                                   value={email}
-                                   required />
-                            <input  type="password"
+                    <div className="form-container">
+                        <div className="tabs">
+                            <button
+                                className={`tab-button ${isLogin ? 'active' : ''}`}
+                                onClick={handleTabChange}
+                            >
+                                Login
+                            </button>
+                            <button
+                                className={`tab-button ${isLogin ? '' : 'active'}`}
+                                onClick={handleTabChange}
+                            >
+                                Register
+                            </button>
+                        </div>
+                        {isLogin ? (
+                            <form className="login-form" onSubmit={login}>
+                                <input
+                                    type="text"
+                                    placeholder="Username"
+                                    ref = {userRef}
+                                    autoComplete="off"
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    value={username}
+                                    required
+                                />
+                                <input
+                                    type="password"
                                     placeholder="Password"
                                     onChange={(e) => setPassword(e.target.value)}
                                     value={password}
-                                    required />
-                            <label htmlFor="role" className="form-label">I want to register as:</label>
-                            <select className="form-select mb-3" id="role" aria-label="Type" onChange={onRoleChange} value={role} >
-                                <option value="">--Please choose an option--</option>
-                                <option value="user">Student</option>
-                                <option value="section">ESN Section</option>
-                            </select>
-                            <button type="submit">Register</button>
-                        </form>
-                    )}
+                                    required
+                                />
+                                <button type="submit">Login</button>
+                                {loged ? (//ADD REDIRECT?
+                                    <div>
+                                        <div>{currentUser.id}</div> 
+                                        <div>{currentUser.name}</div>
+                                        <div>{currentUser.role}</div>
+                                    </div>
+                                ): (
+                                    <div></div>
+                                )}
+                            </form>
+                        ) : (
+                            <form className="register-form" onSubmit={register}>
+                                <input
+                                    type="text"
+                                    placeholder="Username"
+                                    ref = {userRef}
+                                    autoComplete="off"
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    value={username}
+                                    required
+                                />
+                                <input type="email"
+                                       placeholder="Email"
+                                       onChange={(e) => setEmail(e.target.value)}
+                                       value={email}
+                                       required />
+                                <input  type="password"
+                                        placeholder="Password"
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        value={password}
+                                        required />
+                                <label htmlFor="role" className="form-label">I want to register as:</label>
+                                <select className="form-select mb-3" id="role" aria-label="Type" onChange={onRoleChange} value={role} >
+                                    <option value="">--Please choose an option--</option>
+                                    <option value="user">Student</option>
+                                    <option value="section">ESN Section</option>
+                                </select>
+                                <button type="submit">Register</button>
+                            </form>
+                        )}
+                    </div>
                 </div>
             </div>
-        </div>
-        
     );
 }
 
