@@ -1,10 +1,14 @@
 package com.example.ticketing.controller;
 
+import com.example.ticketing.model.Event;
 import com.example.ticketing.model.User;
 import com.example.ticketing.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
@@ -25,6 +29,12 @@ public class UserController {
     @Autowired
     public void setPasswordEncoder(PasswordEncoder passwordEncoder){
         this.passwordEncoder = passwordEncoder;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<User>> getAllEvents() {
+        List<User> users = userService.getUsers();
+        return ResponseEntity.ok(users);
     }
 
     @PostMapping("/register")

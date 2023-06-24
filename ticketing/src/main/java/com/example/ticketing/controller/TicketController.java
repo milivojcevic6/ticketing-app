@@ -3,9 +3,15 @@ package com.example.ticketing.controller;
 import com.example.ticketing.model.Ticket;
 import com.example.ticketing.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.*;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
@@ -20,9 +26,19 @@ public class TicketController {
     }
 
     @PostMapping
-    public ResponseEntity<Ticket> createTicket(@RequestBody Ticket ticket) {
-        Ticket createdTicket = ticketRepository.save(ticket);
+    public ResponseEntity<Ticket> createTicket(@RequestBody Ticket ticket) throws IOException {
+        Ticket newTicket = new Ticket(ticket.getIssuedDate(), ticket.getUser(), ticket.getEvent());
+        Ticket createdTicket = ticketRepository.save(newTicket);
         return ResponseEntity.ok(createdTicket);
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<byte[]> test() {
+        byte[] qrCodeBytes = getTicketById(1L).getBody().getQrCodeImage();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+        headers.setContentLength(qrCodeBytes.length);
+        return new ResponseEntity<>(qrCodeBytes, headers, HttpStatus.OK);
     }
 
     @GetMapping
