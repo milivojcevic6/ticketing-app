@@ -308,13 +308,13 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable();
 //        http.authorizeRequests().requestMatchers("/", "/home", "/login", "/register").permitAll();
-        http.authorizeRequests().requestMatchers("/home", "/login", "/register", "/auth/authenticate").permitAll()
-                .requestMatchers("/api/events").hasAuthority(USER);
+        http.authorizeRequests().requestMatchers("/home", "/login", "/register", "/auth/authenticate", "/api/tickets").permitAll();
+//                .requestMatchers("/api/events").hasAuthority(USER);
 //                .antMatchers("/admin").hasAnyAuthority("ADMIN")
 //                .antMatchers("/","/home","/generate/test ").hasAnyAuthority("USER","ADMIN");
         http.formLogin()
-                .defaultSuccessUrl("/api/events")
-                //.defaultSuccessUrl("http://localhost:3000")
+                .loginPage("http://localhost:3000/login")
+                .defaultSuccessUrl("http://localhost:3000")
                 .and().logout();
 
         return http.build();
