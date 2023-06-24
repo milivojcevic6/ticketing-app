@@ -1,5 +1,6 @@
 package com.example.ticketing.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.nayuki.qrcodegen.QrCode;
 import jakarta.persistence.*;
 
@@ -9,6 +10,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Objects;
 
 import static com.example.ticketing.model.TicketStatus.ACTIVE;
@@ -23,10 +25,10 @@ public class Ticket {
     private LocalDate issuedDate;
     private TicketStatus status;
 
-
+    private String content;
 
     @Lob // Indicates the field will store large binary data
-    @Column(length = 1048576) // Specify the desired column length
+    //@Column(length = 1048576) // Specify the desired column length
     private byte[] qrCodeImage; // Field to store the binary picture data
 
 //    // Relationships
@@ -36,10 +38,12 @@ public class Ticket {
     // Relationships
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "event_id")
+    @JsonIgnore
     private Event event;
 
     // Constructors, getters, and setters
@@ -59,18 +63,18 @@ public class Ticket {
         this.user = user;
         this.event = event;
         this.status = ACTIVE;
-        this.qrCodeImage = makeQRcode(issuedDate, user, event);
+        this.content = event.getId() + "," + event.getName() + "," + user.getFirstName()
+                + "," + user.getLastName() + "," + issuedDate.toString();
+        this.qrCodeImage = makeQRcode(this.content);
     }
 
-    private byte[] makeQRcode(LocalDate issuedDate, User user, Event event) throws IOException {
-
-        String text = event.getId() + "," + event.getName() + "," + user.getFirstName()
-                + "," + user.getLastName() + "," + issuedDate.toString();
+    private byte[] makeQRcode(String text) throws IOException {
 
         byte[] qrCodeBytes = generateQR(text);
         System.out.println("Length is: "+qrCodeBytes.length);
         return qrCodeBytes;
     }
+
 
     public Long getId() {
         return id;
@@ -120,6 +124,26 @@ public class Ticket {
         this.event = event;
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id=" + id +
+                ", issuedDate=" + issuedDate +
+                ", status=" + status +
+                ", content='" + content + '\'' +
+                ", qrCodeImage=" + Arrays.toString(qrCodeImage) +
+                ", user=" + user +
+                ", event=" + event +
+                '}';
+    }
 
     public static byte[] generateQR(String string) throws IOException {
 

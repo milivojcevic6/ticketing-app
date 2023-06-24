@@ -1,7 +1,9 @@
 package com.example.ticketing.controller;
 
+import com.example.ticketing.model.Event;
 import com.example.ticketing.model.Ticket;
-import com.example.ticketing.repository.TicketRepository;
+import com.example.ticketing.model.User;
+import com.example.ticketing.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -9,25 +11,26 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
 import java.io.IOException;
-import java.util.Base64;
 import java.util.List;
+
+import static com.example.ticketing.model.TicketStatus.ACTIVE;
+import static com.example.ticketing.model.TicketStatus.USED;
 
 @RestController
 @RequestMapping("/api/tickets")
 public class TicketController {
-    private final TicketRepository ticketRepository;
+    private final TicketService ticketService;
 
     @Autowired
-    public TicketController(TicketRepository ticketRepository) {
-        this.ticketRepository = ticketRepository;
+    public TicketController(TicketService ticketService) {
+        this.ticketService = ticketService;
     }
 
     @PostMapping
     public ResponseEntity<Ticket> createTicket(@RequestBody Ticket ticket) throws IOException {
         Ticket newTicket = new Ticket(ticket.getIssuedDate(), ticket.getUser(), ticket.getEvent());
-        Ticket createdTicket = ticketRepository.save(newTicket);
+        Ticket createdTicket = ticketService.saveTicket(newTicket);
         return ResponseEntity.ok(createdTicket);
     }
 
@@ -42,20 +45,18 @@ public class TicketController {
 
     @GetMapping
     public ResponseEntity<List<Ticket>> getAllTickets() {
-        return ResponseEntity.ok(ticketRepository.findAll());
+        return ResponseEntity.ok(ticketService.getTickets());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Ticket> getTicketById(@PathVariable Long id) {
-        Ticket ticket = ticketRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid ticket ID: " + id));
+        Ticket ticket = ticketService.getTicket(id);
         return ResponseEntity.ok(ticket);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Ticket> updateTicket(@PathVariable Long id, @RequestBody Ticket updatedTicket) {
-        Ticket existingTicket = ticketRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid ticket ID: " + id));
+        Ticket existingTicket = ticketService.getTicket(id);
 
         if (updatedTicket.getIssuedDate() != null) {
             existingTicket.setIssuedDate(updatedTicket.getIssuedDate());
@@ -74,13 +75,44 @@ public class TicketController {
         }
         // Update other attributes as needed
 
-        Ticket savedTicket = ticketRepository.save(existingTicket);
+        Ticket savedTicket = ticketService.saveTicket(existingTicket);
         return ResponseEntity.ok(savedTicket);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTicket(@PathVariable Long id) {
-        ticketRepository.deleteById(id);
+        ticketService.delete(id);
         return ResponseEntity.ok("Ticket deleted successfully");
     }
+
+    @GetMapping("/check/{content}")
+    public String checkTicketContent(@PathVariable String content) {
+        Ticket ticket = ticketService.findTicketByContent(content);
+        if (ticket != null) {
+            if(ticket.getStatus().toString().equals("USED"))
+                return "Already used!";
+            ticket.setStatus(USED);
+            ticketService.update(ticket);
+            return "Success";
+        } else {
+            return "Failed";
+        }
+    }
+
+
+    @GetMapping("/check")
+    public String checkTicketManually(@RequestBody User user, @RequestBody Event event) {
+        Ticket ticket = ticketService.findTicketByManually(user, event);
+        if (ticket != null) {
+            System.out.println("NOT NULL");
+            if(ticket.getStatus() == USED)
+                return "Already used!";
+            ticket.setStatus(USED);
+            ticketService.update(ticket);
+            return "Success";
+        } else {
+            return "Failed";
+        }
+    }
+
 }
