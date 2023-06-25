@@ -28,6 +28,7 @@ public class EventController {
 
     @PostMapping
     public ResponseEntity<Event> createEvent(@RequestBody Event event) {
+        System.out.println("Event date: " + event.getEventDateTime());
         Event createdEvent = eventRepository.save(event);
         return ResponseEntity.ok(createdEvent);
     }

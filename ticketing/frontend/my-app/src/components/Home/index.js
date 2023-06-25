@@ -10,6 +10,7 @@ import * as Icon from 'react-feather';
 import "./home.css";
 import { Modal } from 'react-bootstrap';
 import SearchBar from "../../mini-components/SearchBar";
+import moment from 'moment';
 import LoginContext from "../../context/LoginContext";
 
 function HomePage() {
@@ -31,6 +32,7 @@ function HomePage() {
     const [locationUrl, setLocationUrl] = useState('');
     const [capacity, setCapacity] = useState(0.0);
     const [price, setPrice] = useState(0.0);
+    const [date, setDate] = useState('');
     const [esnPrice, setEsnPrice] = useState(0.0);
     const [type, setType] = useState('');
     const [submitted, setSubmitted] = useState(false);
@@ -46,7 +48,10 @@ function HomePage() {
     };
 
     const loadEvents = async () => {
-       const result = await axios.get(`/api/events/user/${user?.id}`)
+        
+        const result = isSectionUser ? 
+            await axios.get(`/api/sections/events/${user?.id}`) :
+            await axios.get(`/api/events/user/${user?.id}`);
         
         //const result = await axios.get("/api/events")
         console.log(result);
@@ -93,10 +98,12 @@ function HomePage() {
     }*/
 
     function onSubmit(e) {
-        console.log(name, description, type, capacity, location, locationUrl,  price, esnPrice)
+        console.log(name, description, type, capacity, location, locationUrl,  price, esnPrice, date)
         e.preventDefault();
         const newEvent = {
+            section: user,
             name: name,
+            eventDateTime: new Date(date),
             description: description,
             type: type,
             capacity: capacity,
@@ -105,7 +112,7 @@ function HomePage() {
             price: price,
             esnprice: esnPrice
         };
-        console.log(name, description, type, capacity, location, locationUrl,  price, esnPrice)
+        console.log(name, description, type, capacity, location, locationUrl,  price, esnPrice, date)
 
         axios.post('/api/events', newEvent)
             .then(response => console.log(response))
@@ -141,6 +148,18 @@ function HomePage() {
     function onPriceChange(event) {
         setPrice(event.target.value)
     }
+
+    const onDateChange = (event) => {
+        const selectedDate = event.target.value; // Get the selected date from the input
+        const dateObj = new Date(selectedDate); // Create a Date object from the selected date
+        const year = dateObj.getFullYear(); // Get the year (yyyy)
+        const month = String(dateObj.getMonth() + 1).padStart(2, '0'); // Get the month (MM), adding 1 to the month index since it's zero-based
+        const day = String(dateObj.getDate()).padStart(2, '0'); // Get the day (dd)
+
+        const formattedDate = `${year}-${month}-${day}`; // Format the date as "yyyy-MM-dd"
+        setDate(formattedDate); // Update the state variable with the formatted date
+    };
+
 
     function onEsnPriceChange(event) {
         setEsnPrice(event.target.value)
@@ -186,7 +205,7 @@ function HomePage() {
                                     <tr key={event.id} className={selected === event ? 'selected' : ''} onClick={() => setSelected(event)} >
                                         <td >{event.name}</td>
                                         <td>{event.location}</td>
-                                        <td scope="row">{event.datetime}</td>
+                                        <td scope="row">{event.eventDateTime}</td>
                                         <td>{event.price}</td>
                                         <td>{event.esnprice}</td>
                                     </tr>
@@ -315,6 +334,12 @@ function HomePage() {
                                 <div className="mb-3 col-6">
                                     <label htmlFor="esnprice" className="form-label">ESN Price</label>
                                     <input type="number" className="form-control" id="esnprice" placeholder="0.0" onChange={onEsnPriceChange} value={esnPrice}/>
+                                </div>
+                            </div>
+                            <div  className="row">
+                                <div className="mb-3 col-6">
+                                    <label htmlFor="date" className="form-label">Date</label>
+                                    <input type="date" className="form-control" id="date" onChange={onDateChange} value={date} />
                                 </div>
                             </div>
 

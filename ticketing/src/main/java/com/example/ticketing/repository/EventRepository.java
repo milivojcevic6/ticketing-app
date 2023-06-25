@@ -8,10 +8,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-<<<<<<< HEAD
+
 import java.util.Optional;
-=======
->>>>>>> origin/registration
 
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {

@@ -87,7 +87,7 @@ public class SectionController {
     }
 
 
-    @GetMapping("/{id}")
+    @GetMapping("/events/{id}")
     public ResponseEntity<List<Event>> getEventsBySectionId(@PathVariable Long id){
         return ResponseEntity.ok(eventRepository.findBySectionId(id));
     }
