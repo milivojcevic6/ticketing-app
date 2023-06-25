@@ -3,11 +3,11 @@ package com.example.ticketing.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.nayuki.qrcodegen.QrCode;
 import jakarta.persistence.*;
+import lombok.SneakyThrows;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -50,25 +50,29 @@ public class Ticket {
     public Ticket() {
     }
 
-    public Ticket(LocalDate issuedDate, TicketStatus status, byte[] qrCodeImage, User user, Event event) {
+    public Ticket(LocalDate issuedDate, TicketStatus status, byte[] qrCodeImage, String content, User user, Event event) {
         this.issuedDate = issuedDate;
         this.status = status;
         this.qrCodeImage = qrCodeImage;
         this.user = user;
         this.event = event;
+        this.content = content;
     }
 
-    public Ticket(LocalDate issuedDate, User user, Event event) throws IOException {
-        this.issuedDate = issuedDate;
-        this.user = user;
-        this.event = event;
-        this.status = ACTIVE;
-        this.content = event.getId() + "," + event.getName() + "," + user.getFirstName()
-                + "," + user.getLastName() + "," + issuedDate.toString();
-        this.qrCodeImage = makeQRcode(this.content);
-    }
+        public Ticket(LocalDate issuedDate, User user, Event event) {
+            this.issuedDate = issuedDate;
+            this.user = user;
+            this.event = event;
+            this.status = ACTIVE;
+            System.out.println(user.toString());
+            System.out.println(event.toString());
+            this.content = ""+ event.getId() + "," + event.getName() + "," + user.getFirstName()
+                    + "," + user.getLastName() + "," + issuedDate.toString();
+            System.out.println("content is: "+content);
+            this.qrCodeImage = makeQRcode(this.content);
+        }
 
-    private byte[] makeQRcode(String text) throws IOException {
+    private byte[] makeQRcode(String text) {
 
         byte[] qrCodeBytes = generateQR(text);
         System.out.println("Length is: "+qrCodeBytes.length);
@@ -145,7 +149,8 @@ public class Ticket {
                 '}';
     }
 
-    public static byte[] generateQR(String string) throws IOException {
+    @SneakyThrows
+    public static byte[] generateQR(String string) {
 
         QrCode qr0 = QrCode.encodeText(string, QrCode.Ecc.HIGH);
 

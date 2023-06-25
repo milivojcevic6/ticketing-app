@@ -13,14 +13,15 @@ function CheckQR() {
     const [info, setInfo] = useState("");
 
     useEffect(() => {
-        const scanner = new Html5QrcodeScanner(
-            'reader', {
-                qrbox: {
-                    width: 250,
-                    height: 250,
-                },
-                fps: 5,
-            }
+        const scanner = new Html5QrcodeScanner('reader', 
+            {
+                        qrbox: {
+                            width: 500,
+                            height: 500,
+                        },
+                        fps: 5
+                    },
+            false
         );
 
         scanner.render(success, error);
@@ -30,13 +31,14 @@ function CheckQR() {
             setQrcode(result);
             axios.post(`/api/tickets/check/${result}`)
                 .then(response => {
-                    setScanResult(response)
+                    setScanResult(response.toString())
+                    console.log("res:"+response);
+                    console.log("res str:"+response.toString());
                     if (response.toString() !== "Ticket doesn't exist") {
                         setScanStatus(true)
                     }
                 })
                 .catch(error => console.log(error));
-            setScanResult(result);
         }
 
         function error(err) {
@@ -63,9 +65,10 @@ function CheckQR() {
     return (
         <div>
             <h1> Tickets Scanning </h1>
+            <div id="reader" style={{width: "600px"}}/>
             {
                 scanResult ?
-                    <div>{scanResult}</div> : <div id="reader"></div>
+                    <div>{scanResult}</div> : <div/>
             }
             {
                 scanStatus ?

@@ -1,6 +1,8 @@
 package com.example.ticketing.controller;
 
 import com.example.ticketing.model.Event;
+import com.example.ticketing.model.Section;
+import com.example.ticketing.model.Ticket;
 import com.example.ticketing.model.User;
 import com.example.ticketing.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,20 +53,77 @@ public class UserController {
         return newUser;
     }
 
-    @PostMapping("update")
-    public User updateUser(@RequestBody User user){
-        User updated = userService.getUserById(user.getId()).get();
-        updated.setFirstName(user.getFirstName());
-        updated.setLastName(user.getLastName());
-        updated.setEmail(user.getEmail());
-        updated.setPassword(user.getPassword());
-        updated.setSections(user.getSections());
-        updated.setTickets(user.getTickets());
-        userService.saveUser(updated);
-        return updated;
+    @PutMapping("/update")
+    public User updateUser(@RequestBody User user) {
+        User updatedUser = userService.getUserById(user.getId())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        updatedUser.setFirstName(user.getFirstName());
+        updatedUser.setLastName(user.getLastName());
+        updatedUser.setEmail(user.getEmail());
+
+        // Only update password if a new password is provided
+        String newPassword = user.getPassword();
+        if (newPassword != null && !newPassword.isEmpty()) {
+            updatedUser.setPassword(newPassword);
+        }
+
+        updatedUser.setSections(user.getSections());
+
+        userService.saveUser(updatedUser);
+        return updatedUser;
     }
 
-    @PostMapping("delete/{id}")
+//    @PutMapping("/update")
+//    public User updateUser(@RequestParam(required = false) String firstName,
+//                           @RequestParam(required = false) String lastName,
+//                           @RequestParam(required = false) String email,
+//                           @RequestParam(required = false) String password,
+//                           @RequestParam(required = false) List<Section> sections,
+//                           @RequestParam(required = false) List<Ticket> tickets,
+//                           @RequestParam Long userId) {
+//        User updatedUser = userService.getUserById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+//
+//        if (firstName != null) {
+//            updatedUser.setFirstName(firstName);
+//        }
+//        if (lastName != null) {
+//            updatedUser.setLastName(lastName);
+//        }
+//        if (email != null) {
+//            updatedUser.setEmail(email);
+//        }
+//        if (password != null) {
+//            updatedUser.setPassword(password);
+//        }
+//        if (sections != null) {
+//            updatedUser.setSections(sections);
+//        }
+//        if (tickets != null) {
+//            updatedUser.setTickets(tickets);
+//        }
+//
+//        // Update other attributes as needed
+//
+//        userService.saveUser(updatedUser);
+//        return updatedUser;
+//    }
+
+
+//    @PutMapping("/update")
+//    public User updateUser(@RequestBody User user){
+//        User updated = userService.getUserById(user.getId()).get();
+//        updated.setFirstName(user.getFirstName());
+//        updated.setLastName(user.getLastName());
+//        updated.setEmail(user.getEmail());
+//        updated.setPassword(user.getPassword());
+//        updated.setSections(user.getSections());
+//        updated.setTickets(user.getTickets());
+//        userService.saveUser(updated);
+//        return updated;
+//    }
+
+    @PostMapping("/delete/{id}")
     public void deleteUser(@PathVariable String id){
         userService.deleteUser(userService.getUserById(Long.parseLong(id)).get());
     }

@@ -49,7 +49,7 @@ public class SectionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Section>> getAllTickets() {
+    public ResponseEntity<List<Section>> getAll() {
         return ResponseEntity.ok(sectionService.getSections());
     }
 

@@ -1,5 +1,6 @@
 package com.example.ticketing.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class Section {
 //    private List<Userr> userrs;
     // Relationships
     @ManyToMany(mappedBy = "sections")
+    @JsonIgnore
     private List<User> users;
 //
 //    @ElementCollection
