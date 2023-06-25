@@ -8,10 +8,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+<<<<<<< HEAD
 import java.util.Optional;
+=======
+>>>>>>> origin/registration
 
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
+    List<Event> findBySectionId(Long id);
     // You can define additional custom queries or methods if needed
 
 //    @Query("SELECT e FROM Event e JOIN e.section_id s JOIN s.users u WHERE u.id = :userId")
