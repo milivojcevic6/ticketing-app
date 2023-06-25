@@ -42,7 +42,6 @@ public class SectionServiceImpl implements SectionService {
 
     @Override
     public Section saveSection(Section section) {
-        section.setPassword(passwordEncoder.encode(section.getPassword()));
         return sectionRepo.save(section);
     }
 
@@ -58,7 +57,7 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public Optional<Section> getUserById(Long id) {
+    public Optional<Section> getSectionById(Long id) {
         return sectionRepo.getUserById(id);
     }
 }

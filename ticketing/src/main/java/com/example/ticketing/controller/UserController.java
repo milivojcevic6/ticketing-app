@@ -48,13 +48,14 @@ public class UserController {
         String authorities = user.getRole();
 
         System.out.println("User: "+uname+" with role: " + user.getRole());
-        User newUser = new User(uname, password, mail, authorities);
+        User newUser = new User(uname, passwordEncoder.encode(password), mail, authorities);
         userService.saveUser(newUser);
         return newUser;
     }
 
     @PutMapping("/update")
     public User updateUser(@RequestBody User user) {
+
         User updatedUser = userService.getUserById(user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
@@ -64,8 +65,9 @@ public class UserController {
 
         // Only update password if a new password is provided
         String newPassword = user.getPassword();
+
         if (newPassword != null && !newPassword.isEmpty()) {
-            updatedUser.setPassword(newPassword);
+            updatedUser.setPassword(passwordEncoder.encode(newPassword));
         }
 
         updatedUser.setSections(user.getSections());

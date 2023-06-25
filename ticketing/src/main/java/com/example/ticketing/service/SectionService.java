@@ -23,6 +23,6 @@ public interface SectionService {
 
     Optional<Section> validUsernameAndPassword(String username, String password);
 
-    Optional<Section> getUserById(Long id);
+    Optional<Section> getSectionById(Long id);
 
 }
