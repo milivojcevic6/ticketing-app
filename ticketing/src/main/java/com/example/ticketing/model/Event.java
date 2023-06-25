@@ -145,4 +145,22 @@ public class Event {
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
     }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", type='" + type + '\'' +
+                ", eventDateTime=" + eventDateTime +
+                ", capacity=" + capacity +
+                ", location='" + location + '\'' +
+                ", locationUrl='" + locationUrl + '\'' +
+                ", price=" + price +
+                ", ESNprice=" + ESNprice +
+                ", section=" + section +
+                ", tickets=" + tickets +
+                '}';
+    }
 }
