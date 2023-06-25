@@ -17,7 +17,8 @@ function HomePage() {
     //const {user} = useContext(LoginContext);
 
     const user = JSON.parse(sessionStorage.getItem('user'))
-    
+    const isSectionUser = user.role === 'section'; // Check if the user's role is "section"
+
     const [events, setEvents] = useState([])
     const [eventsShow, setEventsShow] = useState([])
     const [selected, setSelected] = useState()
@@ -45,7 +46,9 @@ function HomePage() {
     };
 
     const loadEvents = async () => {
-        const result = await axios.get("/api/events")
+       const result = await axios.get(`/api/events/user/${user?.id}`)
+        
+        //const result = await axios.get("/api/events")
         console.log(result);
         setEvents(result.data)
         setEventsShow(result.data);
@@ -160,9 +163,7 @@ function HomePage() {
                         <div className="col-lg-6 col-12 pt-2 text-center ms-auto">
                             <div className=""> {/*card*/}
                                 <div className="intro"> {/*card-body*/}
-                                    Discover our events! Browse, register, and enjoy!
-                                    <div>{user?.id}</div>
-                                    <div>{user?.role}</div>
+                                    Hello {user?.username}! Discover our events! Browse, register, and enjoy!
                                 </div>
                             </div>
                         </div>
@@ -185,16 +186,21 @@ function HomePage() {
                                     <tr key={event.id} className={selected === event ? 'selected' : ''} onClick={() => setSelected(event)} >
                                         <td >{event.name}</td>
                                         <td>{event.location}</td>
-                                        <td scope="row">01.01</td>
+                                        <td scope="row">{event.datetime}</td>
                                         <td>{event.price}</td>
                                         <td>{event.esnprice}</td>
                                     </tr>
                                 ))}
                                 </tbody>
                             </table>
-                            <div className="bottom-bar position-sticky fixed-bottom" onClick={handleToggleModal} >
-                                <h6 className="mt-2"> <Icon.PlusSquare/> New event</h6>
-                            </div>
+                            {isSectionUser ? (
+                                <div className="bottom-bar position-sticky fixed-bottom" onClick={handleToggleModal} >
+                                    <h6 className="mt-2"> <Icon.PlusSquare/> New event</h6>
+                                </div>
+                            ) : (
+                                <div></div>
+                            )}
+                            
                         </div>
                         <div className="col-lg-6 col-12 p-2 card ms-auto scrollable-div">
 
@@ -218,7 +224,7 @@ function HomePage() {
                                             <p className="card-text">{selected.description}</p>
                                             <div className="d-inline-flex">
                                                 <span className="me-3"><Icon.MapPin/> {selected.location}</span>
-                                                <span className="me-3"><Icon.Clock/> Implement time</span>
+                                                <span className="me-3"><Icon.Clock/> {selected.datetime}</span>
                                                 <span><Icon.UserCheck/> Implement #registered</span>
                                             </div>
                                             {/*STUDENT
@@ -229,12 +235,19 @@ function HomePage() {
                                             </div>*/}
                                             <br/>
                                             {/*SECTION*/}
-                                            <div className="d-inline-flex my-4">
-                                                <button type="button" className="btn btn-primary me-3">Issue Ticket</button>
-                                                <button type="button" className="btn btn-primary me-3">Scan</button>
-                                                <button type="button" className="btn btn-primary me-3">Attendees</button>
-                                                <button type="button" className="btn btn-primary">Archive </button>
-                                            </div>
+                                            {isSectionUser ? (
+                                                <div className="d-inline-flex my-4">
+                                                    <button type="button" className="btn btn-primary me-3">Issue Ticket</button>
+                                                    <button type="button" className="btn btn-primary me-3">Scan</button>
+                                                    <button type="button" className="btn btn-primary me-3">Attendees</button>
+                                                    <button type="button" className="btn btn-primary">Archive </button>
+                                                </div>
+                                            ) : (
+                                                <div className="d-inline-flex my-4">
+                                                    <button type="button" className="btn btn-primary me-3">See Ticket</button>
+                                                </div>
+                                            )}
+                                            
                                             <p className="card-text"><small className="text-muted">Last updated 3 mins ago</small></p>
                                         </div>
                                     </div>
