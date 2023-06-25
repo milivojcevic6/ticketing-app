@@ -1,8 +1,8 @@
 package com.example.ticketing.controller;
 
+import com.example.ticketing.model.Event;
 import com.example.ticketing.model.Section;
-import com.example.ticketing.model.Ticket;
-import com.example.ticketing.model.User;
+import com.example.ticketing.repository.EventRepository;
 import com.example.ticketing.service.SectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +19,13 @@ public class SectionController {
     //private UserService userService;
     private SectionService sectionService;
     private PasswordEncoder passwordEncoder;
+    private EventRepository eventRepository;
 
-//    @Autowired
+    public SectionController(EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
+    }
+
+    //    @Autowired
 //    public void setUserService(UserService userService){
 //        this.userService = userService;
 //    }
@@ -79,6 +84,12 @@ public class SectionController {
 
         sectionService.saveSection(updatedSection);
         return updatedSection;
+    }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<List<Event>> getEventsBySectionId(@PathVariable Long id){
+        return ResponseEntity.ok(eventRepository.findBySectionId(id));
     }
 
     /*private final SectionRepository sectionRepository;
