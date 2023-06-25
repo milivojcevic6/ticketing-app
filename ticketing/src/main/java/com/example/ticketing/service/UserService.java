@@ -1,6 +1,8 @@
 package com.example.ticketing.service;
 
 
+import com.example.ticketing.model.Event;
+import com.example.ticketing.model.Section;
 import com.example.ticketing.model.User;
 
 import java.util.List;
@@ -24,4 +26,7 @@ public interface UserService {
 
     Optional<User> getUserById(Long id);
 
+    List<Section> getSectionsByUserId(Long id);
+
+//    Optional<List<Section>> getSectionsByUser(Long id);
 }

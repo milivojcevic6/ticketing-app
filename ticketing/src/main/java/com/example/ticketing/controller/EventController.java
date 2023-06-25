@@ -1,12 +1,17 @@
 package com.example.ticketing.controller;
 
 import com.example.ticketing.model.Event;
+import com.example.ticketing.model.Section;
 import com.example.ticketing.repository.EventRepository;
+import com.example.ticketing.service.SectionService;
+import com.example.ticketing.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
@@ -14,6 +19,7 @@ import java.util.List;
 public class EventController {
 
     private final EventRepository eventRepository;
+//    private final UserService userService;
 
     @Autowired
     public EventController(EventRepository eventRepository) {
@@ -93,4 +99,30 @@ public class EventController {
         eventRepository.delete(event);
         return ResponseEntity.ok("Event deleted successfully");
     }
+
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Event>> getEventsByUserId(@PathVariable Long userId) {
+        List<Event> events = eventRepository.findEventsByUserId(userId);
+        return ResponseEntity.ok(events);
+    }
+
+
+//    @GetMapping("/user/{id}")
+//    public ResponseEntity<List<Event>> findSubsccriptions(@PathVariable Long id) {
+//
+//        return ResponseEntity.ok(eventRepository.findEventsByUserId(id));
+//    }
+//        List<Section> sectionList = userService.getSectionsByUserId(id);
+//
+//        // Extract section IDs from the sectionList
+//        List<Long> sectionIdList = sectionList.stream()
+//                .map(Section::getId)
+//                .collect(Collectors.toList());
+//
+//        List<Event> events = eventRepository.findEventsBySectionIdIn(sectionIdList);
+//
+//        return ResponseEntity.ok(events);
+//    }
+
 }

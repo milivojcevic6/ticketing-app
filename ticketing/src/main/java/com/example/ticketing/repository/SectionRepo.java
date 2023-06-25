@@ -13,5 +13,5 @@ public interface SectionRepo extends JpaRepository <Section,Long>{
 
     boolean existsByUsername(String username);
 
-    Optional<Section> getUserById(Long id);
+    Optional<Section> getSectionById(Long id);
 }

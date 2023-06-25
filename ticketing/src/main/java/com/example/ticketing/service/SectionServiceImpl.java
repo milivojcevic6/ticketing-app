@@ -58,6 +58,7 @@ public class SectionServiceImpl implements SectionService {
 
     @Override
     public Optional<Section> getSectionById(Long id) {
-        return sectionRepo.getUserById(id);
+        return sectionRepo.getSectionById(id);
     }
+
 }

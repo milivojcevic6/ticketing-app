@@ -40,16 +40,8 @@ function App() {
     const [loged, setLoged] = useState(false);
     const [user, setUser] = useState({});
     
-    function handleLogin() {
-        // Perform the login logic (e.g., show a login form, authenticate the user, etc.)
-        // Once the user is successfully logged in, update the isLoggedIn state variable to true
-        setLoged(true)
-    }
-
     function handleLogout() {
-        // Perform the logout logic (e.g., clear the authentication token, reset user data, etc.)
-        // Once the user is successfully logged out, update the isLoggedIn state variable to false
-        setLoged(false)
+        sessionStorage.removeItem('user')
     }
     
     return (
@@ -65,11 +57,11 @@ function App() {
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="">
-                                <Nav.Link href="/">Home</Nav.Link>
-                                <Nav.Link href="/tickets">TicketWallet</Nav.Link>
-                                <Nav.Link href="/profile">Profile</Nav.Link>
-                                {!loged ? (
-                                    <Nav.Link onClick={handleLogin} href="/login">Log in</Nav.Link>
+                                <Nav.Link className={sessionStorage.getItem('user') === null ? "invisible" : ""} href="/">Home</Nav.Link>
+                                <Nav.Link className={sessionStorage.getItem('user') === null ? "invisible" : ""} href="/tickets">TicketWallet</Nav.Link>
+                                <Nav.Link className={sessionStorage.getItem('user') === null ? "invisible" : ""} href="/profile">Profile</Nav.Link>
+                                {sessionStorage.getItem('user') === null ? (
+                                    <Nav.Link href="/login">Log in</Nav.Link>
                                 ) : (
                                     <Nav.Link onClick={handleLogout} href="/login" >Log out</Nav.Link>
                                 )}

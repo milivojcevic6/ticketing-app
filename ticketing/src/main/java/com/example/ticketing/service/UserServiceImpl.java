@@ -1,5 +1,7 @@
 package com.example.ticketing.service;
 
+import com.example.ticketing.model.Event;
+import com.example.ticketing.model.Section;
 import com.example.ticketing.model.User;
 import com.example.ticketing.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
@@ -56,5 +58,10 @@ public class UserServiceImpl implements UserService {
 
     public Optional<User> getUserById(Long id) {
         return userRepository.getUserById(id);
+    }
+
+    @Override
+    public List<Section> getSectionsByUserId(Long id) {
+        return userRepository.getSectionsById(id);
     }
 }

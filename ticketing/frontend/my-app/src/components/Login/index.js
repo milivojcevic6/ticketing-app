@@ -22,11 +22,6 @@ function Login() {
     const [currentUser, setCurrentUser] = useState(null);
     const [loged, setLoged] = useState(false);
     
-       
-    const setLogging = () => {
-        const isUser = userIsAuthenticated
-        setLoged(isUser)
-    }
     
     useEffect(() => {
         userRef.current.focus();
@@ -83,6 +78,7 @@ function Login() {
         userLogin(result.data)  //SET SESSION
         //setLoged(true)
         console.log('currrrr', currentUser)
+        window.location.replace('http://localhost:3000/');
     }
     
     function register(e) {
@@ -179,12 +175,15 @@ function Login() {
                                     value={password}
                                     required
                                 />
+                                
                                 <button type="submit">Login</button>
-                                {loged ? (//ADD REDIRECT?
+                                
+                                {sessionStorage.getItem('user') !== null ? (//ADD REDIRECT?
                                     <div>
                                         <div>{currentUser.id}</div> 
                                         <div>{currentUser.name}</div>
                                         <div>{currentUser.role}</div>
+                                        
                                     </div>
                                 ): (
                                     <div></div>
