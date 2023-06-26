@@ -39,8 +39,6 @@ function HomePage() {
     const [esnPrice, setEsnPrice] = useState(0.0);
     const [type, setType] = useState('');
     const [submitted, setSubmitted] = useState(false);
-    const [isRegistered, setIsRegistered] = useState(false);
-    const [currentTicket, setCurrentTicket] = useState(null);
 
     useEffect(() => {
         loadEvents()
@@ -217,20 +215,11 @@ function HomePage() {
     const handleRegisterToEvent = async (e) => {
         e.preventDefault();
         
-        /*const ticket = {
-            issuedDate: new Date(),
-            user : sessionStorage.getItem('user'),
-            event: selected
-        }
-        
-        setCurrentTicket(ticket)*/
-        
         console.log("User id ", user.id, " + event id: ", selected?.id, " + Date: ", new Date())
         
         await axios.post(`/api/tickets/${user.id}/${selected?.id}`, new Date())
             .then(response => {
                 console.log(response);
-                setIsRegistered(true);
             })
             .catch(error => console.log(error));
         
@@ -339,12 +328,7 @@ function HomePage() {
                                                 </div>
                                             ) : (
                                                 <div className="d-inline-flex my-4">
-                                                    {isRegistered ? (
-                                                        <button type="button" className="btn btn-primary me-3">See Ticket</button>
-                                                    ): (
-                                                        <button type="button" className="btn btn-primary me-3" onClick={handleRegisterToEvent}>Register</button>
-                                                    )}
-                                                    
+                                                    <button type="button" className="btn btn-primary me-3" onClick={handleRegisterToEvent}>Register</button>
                                                 </div>
                                             )}
                                             

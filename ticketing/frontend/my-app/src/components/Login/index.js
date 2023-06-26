@@ -178,7 +178,7 @@ function Login() {
                                 
                                 <button type="submit">Login</button>
                                 
-                                {sessionStorage.getItem('user') !== null ? (//ADD REDIRECT?
+                                {/*sessionStorage.getItem('user') !== null ? (//ADD REDIRECT?
                                     <div>
                                         <div>{currentUser.id}</div> 
                                         <div>{currentUser.name}</div>
@@ -187,7 +187,7 @@ function Login() {
                                     </div>
                                 ): (
                                     <div></div>
-                                )}
+                                )*/}
                             </form>
                         ) : (
                             <form className="register-form" onSubmit={register}>

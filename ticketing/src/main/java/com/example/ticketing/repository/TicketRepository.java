@@ -16,5 +16,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     Optional<Ticket> findByUserAndEvent(User user, Event event);
 
-    List<Ticket> findByUserId(Long userId);
+
+    List<Ticket> findByUser(User user);
 }

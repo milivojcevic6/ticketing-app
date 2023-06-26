@@ -15,6 +15,8 @@ public class TicketService {
 
     @Autowired
     TicketRepository ticketRepository;
+    @Autowired
+    UserService userService;
 
 
     public Ticket saveTicket(Ticket newTicket) {
@@ -47,6 +49,7 @@ public class TicketService {
     }
 
     public List<Ticket> getTicketsByUserId(Long id) {
-        return ticketRepository.findByUserId(id);
+        User user = userService.getUserById(id).get();
+        return ticketRepository.findByUser(user);
     }
 }
