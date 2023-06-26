@@ -225,6 +225,13 @@ function HomePage() {
         
     }
 
+    const deleteEvent = async(e)=> {
+        e.preventDefault()
+        await axios.delete(`/api/events/${selected?.id}`)
+            .then(response => console.log(response))
+            .catch(error => console.log(error));
+    }
+
     return (
 
         <div>
@@ -324,7 +331,7 @@ function HomePage() {
                                                     <button type="button" className="btn btn-primary me-3">Scan</button>
                                                     <button type="button" className="btn btn-primary me-3">Attendees</button>
                                                     <button type="button" className="btn btn-primary me-3" onClick={handleToggleModal2}>Edit</button>
-                                                    <button type="button" className="btn btn-primary">Delete </button>
+                                                    <button type="button" className="btn btn-primary" onClick={deleteEvent}>Delete </button>
                                                 </div>
                                             ) : (
                                                 <div className="d-inline-flex my-4">
