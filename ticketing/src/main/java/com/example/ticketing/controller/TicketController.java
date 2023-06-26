@@ -3,6 +3,7 @@ package com.example.ticketing.controller;
 import com.example.ticketing.model.Event;
 import com.example.ticketing.model.Ticket;
 import com.example.ticketing.model.User;
+import com.example.ticketing.service.EventService;
 import com.example.ticketing.service.TicketService;
 import com.example.ticketing.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static com.example.ticketing.model.TicketStatus.USED;
 
@@ -24,24 +26,31 @@ public class TicketController {
     private final TicketService ticketService;
     private final UserService userService;
 
+    private final EventService eventService;
+
     @Autowired
-    public TicketController(TicketService ticketService, UserService userService) {
+    public TicketController(TicketService ticketService, UserService userService, EventService eventService) {
         this.ticketService = ticketService;
         this.userService = userService;
+        this.eventService = eventService;
     }
 
-    @PostMapping
-    public Ticket createTicket(@RequestBody Ticket ticket) {
-        System.out.println("Ticket is: "+ticket.toString());
-        User user = userService.getUserById(ticket.getUser().getId()).get();
-        Ticket newTicket = new Ticket(ticket.getIssuedDate(), user, ticket.getEvent());
+    @PostMapping("/{user_id}/{event_id}")
+    public Ticket createTicket(@PathVariable Long user_id, @PathVariable Long event_id, @RequestBody LocalDate date) {
+        System.out.println("Ticket is: "+date.toString() + " " + user_id + " " + event_id);
+        Optional<User> user1 = userService.getUserById(user_id);
+        if(!user1.isPresent())
+            System.out.println("No user");
+        User user=user1.get();
+        Event event = eventService.getEvent(event_id);
+        Ticket newTicket = new Ticket(date, user, event);
         ticketService.saveTicket(newTicket);
         return newTicket;
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<byte[]> test() {
-        byte[] qrCodeBytes = getTicketById(2L).getBody().getQrCodeImage();
+    @GetMapping("/qr/{id}")
+    public ResponseEntity<byte[]> test(@PathVariable Long id) {
+        byte[] qrCodeBytes = getTicketById(id).getBody().getQrCodeImage();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_JPEG);
         headers.setContentLength(qrCodeBytes.length);

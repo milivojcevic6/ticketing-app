@@ -1,5 +1,6 @@
 package com.example.ticketing.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class User {
     private List<Section> sections;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Ticket> tickets;
 
 
@@ -141,7 +143,6 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", sections=" + sections +
-                ", tickets=" + tickets +
                 '}';
     }
 }
