@@ -307,7 +307,7 @@ function HomePage() {
                                                 {/*<span className="me-3"><Icon.Clock/> {selected.eventDateTime}</span>*/}
                                                 <span className="me-3"><Icon.Clock/> {new Date(selected.eventDateTime).toISOString().split('T')[1].slice(0, 5)}</span>
                                                 <span>
-                                                  <Icon.UserCheck /> {selected ? capacity - selected?.tickets.length + "/" + selected.capacity : ""}
+                                                  <Icon.UserCheck /> {selected ? capacity + selected?.tickets.length + "/" + selected.capacity : ""}
                                                 </span>
 
                                             </div>

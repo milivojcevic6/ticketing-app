@@ -21,6 +21,7 @@ function Login() {
     const [loginSuccess, setLoginSuccess] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
     const [loged, setLoged] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     
     
     useEffect(() => {
@@ -70,15 +71,16 @@ function Login() {
             username: username,
             password: password
         }
-        
-        const result = await axios.post('/auth/authenticate', newUser)
-        console.log(result);
-        setCurrentUser(result.data)
-        //setUser(result.data)
-        userLogin(result.data)  //SET SESSION
-        //setLoged(true)
-        console.log('currrrr', currentUser)
-        window.location.replace('http://localhost:3000/');
+
+        try {
+            const response = await axios.post('/auth/authenticate', newUser);
+            setCurrentUser(response.data);
+            userLogin(response.data); // SET SESSION
+            window.location.replace('http://localhost:3000/');
+        } catch (error) {
+            setErrorMessage('Invalid username or password'); // Set error message
+            console.log(error);
+        }
     }
     
     function register(e) {
@@ -130,6 +132,12 @@ function Login() {
     
     return (
             <div>
+
+                {/* Render error message if it exists */}
+                {errorMessage &&
+                <div className="alert alert-warning" role="alert">
+                    {errorMessage}</div>}
+                
                 { success ? (
                     <div className="alert alert-success" role="alert">
                         You have successfully registered.

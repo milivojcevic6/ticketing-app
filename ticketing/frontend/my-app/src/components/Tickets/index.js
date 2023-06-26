@@ -77,12 +77,12 @@ function Tickets() {
                     {tickets.map((ticket) => (
                         <div className="card mb-3" key={ticket.id} style={{maxWidth: '540px'}}>
                             <div className="card-header" onClick={()=> toggleCard(ticket.id)}>
-                                <h5 className="mb-0">{selectedCard===ticket.id ? '-' : '+'} {ticket.content}</h5>
+                                <h5 className="mb-0">{selectedCard===ticket.id ? '-' : '+'} {ticket.content.split(',')[1]}</h5>
                             </div>
                             {selectedCard===ticket.id && (
                                 <div className="row g-0">
                                     <div className="col-lg-4">
-                                        <img src={imageURL} className="img-fluid rounded-start" alt="..."/>
+                                        <img src={imageURL} className="img-fluid rounded-start"  width='60%' alt="QR Code"/>
                                     </div>
                                     <div className="col-lg-8">
                                         <div className="card-body">
