@@ -51,13 +51,13 @@ public class EventController {
         Event existingEvent = eventRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid event ID: " + id));
 
-        if (updatedEvent.getName() != null) {
+        if (updatedEvent.getName() != null && !updatedEvent.getName().isEmpty()) {
             existingEvent.setName(updatedEvent.getName());
         }
-        if (updatedEvent.getDescription() != null) {
+        if (updatedEvent.getDescription() != null && !updatedEvent.getDescription().isEmpty()) {
             existingEvent.setDescription(updatedEvent.getDescription());
         }
-        if (updatedEvent.getType() != null) {
+        if (updatedEvent.getType() != null && !updatedEvent.getType().isEmpty()) {
             existingEvent.setType(updatedEvent.getType());
         }
         if (updatedEvent.getEventDateTime() != null) {
@@ -66,10 +66,10 @@ public class EventController {
         if (updatedEvent.getCapacity() != null) {
             existingEvent.setCapacity(updatedEvent.getCapacity());
         }
-        if (updatedEvent.getLocation() != null) {
+        if (updatedEvent.getLocation() != null && !updatedEvent.getLocation().isEmpty()) {
             existingEvent.setLocation(updatedEvent.getLocation());
         }
-        if (updatedEvent.getLocationUrl() != null) {
+        if (updatedEvent.getLocationUrl() != null && !updatedEvent.getLocationUrl().isEmpty()) {
             existingEvent.setLocationUrl(updatedEvent.getLocationUrl());
         }
         if (updatedEvent.getPrice() != null) {
@@ -77,12 +77,6 @@ public class EventController {
         }
         if (updatedEvent.getESNprice() != null) {
             existingEvent.setESNprice(updatedEvent.getESNprice());
-        }
-        if (updatedEvent.getSection() != null) {
-            existingEvent.setSection(updatedEvent.getSection());
-        }
-        if (updatedEvent.getTickets() != null) {
-            existingEvent.setTickets(updatedEvent.getTickets());
         }
 
         // Save the updated event
