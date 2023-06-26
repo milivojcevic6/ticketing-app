@@ -68,6 +68,12 @@ public class TicketController {
         return ResponseEntity.ok(ticket);
     }
 
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<Ticket>> getTicketsByUser(@PathVariable Long id) {
+        List<Ticket> ticket = ticketService.getTicketsByUserId(id);
+        return ResponseEntity.ok(ticket);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Ticket> updateTicket(@PathVariable Long id, @RequestBody Ticket updatedTicket) {
         Ticket existingTicket = ticketService.getTicket(id);
