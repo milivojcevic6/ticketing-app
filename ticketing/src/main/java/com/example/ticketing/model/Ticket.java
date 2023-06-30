@@ -145,7 +145,6 @@ public class Ticket {
                 ", content='" + content + '\'' +
                 ", qrCodeImage=" + Arrays.toString(qrCodeImage) +
                 ", user=" + user +
-                ", event=" + event +
                 '}';
     }
 
@@ -159,6 +158,8 @@ public class Ticket {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         ImageIO.write(img, "png", outputStream);
+
+        System.out.println(Arrays.toString(outputStream.toByteArray()));
 
         return outputStream.toByteArray();
     }
@@ -179,6 +180,7 @@ public class Ticket {
                 result.setRGB(x, y, color ? darkColor : lightColor);
             }
         }
+        System.out.println(result);
         return result;
     }
 }

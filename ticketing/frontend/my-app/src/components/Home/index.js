@@ -39,6 +39,7 @@ function HomePage() {
     const [esnPrice, setEsnPrice] = useState(0.0);
     const [type, setType] = useState('');
     const [submitted, setSubmitted] = useState(false);
+    const [newEvent, setNewEvent] =useState();
 
     useEffect(() => {
         loadEvents()
@@ -110,7 +111,7 @@ function HomePage() {
         const newEvent = {
             section: user,
             name: name,
-            eventDateTime: eventDateTime,
+            eventDateTime: new Date(date),
             description: description,
             type: type,
             capacity: capacity,
@@ -120,6 +121,7 @@ function HomePage() {
             esnprice: esnPrice
         };
         console.log(name, description, type, capacity, location, locationUrl,  price, esnPrice, date)
+        console.log(typeof(eventDateTime), eventDateTime)
 
         axios.post('/api/events', newEvent)
             .then(response => console.log(response))
@@ -132,17 +134,15 @@ function HomePage() {
         console.log(name, description, type, capacity, location, locationUrl,  price, esnPrice, date)
         e.preventDefault();
 
-        const formattedDate = new Date(date).toISOString().slice(0, 10); // Format date as 'YYYY-MM-DD'
-        const formattedTime = time.slice(0, 5); // Format time as 'HH:MM'
-
-        setEventDateTime(new Date(formattedDate + 'T' + formattedTime));
-
-        console.log("Event data and time: "+eventDateTime)
+        const dateTimeString = `${date}T${time}:00`;
+        
+        console.log("Event data and time: "+dateTimeString)
+        setEventDateTime(new Date(dateTimeString))
         
         const newEvent = {
             section: user,
             name: name,
-            eventDateTime: eventDateTime,
+            eventDateTime: new Date(dateTimeString),
             description: description,
             type: type,
             capacity: capacity,
@@ -151,6 +151,7 @@ function HomePage() {
             price: price,
             esnprice: esnPrice
         };
+        setNewEvent(newEvent)
         console.log(name, description, type, capacity, location, locationUrl,  price, esnPrice, date)
 
         axios.put(`/api/events/${selected?.id}`, newEvent)
@@ -225,6 +226,13 @@ function HomePage() {
         
     }
 
+    const deleteEvent = async(e)=> {
+        e.preventDefault()
+        await axios.delete(`/api/events/${selected?.id}`)
+            .then(response => console.log(response))
+            .catch(error => console.log(error));
+    }
+
     return (
 
         <div>
@@ -242,7 +250,13 @@ function HomePage() {
                         <div className="col-lg-6 col-12 pt-2 text-center ms-auto">
                             <div className=""> {/*card*/}
                                 <div className="intro"> {/*card-body*/}
-                                    Hello {user?.username}! Discover our events! Browse, register, and enjoy!
+                                    Hello <b>{user?.username}</b>!   
+                                    {!isSectionUser ?(
+                                       <span> Discover our events! Browse, register, and enjoy! </span> 
+                                    ) : (
+                                        <span> Go on and create your next amazing event!</span>
+                                    )
+                                    } 
                                 </div>
                             </div>
                         </div>
@@ -324,7 +338,7 @@ function HomePage() {
                                                     <button type="button" className="btn btn-primary me-3">Scan</button>
                                                     <button type="button" className="btn btn-primary me-3">Attendees</button>
                                                     <button type="button" className="btn btn-primary me-3" onClick={handleToggleModal2}>Edit</button>
-                                                    <button type="button" className="btn btn-primary">Delete </button>
+                                                    <button type="button" className="btn btn-primary" onClick={deleteEvent}>Delete </button>
                                                 </div>
                                             ) : (
                                                 <div className="d-inline-flex my-4">
