@@ -92,7 +92,7 @@ function Login() {
             if (user) {
                 setCurrentUser(user);
                 userLogin(user); // SET SESSION
-                window.location.replace('http://localhost:3000/');
+                window.location.replace('/');
             } else {
                 setErrorMessage('Invalid username or password');
             }
