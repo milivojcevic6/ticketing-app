@@ -21,6 +21,18 @@
     color: #333; /* Darker heading text for contrast */
 }
 
+.list-popup-actions {
+    display: flex; /* Make the actions container a flexbox */
+    flex-direction: column; /* Arrange elements vertically (one under another) */
+    align-items: flex-start; /* Align labels to the left */
+    gap: 10px; /* Add spacing between elements */
+    margin-top: 10px; /* Add space above the actions */
+}
+
+.list-popup-actions span {
+    font-weight: bold; /* Bold labels */
+}
+
 .user-profile-actions button {
     background-color: #4CAF50; /* Green button background */
     color: #fff; /* White button text */
@@ -29,6 +41,14 @@
     padding: 5px 10px; /* Button padding */
     margin-left: 10px; /* Space between buttons */
     cursor: pointer; /* Indicate clickable button */
+}
+
+#btnAdd {
+    background-color: #4CAF50; /* Green button background */
+}
+
+#btnClose {
+    background-color: gray; /* Green button background */
 }
 
 .user-profile-actions button:hover {
@@ -75,4 +95,95 @@
 
 .user-profile-row a:hover {
     text-decoration: underline; /* Underline on hover */
+}
+
+.list-popup {
+    position: fixed; /* Make the popup fixed to the viewport */
+    top: 50%; /* Center the popup vertically */
+    left: 50%; /* Center the popup horizontally */
+    transform: translate(-50%, -50%); /* Adjust centering based on content size */
+    background-color: #fff; /* White background */
+    border: 1px solid #ddd; /* Border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px; /* Padding for content */
+    z-index: 10; /* Ensure popup is displayed on top of other elements */
+    display: none; /* Initially hide the popup */
+}
+
+.list-popup.show {
+    display: block; /* Show the popup when necessary */
+}
+
+.list-popup p {
+    text-align: center; /* Center the text for "You have no elements..." message */
+    margin-bottom: 10px; /* Add some space below the message */
+}
+
+.list-popup ul {
+    list-style: none; /* Remove default bullet points */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+}
+
+.list-popup li {
+    margin-bottom: 5px; /* Add space between list items */
+}
+
+.list-popup-actions {
+    display: flex; /* Arrange elements horizontally */
+    justify-content: space-between; /* Space elements evenly */
+    margin-top: 10px; /* Add space above the actions */
+}
+
+.list-popup select {
+    border: 1px solid #ddd; /* Add a border to the select elements */
+    padding: 5px; /* Add some padding for better readability */
+    border-radius: 3px; /* Rounded corners */
+}
+
+.list-popup button {
+    background-color: #4CAF50; /* Green button background */
+    color: #fff; /* White button text */
+    border: none; /* Remove button border */
+    padding: 5px 10px; /* Button padding */
+    border-radius: 3px; /* Rounded corners */
+    cursor: pointer; /* Indicate clickable button */
+}
+
+.list-popup-overlay {
+    position: fixed; /* Make the overlay fixed to the viewport */
+    top: 0; /* Cover the entire viewport from top */
+    left: 0; /* Cover the entire viewport from left */
+    width: 100vw; /* Span the entire viewport width */
+    height: 100vh; /* Span the entire viewport height */
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+    z-index: 9; /* Ensure overlay is behind the popup (lower than popup's z-index) */
+}
+
+table {
+    border-collapse: collapse; /* Remove default table borders */
+    width: 100%; /* Expand table to fit container width */
+}
+
+th, td {
+    padding: 10px; /* Add padding to cells */
+    border: 1px solid #ddd; /* Add a thin border to cells */
+}
+
+th {
+    text-align: left; /* Align table header text to left */
+    font-weight: bold; /* Make table header text bold */
+}
+
+td {
+    display: flex; /* Make table cells a flexbox for horizontal arrangement */
+    align-items: center; /* Align content vertically within cells */
+}
+
+td input[type="checkbox"] {
+    margin-right: 10px; /* Add margin between checkbox and element */
+}
+
+#tdUnfollow {
+    height: 1em;
 }

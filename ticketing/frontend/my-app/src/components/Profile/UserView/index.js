@@ -121,9 +121,7 @@ function UserView() {
 
         setIsDisabledESNcode(!isDisabledESNcode);
     }
-
-
-
+    
 
     return (
         <form onSubmit={onSubmit}>
