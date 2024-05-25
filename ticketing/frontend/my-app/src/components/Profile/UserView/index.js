@@ -20,7 +20,7 @@ function UserView() {
     }, []);
 
     const loadSections = async () => {
-        const result = await axios.get("/api/sections");
+        const result = await axios.get("/api/sections/");
         console.log(result);
         setSections(result.data);
     };
