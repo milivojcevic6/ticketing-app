@@ -8,6 +8,7 @@ import Login from "./components/Login";
 import {LogIn} from "react-feather";
 import CheckQR from "./components/Check";
 import EventStatistics from "./components/EventStatistics";
+import UserProfile from "./components/Profile/UserView/newView";
 
 function AppRouter() {
     return (
@@ -19,6 +20,7 @@ function AppRouter() {
                 <Route path="tickets" element={<Tickets/>} />
                 <Route path="check" element={<CheckQR/>} />
                 <Route path="event-statistics" element={<EventStatistics/>} />
+                <Route path="user-view" element={<UserProfile/>} />
             </Routes>
         </BrowserRouter>
     );

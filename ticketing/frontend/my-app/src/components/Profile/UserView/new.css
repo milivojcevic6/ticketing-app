@@ -1,0 +1,78 @@
+﻿.user-profile {
+    background-color: #fff; /* Light background */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 20px; /* Inner padding */
+    margin: 20px auto; /* Center the profile horizontally */
+    max-width: 600px; /* Set a maximum width */
+}
+
+.user-profile-header {
+    display: flex; /* Arrange elements horizontally */
+    justify-content: space-between; /* Space buttons evenly */
+    align-items: center; /* Align vertically */
+    padding-bottom: 15px; /* Space below header */
+    border-bottom: 1px solid #ddd; /* Light bottom border */
+}
+
+.user-profile-header h2 {
+    font-size: 1.2em; /* Adjust heading size */
+    margin: 0; /* Remove default margin */
+    color: #333; /* Darker heading text for contrast */
+}
+
+.user-profile-actions button {
+    background-color: #4CAF50; /* Green button background */
+    color: #fff; /* White button text */
+    border: none; /* Remove button border */
+    border-radius: 3px; /* Rounded button corners */
+    padding: 5px 10px; /* Button padding */
+    margin-left: 10px; /* Space between buttons */
+    cursor: pointer; /* Indicate clickable button */
+}
+
+.user-profile-actions button:hover {
+    background-color: #3e8e41; /* Darker green on hover */
+}
+
+.user-profile-body {
+    margin-top: 20px; /* Space between header and body */
+}
+
+.user-profile-section {
+    margin-bottom: 20px; /* Space between sections */
+    border-left: 1px solid #ddd; /* Light left border for sections */
+    /*border-bottom: 1px solid #ddd; !* Light left border for sections *!*/
+    padding-left: 20px; /* Indent section content */
+}
+
+.user-profile-section:first-child { /* Remove border for first section */
+    border-left: none;
+}
+
+.user-profile-section h3 {
+    font-size: 1em; /* Adjust section title size */
+    margin: 0 0 10px 0; /* Top margin for title */
+    color: #333; /* Darker section title text for contrast */
+}
+
+.user-profile-row {
+    display: flex; /* Arrange labels and values horizontally */
+    justify-content: space-between; /* Align labels and values */
+    margin-bottom: 5px; /* Space between rows */
+}
+
+.user-profile-row span:first-child {
+    font-weight: bold; /* Bold labels */
+    width: 120px; /* Fixed width for labels (adjust as needed) */
+    color: #333; /* Darker label text for contrast */
+}
+
+.user-profile-row a {
+    color: #333; /* Link text color */
+    text-decoration: none; /* Remove underline */
+}
+
+.user-profile-row a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
