@@ -10,6 +10,8 @@ function getBList(selectedA) {
 }
 
 function UserProfile() {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+
 
     const countryNames = countriesData.map(country => country.name);
     
@@ -98,11 +100,11 @@ function UserProfile() {
                     <h3>Basic Info</h3>
                     <div className="user-profile-row">
                         <span>Username:</span>
-                        <span>Amelia Harper</span>
+                        <span>{user?.username}</span>
                     </div>
                     <div className="user-profile-row">
                         <span>Email:</span>
-                        <span>amelia@harper.com</span>
+                        <span>{user?.email}</span>
                     </div>
                     <div className="user-profile-row">
                         <span>Password:</span>
@@ -113,22 +115,25 @@ function UserProfile() {
                     <h3>Contact</h3> {/* Assuming ESNcard code refers to contact information */}
                     <div className="user-profile-row">
                         <span>First Name:</span>
-                        <span>Amelia</span>
+                        <span>{user?.first_name}</span>
                     </div>
                     <div className="user-profile-row">
                         <span>Last Name:</span>
-                        <span>Harper</span>
+                        <span>{user?.last_name}</span>
                     </div>
                 </div>
                 <div className="user-profile-section">
                     <h3>ESN details</h3> {/* Assuming ESNcard code refers to contact information */}
                     <div className="user-profile-row">
                         <span>ESNcard:</span>
-                        <span>1203415LNBC</span>
+
+                        <span>{user?.card_id?.code ?? (<div><p className={"d-inline"}>"No card saved!"</p>
+                            <button type={"button"} className={"btn btn-secondary btn-sm d-inline"}>Add card</button>
+                        </div>)}</span>
                     </div>
                     <div className="user-profile-row">
-                        <span>Following sections:</span>
-                        <a onClick={handleOpenListPopup}>View</a>
+                    <span>Following sections:</span>
+                        <button type={"button"} className={"btn btn-secondary btn-sm"} onClick={handleOpenListPopup}>View</button>
                     </div>
                 </div>
 
