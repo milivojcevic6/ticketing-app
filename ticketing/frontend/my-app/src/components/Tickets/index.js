@@ -1,18 +1,97 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import "./tickets.css";
 import * as Icon from "react-feather";
-import { Accordion, Card } from 'react-bootstrap';
-import qrHolder from "../../images/qrHolder.jpg"
+
+
+// remove later !!
+import db from '../database/db.json';
+import QRCode from 'qrcode.react';
 
 function Tickets() {
     const [selectedCard, setSelectedCard] =useState(-1);
     
     //GET EVENTS BY USER (join event user by user_id)
     //GET TICKETS BY USER AND EVENT
+
+    const user = JSON.parse(sessionStorage.getItem('user'))
+    const [tickets, setTickets] = useState([])
+    const [selectedTicket, setSelectedTicket] = useState()
+    //const [imageBlob, setImageBlob] = useState() // Blob data retrieved from the database
+    const [imageURL, setImageURL] = useState();
+
+
+    useEffect(() => {
+        loadTickets().then(r => console.log(r));
+    }, []);
+
+    useEffect(() => {
+        if (selectedCard !== -1) {
+            getQR().then(r => console.log(r, "in toggleCard"));
+        }
+    }, [selectedCard]);
+
+    const loadTickets = async () => {
+        // try {
+        //     const response = await axios.get(`/api/tickets/user/${user.id}`);
+        //     setTickets(response.data);
+        //     setSelectedCard(response.data[0].id);
+        // } catch (error) {
+        //     console.error(error);
+        // }
+
+        try {
+            // Simulating API call to fetch tickets for the user
+            const userTickets = db.tickets.filter(ticket => ticket.userId === user.id);
+            setTickets(userTickets);
+            if (userTickets.length > 0) {
+                setSelectedCard(userTickets[0].id);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const getQR = async () => {
+        // try {
+        //     const response = await axios.get(`/api/tickets/qr/${selectedCard}`, {
+        //         responseType: 'arraybuffer',
+        //     });
+        //
+        //     const base64Image = btoa(
+        //         new Uint8Array(response.data).reduce(
+        //             (data, byte) => data + String.fromCharCode(byte),
+        //             ''
+        //         )
+        //     );
+        //     setImageURL(`data:image/jpeg;base64,${base64Image}`);
+        // } catch (error) {
+        //     console.error(error);
+        // }
+
+        try {
+            // Simulating API call to fetch QR code for the selected ticket
+            const ticket = db.tickets.find(ticket => ticket.id === selectedCard);
+            if (ticket) {
+                // Simulating generating QR code from ticket data
+                const base64Image = generateQRCode(ticket.id); // You would replace this with your QR code generation logic
+                setImageURL(base64Image);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    // Function to generate QR code data URL
+    const generateQRCode = (data) => {
+        // Generate QR code data URL
+        return QRCode.toDataURL(data);
+    };
+
     
     const toggleCard = (id) => {
         if (selectedCard===id) setSelectedCard(-1)
         else setSelectedCard(id)
+        //getQR().then(r => console.log(r, "in toggleCard"));
     }
     
     return (
@@ -25,51 +104,31 @@ function Tickets() {
             </form>
             <div className="row justify-content-center">
                 <div className="col-lg-5 col-12">
-                    
-                    {/*CARD*/}
-                    <div className="card mb-3" style={{maxWidth: '540px'}}>
-                        <div className="card-header" onClick={()=> toggleCard(1)}>
-                            <h5 className="mb-0">{selectedCard===1 ? '-' : '+'} Event Name</h5>
-                        </div>
-                        {selectedCard===1 && (
-                            <div className="row g-0">
-                                <div className="col-lg-4">
-                                    <img src={qrHolder} className="img-fluid rounded-start" alt="..."/>
-                                </div>
-                                <div className="col-lg-8">
-                                    <div className="card-body">
-                                        <h5 className="card-title">Card title</h5>
-                                        <p className="card-text">This is a wider card with supporting text below as a
-                                            natural lead-in to additional content. This content is a little bit longer.</p>
-                                        <p className="card-text"><small className="text-muted">Last updated 3 mins
-                                            ago</small></p>
+
+                    {tickets.map((ticket) => (
+                        <div className="card mb-3" key={ticket.id} style={{maxWidth: '540px'}}>
+                            <div className="card-header" onClick={()=> toggleCard(ticket.id)}>
+                                <h5 className="mb-0">{selectedCard===ticket.id ? '-' : '+'} {ticket.content.split(',')[1]}</h5>
+                            </div>
+                            {selectedCard===ticket.id && (
+                                <div className="row g-0">
+                                    <div className="col-lg-4">
+                                        <img src={imageURL} className="img-fluid rounded-start"  width='60%' alt="QR Code"/>
+                                    </div>
+                                    <div className="col-lg-8">
+                                        <div className="card-body">
+                                            <p className="card-text">{ticket.status}</p>
+                                            <p className="card-text"><small className="text-muted">Issued: {ticket.issuedDate}</small></p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        )}
-                    </div>
-                    
-                    <div className="card mb-3" style={{maxWidth: '540px'}}>
-                        <div className="card-header" onClick={()=> toggleCard(2)}>
-                            <h5 className="mb-0">{selectedCard===2 ? '-' : '+'} Event Name</h5>
+                            )}
                         </div>
-                        {selectedCard===2 && (
-                            <div className="row g-0">
-                                <div className="col-lg-4">
-                                    <img src={qrHolder} className="img-fluid rounded-start" alt="..."/>
-                                </div>
-                                <div className="col-lg-8">
-                                    <div className="card-body">
-                                        <h5 className="card-title">Card title</h5>
-                                        <p className="card-text">This is a wider card with supporting text below as a
-                                            natural lead-in to additional content. This content is a little bit longer.</p>
-                                        <p className="card-text"><small className="text-muted">Last updated 3 mins
-                                            ago</small></p>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                    </div>
+                    ))}
+                    
+                  
+                    
+                    
 
                     
                     

@@ -1,0 +1,35 @@
+﻿.VictoryContainer {
+    /* Adjust container width and height if needed */
+    width: 100%; /* Or set a fixed width */
+    height: 400px; /* Or set a fixed height */
+    margin: 0 auto; /* Center the chart horizontally */
+}
+
+.VictoryAxis {
+    /* Adjust axis line styles */
+    stroke: #ccc;
+    stroke-width: 1.5px;
+}
+
+.VictoryAxis-tickLabels text {
+    /* Style axis tick labels (font size, color) */
+    font-size: 12px;
+    fill: #333;
+}
+
+.VictoryLine path {
+    /* Style lines for each data series */
+    fill: none;  /* Remove default fill color */
+    stroke-width: 2px;  /* Adjust line width */
+}
+
+.VictoryTooltip {
+    /* Style tooltip appearance */
+    background-color: #fff;  /* Background color */
+    border: 1px solid #ccc;  /* Border */
+    padding: 5px;  /* Padding */
+    font-size: 12px;  /* Font size */
+    border-radius: 3px;  /* Rounded corners */
+}
+
+

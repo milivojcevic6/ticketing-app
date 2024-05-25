@@ -1,8 +1,10 @@
 package com.example.ticketing.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "section")
@@ -10,11 +12,12 @@ public class Section {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(unique = true)
     private String username;
     private String password;
     private String email;
     private String name;
+    private String role;
     private String description;
     private String location;
     private String locationUrl;
@@ -24,9 +27,17 @@ public class Section {
     private String facebookUrl;
     private String tikTokUrl;
 
+//    // Relationships
+//    @ManyToMany(mappedBy = "sections")
+//    private List<Userr> userrs;
     // Relationships
     @ManyToMany(mappedBy = "sections")
+    @JsonIgnore
     private List<User> users;
+//
+//    @ElementCollection
+//    @CollectionTable(name = "section_authorities", joinColumns = @JoinColumn(name = "section_id"))
+//    private Set<String> authorities;
 
     // Constructors, getters, and setters
     public Section() {
@@ -69,6 +80,12 @@ public class Section {
         this.location = location;
     }
 
+    public Section(String username, String password, String email, String role) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+    }
     public Long getId() {
         return id;
     }
@@ -177,6 +194,23 @@ public class Section {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+//    public Set<String> getAuthorities() {
+//        return authorities;
+//    }
+//
+//    public void setAuthorities(Set<String> authorities) {
+//        this.authorities = authorities;
+//    }
+
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
 

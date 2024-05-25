@@ -1,18 +1,98 @@
 package com.example.ticketing.controller;
 
+import com.example.ticketing.model.Event;
 import com.example.ticketing.model.Section;
-import com.example.ticketing.repository.SectionRepository;
+import com.example.ticketing.repository.EventRepository;
+import com.example.ticketing.service.SectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
 @RequestMapping("/api/sections")
 public class SectionController {
 
-    private final SectionRepository sectionRepository;
+    //private UserService userService;
+    private SectionService sectionService;
+    private PasswordEncoder passwordEncoder;
+    private EventRepository eventRepository;
+
+    public SectionController(EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
+    }
+
+    //    @Autowired
+//    public void setUserService(UserService userService){
+//        this.userService = userService;
+//    }
+    @Autowired
+    public void setSectionService(SectionService sectionService){
+        this.sectionService = sectionService;
+    }
+
+    @Autowired
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder){
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @PostMapping("/register")
+    public Section saveUser(@RequestBody Section user){
+        String password = user.getPassword();
+        String uname = user.getUsername();
+        String mail = user.getEmail();
+        //Set<String> authorities = user.getAuthorities();
+        String authorities = user.getRole();
+        System.out.println("Section: "+uname+" with role: " +authorities);
+
+        Section newSection = new Section(uname, passwordEncoder.encode(password), mail, authorities);
+        sectionService.saveSection(newSection);
+
+        return newSection;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Section>> getAll() {
+        return ResponseEntity.ok(sectionService.getSections());
+    }
+
+    @PutMapping("/update")
+    public Section updateSection(@RequestBody Section section) {
+
+        Section updatedSection = sectionService.getSectionByUsername(section.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("Section not found"));
+
+        updatedSection.setName(section.getName());
+        updatedSection.setDescription(section.getDescription());
+        updatedSection.setFacebookUrl(section.getFacebookUrl());
+        updatedSection.setInstagramUrl(section.getInstagramUrl());
+        updatedSection.setLinkedInUrl(section.getLinkedInUrl());
+        updatedSection.setTikTokUrl(section.getTikTokUrl());
+        updatedSection.setLocation(section.getLocation());
+        updatedSection.setLocationUrl(section.getLocationUrl());
+        updatedSection.setWebUrl(section.getWebUrl());
+
+        // Only update password if a new password is provided
+        String newPassword = section.getPassword();
+
+        if (newPassword != null && !newPassword.isEmpty()) {
+            updatedSection.setPassword(passwordEncoder.encode(newPassword));
+        }
+
+        sectionService.saveSection(updatedSection);
+        return updatedSection;
+    }
+
+
+    @GetMapping("/events/{id}")
+    public ResponseEntity<List<Event>> getEventsBySectionId(@PathVariable Long id){
+        return ResponseEntity.ok(eventRepository.findBySectionId(id));
+    }
+
+    /*private final SectionRepository sectionRepository;
 
     @Autowired
     public SectionController(SectionRepository sectionRepository) {
@@ -98,5 +178,5 @@ public class SectionController {
     public ResponseEntity<?> deleteSection(@PathVariable Long id) {
         sectionRepository.deleteById(id);
         return ResponseEntity.ok("Section deleted successfully");
-    }
+    }*/
 }

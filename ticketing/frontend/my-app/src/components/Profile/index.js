@@ -1,42 +1,99 @@
 import './profile.css';
+import React, { useEffect, useState } from "react";
+import axios from "../../api/axios";
+import UserView from "./UserView";
+import SectionView from "./SectionView";
 
-function Profile(){
+function Profile() {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    
+    // const isSectionUser = user.role === 'section'; // Check if the user's role is "section"
+    const isSectionUser = false; // Check if the user's role is "section"
+
+
+    /*const [sections, setSections] = useState([]);
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [selectedSections, setSelectedSections] = useState([]);
+    const [newPass, setNewPass] = useState("");
+
+    useEffect(() => {
+        loadSections()
+            .then(response => console.log(response))
+            .catch(error => console.log(error));
+    }, []);
+
+    const loadSections = async () => {
+        const result = await axios.get("/api/sections");
+        console.log(result);
+        setSections(result.data);
+    };
+
+    const onFirstNameChange = (event) => {
+        setFirstName(event.target.value);
+    }
+
+    const onLastNameChange = (event) => {
+        setLastName(event.target.value);
+    };
+
+    const onNewPassChange = (event) => {
+        setNewPass(event.target.value);
+    };
+
+    const handleSectionChange = (event) => {
+        const selectedOptionValues = Array.from(event.target.selectedOptions, (option) => option.value);
+        const selectedSectionObjects = sections.filter(section => selectedOptionValues.includes(section.id.toString()));
+        setSelectedSections(selectedSectionObjects);
+    };
+
+
+    function onSubmit(e) {
+        e.preventDefault();
+
+        const updatedUser = {
+            id: user.id,
+            username: user.username,
+            firstName: firstName,
+            lastName: lastName,
+            email: user.email,
+            sections: selectedSections,
+            password: newPass || undefined
+        };
+
+        console.log('updatedUser', updatedUser);
+
+        axios.put('/api/users/update', updatedUser)
+            .then(response => {
+                // Handle the response
+                console.log(response);
+            })
+            .catch(error => {
+                // Handle the error
+                console.log(error);
+            });
+        
+        sessionStorage.setItem('user', JSON.stringify(updatedUser))
+        
+    }*/
+
+    
+
+
     return(
         <div className="profile-container">
             <h1 className="mb-5">User Profile</h1>
-            <div className="row">
-                <div className="col-md-6">
-                    <div className="form-group">
-                        <label htmlFor="fullname">Full Name:</label>
-                        <input type="text" className="form-control" id="fullname" name="fullname" placeholder="Milan Milivojcevic" disabled/>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="email">Email:</label>
-                        <input type="email" className="form-control" id="email" name="email" placeholder="998miki@gmail.com" disabled/>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="points">Collected Points:</label>
-                        <input type="number" className="form-control" id="points" name="points" placeholder="0" disabled/>
-                    </div>
-                </div>
-                <div className="col-md-6">
-                    <div className="form-group">
-                        <label htmlFor="username">Username:</label>
-                        <input type="text" className="form-control" id="username" name="username" placeholder="Enter your username" required/>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="password">Password:</label>
-                        <input type="password" className="form-control" id="password" name="password" placeholder="Enter your password" required/>
-                    </div>
-                    <div className="form-group center-btn">
-                        <button type="submit" className="btn btn-primary">Save Changes</button>
-                    </div>
-                </div>
-            </div>
+            {isSectionUser ? (
+                // Render section user view
+                <SectionView/>
+            ) : (
+                // Render user view
+                <UserView />
+            )}
             <br/>
             <br/>
             <br/>
         </div>
-)}
+    )}
 
 export default Profile

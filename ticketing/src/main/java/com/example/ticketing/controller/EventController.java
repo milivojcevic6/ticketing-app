@@ -1,19 +1,25 @@
 package com.example.ticketing.controller;
 
 import com.example.ticketing.model.Event;
+import com.example.ticketing.model.Section;
 import com.example.ticketing.repository.EventRepository;
+import com.example.ticketing.service.SectionService;
+import com.example.ticketing.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
 @RequestMapping("/api/events")
-@CrossOrigin("http://localhost:3000")
 public class EventController {
 
     private final EventRepository eventRepository;
+//    private final UserService userService;
 
     @Autowired
     public EventController(EventRepository eventRepository) {
@@ -22,6 +28,7 @@ public class EventController {
 
     @PostMapping
     public ResponseEntity<Event> createEvent(@RequestBody Event event) {
+        System.out.println("Event date: " + event.getEventDateTime());
         Event createdEvent = eventRepository.save(event);
         return ResponseEntity.ok(createdEvent);
     }
@@ -44,13 +51,13 @@ public class EventController {
         Event existingEvent = eventRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid event ID: " + id));
 
-        if (updatedEvent.getName() != null) {
+        if (updatedEvent.getName() != null && !updatedEvent.getName().isEmpty()) {
             existingEvent.setName(updatedEvent.getName());
         }
-        if (updatedEvent.getDescription() != null) {
+        if (updatedEvent.getDescription() != null && !updatedEvent.getDescription().isEmpty()) {
             existingEvent.setDescription(updatedEvent.getDescription());
         }
-        if (updatedEvent.getType() != null) {
+        if (updatedEvent.getType() != null && !updatedEvent.getType().isEmpty()) {
             existingEvent.setType(updatedEvent.getType());
         }
         if (updatedEvent.getEventDateTime() != null) {
@@ -59,10 +66,10 @@ public class EventController {
         if (updatedEvent.getCapacity() != null) {
             existingEvent.setCapacity(updatedEvent.getCapacity());
         }
-        if (updatedEvent.getLocation() != null) {
+        if (updatedEvent.getLocation() != null && !updatedEvent.getLocation().isEmpty()) {
             existingEvent.setLocation(updatedEvent.getLocation());
         }
-        if (updatedEvent.getLocationUrl() != null) {
+        if (updatedEvent.getLocationUrl() != null && !updatedEvent.getLocationUrl().isEmpty()) {
             existingEvent.setLocationUrl(updatedEvent.getLocationUrl());
         }
         if (updatedEvent.getPrice() != null) {
@@ -70,12 +77,6 @@ public class EventController {
         }
         if (updatedEvent.getESNprice() != null) {
             existingEvent.setESNprice(updatedEvent.getESNprice());
-        }
-        if (updatedEvent.getSection() != null) {
-            existingEvent.setSection(updatedEvent.getSection());
-        }
-        if (updatedEvent.getTickets() != null) {
-            existingEvent.setTickets(updatedEvent.getTickets());
         }
 
         // Save the updated event
@@ -93,4 +94,30 @@ public class EventController {
         eventRepository.delete(event);
         return ResponseEntity.ok("Event deleted successfully");
     }
+
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Event>> getEventsByUserId(@PathVariable Long userId) {
+        List<Event> events = eventRepository.findEventsByUserId(userId);
+        return ResponseEntity.ok(events);
+    }
+
+
+//    @GetMapping("/user/{id}")
+//    public ResponseEntity<List<Event>> findSubsccriptions(@PathVariable Long id) {
+//
+//        return ResponseEntity.ok(eventRepository.findEventsByUserId(id));
+//    }
+//        List<Section> sectionList = userService.getSectionsByUserId(id);
+//
+//        // Extract section IDs from the sectionList
+//        List<Long> sectionIdList = sectionList.stream()
+//                .map(Section::getId)
+//                .collect(Collectors.toList());
+//
+//        List<Event> events = eventRepository.findEventsBySectionIdIn(sectionIdList);
+//
+//        return ResponseEntity.ok(events);
+//    }
+
 }

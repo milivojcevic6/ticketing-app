@@ -28,39 +28,55 @@
 
 
 import './App.css';
-import React from "react";
+import React, {useState} from "react";
 import {Container, Image, Nav, Navbar} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import AppRouter from "./AppRouter";
 import Footer from "./components/Footer";
 import logo from './images/logic.png';
+import LoginContext, {AuthProvider} from "./context/LoginContext";
 
 function App() {
+    const [loged, setLoged] = useState(false);
+    const [user, setUser] = useState({});
+    
+    function handleLogout() {
+        sessionStorage.removeItem('user')
+    }
+    
     return (
 
         <div className="App">
-            <Navbar bg="dark" variant="dark" expand="md">
+            <AuthProvider>
+                <Navbar bg="dark" variant="dark" expand="md">
+                    <Container>
+                        <Navbar.Brand href="/" >
+                            <img src={logo} height={20} className="d-inline-block" alt=""/>{' '}
+                            Ticketing app
+                        </Navbar.Brand>
+                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                        <Navbar.Collapse id="basic-navbar-nav">
+                            <Nav className="">
+                                <Nav.Link className={sessionStorage.getItem('user') === null ? "invisible" : ""} href="/">Home</Nav.Link>
+                                <Nav.Link className={sessionStorage.getItem('user') === null ? "invisible" : ""} href="/tickets">TicketWallet</Nav.Link>
+                                <Nav.Link className={sessionStorage.getItem('user') === null ? "invisible" : ""} href="/check">Scan QRcode</Nav.Link>
+                                <Nav.Link className={sessionStorage.getItem('user') === null ? "invisible" : ""} href="/profile">Profile</Nav.Link>
+                                <Nav.Link className={sessionStorage.getItem('user') === null ? "invisible" : ""} href="/event-statistics">Statistics</Nav.Link>
+                                {sessionStorage.getItem('user') === null ? (
+                                    <Nav.Link href="/login">Log in</Nav.Link>
+                                ) : (
+                                    <Nav.Link onClick={handleLogout} href="/login" >Log out</Nav.Link>
+                                )}
+                            </Nav>
+                        </Navbar.Collapse>
+                    </Container>
+                </Navbar>
+                <br/>
                 <Container>
-                    <Navbar.Brand href="/" >
-                        <img src={logo} height={20} className="d-inline-block" alt=""/>{' '}
-                        Ticketing app
-                    </Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="">
-                            <Nav.Link href="/">Home</Nav.Link>
-                            <Nav.Link href="/tickets">TicketWallet</Nav.Link>
-                            <Nav.Link href="/profile">Profile</Nav.Link>
-                            <Nav.Link href="/">Log out</Nav.Link>
-                        </Nav>
-                    </Navbar.Collapse>
+                    <AppRouter/>
                 </Container>
-            </Navbar>
-            <br/>
-            <Container>
-                <AppRouter/>
-            </Container>
-            <Footer/>
+                <Footer/>
+            </AuthProvider>
         </div>
     );
 }

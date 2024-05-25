@@ -56,3 +56,30 @@ input[disabled] {
     justify-content: center;
     margin-top: 50px;
 }
+
+.input-container {
+    position: relative; /* Enable relative positioning for button */
+}
+
+#ESNcodeInput {
+    padding-right: 30px; /* Make space for the button */
+    border: 1px solid #fff; /* Optional styling */
+    /*border: 4px solid #7AC143; !* Optional styling *!*/
+}
+
+.btnESNcode {
+    position: absolute; /* Position button absolutely within input */
+    top: 50%; /* Center button vertically */
+    right: 20px;  /* Position button 10px from right edge */
+    transform: translateY(-50%); /* Offset vertical centering */
+    opacity: 0; /* Hide button initially */
+    cursor: pointer; /* Indicate clickable element */
+    transition: opacity 0.5s ease-in-out; /* Smooth opacity transition */
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+}
+
+.input-container:hover .btnESNcode {
+    opacity: 1; /* Show button on hover */
+}

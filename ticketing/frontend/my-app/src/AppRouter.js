@@ -6,6 +6,8 @@ import Profile from "./components/Profile";
 import Tickets from "./components/Tickets";
 import Login from "./components/Login";
 import {LogIn} from "react-feather";
+import CheckQR from "./components/Check";
+import EventStatistics from "./components/EventStatistics";
 
 function AppRouter() {
     return (
@@ -15,6 +17,8 @@ function AppRouter() {
                 <Route path="login" element={<Login/>} />
                 <Route path="profile" element={<Profile/>} />
                 <Route path="tickets" element={<Tickets/>} />
+                <Route path="check" element={<CheckQR/>} />
+                <Route path="event-statistics" element={<EventStatistics/>} />
             </Routes>
         </BrowserRouter>
     );
