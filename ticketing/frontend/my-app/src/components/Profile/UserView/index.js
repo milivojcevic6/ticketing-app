@@ -89,6 +89,7 @@ function UserView() {
             const esnCode = document.getElementById("ESNcodeInput").value;
             const apiUrl = `https://esncard.org/services/1.0/card.json?code=${esnCode}`;
             console.log(apiUrl)
+            console.log("New push!")
 
             try {
                 const response = await fetch(apiUrl, { mode: 'no-cors' });
