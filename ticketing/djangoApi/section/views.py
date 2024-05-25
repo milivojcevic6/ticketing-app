@@ -31,3 +31,8 @@ class SectionLoginView(generics.GenericAPIView):
         else:
             # Invalid credentials
             return Response({"message": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class SectionListView(generics.ListAPIView):
+    queryset = Section.objects.all()
+    serializer_class = SectionSerializer

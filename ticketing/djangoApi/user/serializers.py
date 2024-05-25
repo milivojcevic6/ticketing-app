@@ -1,9 +1,17 @@
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
-from .models import User
+from .models import User, Card
+
+
+class CardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Card
+        fields = '__all__'  # You can specify individual fields if needed
 
 
 class UserSerializer(serializers.ModelSerializer):
+    card_id = CardSerializer(read_only=True)
+
     class Meta:
         model = User
         exclude = ["password"]
