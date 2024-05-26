@@ -1,6 +1,14 @@
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 from .models import User, Card
+from section.models import Section
+from event.models import Event
+
+
+class EventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = '__all__'
 
 
 class CardSerializer(serializers.ModelSerializer):
@@ -10,11 +18,12 @@ class CardSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    events = EventSerializer(many=True, read_only=True)
     card_id = CardSerializer(read_only=True)
 
     class Meta:
         model = User
-        exclude = ["password"]
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'card_id', 'events']
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -42,3 +51,9 @@ class UserLoginSerializer(serializers.Serializer):
             raise serializers.ValidationError("Please provide email or username.")
 
         return data
+
+
+class SectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Section
+        exclude = ["password"]

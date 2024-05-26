@@ -62,8 +62,8 @@ function HomePage() {
     const loadEvents = async () => {
 
         const result = isSectionUser ?
-            await axios.get(`/api/sections/events/${user?.id}`) :
-            await axios.get(`/api/events/user/${user?.id}`);
+            await axios.get(`/api/sections/${user?.id}/events/`) :
+            await axios.get(`/api/users/${user?.id}/events/`);
 
         //const result = await axios.get("/api/events")
         console.log(result);
@@ -354,13 +354,13 @@ function HomePage() {
                                                     color: 'black',
                                                     textDecoration: 'none'
                                                 }}><Icon.MapPin/> {selected.location}</a></span>
-                                                <span
+                                   {/*             <span
                                                     className="me-3"><Icon.Calendar/> {new Date(selected.eventDateTime).toLocaleDateString()}</span>
-                                                {/*<span className="me-3"><Icon.Clock/> {selected.eventDateTime}</span>*/}
+                                                <span className="me-3"><Icon.Clock/> {selected.eventDateTime}</span>
                                                 <span
-                                                    className="me-3"><Icon.Clock/> {new Date(selected.eventDateTime).toISOString().split('T')[1].slice(0, 5)}</span>
+                                                    className="me-3"><Icon.Clock/> {new Date(selected.eventDateTime).toISOString().split('T')[1].slice(0, 5)}</span>*/}
                                                 <span>
-                                                  <Icon.UserCheck/> {selected ? capacity + selected?.tickets.length + "/" + selected.capacity : ""}
+                                                  {/*<Icon.UserCheck/> {selected ? capacity + selected?.tickets.length + "/" + selected.capacity : ""}*/}
                                                 </span>
 
                                             </div>

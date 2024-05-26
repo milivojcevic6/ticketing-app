@@ -4,8 +4,11 @@ from django.views.decorators.http import require_POST
 
 from rest_framework import generics, status
 from .models import User
-from .serializers import UserRegistrationSerializer, UserLoginSerializer, UserSerializer
+from .serializers import UserRegistrationSerializer, UserLoginSerializer, UserSerializer, SectionSerializer, EventSerializer
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from section.models import Section
+from event.models import Event
 
 
 class UserRegistrationView(generics.CreateAPIView):
@@ -35,3 +38,34 @@ class UserLoginView(generics.GenericAPIView):
         else:
             # Invalid credentials
             return Response({"message": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class UserListView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserSectionsView(APIView):
+    def get(self, request, uuid=None):
+        if uuid:
+            # Retrieve sections for the specific user
+            try:
+                user = User.objects.get(id=uuid)
+                sections = user.sections.all()
+                serializer = SectionSerializer(sections, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except User.DoesNotExist:
+                return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            # Retrieve all sections
+            sections = Section.objects.all()
+            serializer = SectionSerializer(sections, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class UserEventsView(generics.ListAPIView):
+    serializer_class = EventSerializer
+
+    def get_queryset(self):
+        user_id = self.kwargs['uuid']
+        return Event.objects.filter(user__id=user_id)

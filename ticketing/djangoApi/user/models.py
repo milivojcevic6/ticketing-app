@@ -4,6 +4,7 @@ from django.contrib.auth.hashers import check_password
 from django.db import models
 
 from card.models import Card
+from section.models import Section
 
 
 # Create your models here.d
@@ -16,6 +17,7 @@ class User(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     card_id = models.ForeignKey(Card, on_delete=models.CASCADE, null=True, blank=True)
+    sections = models.ManyToManyField(Section, related_name='users', blank=True)
 
     REQUIRED_FIELDS = ['username', 'email', 'password', 'first_name', 'last_name']
 

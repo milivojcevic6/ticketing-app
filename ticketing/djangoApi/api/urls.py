@@ -24,4 +24,5 @@ urlpatterns = [
     path('auth/authenticate', UserLoginView.as_view(), name='user_login'),
     path('api/users/', include('user.urls')),
     path('api/sections/', include('section.urls')),
+    path('api/events/', include('event.urls')),
 ]
