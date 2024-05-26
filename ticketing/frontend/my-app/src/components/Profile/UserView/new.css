@@ -160,27 +160,27 @@
     z-index: 9; /* Ensure overlay is behind the popup (lower than popup's z-index) */
 }
 
-table {
+.list-popup table {
     border-collapse: collapse; /* Remove default table borders */
     width: 100%; /* Expand table to fit container width */
 }
 
-th, td {
+.list-popup th, td {
     padding: 10px; /* Add padding to cells */
     border: 1px solid #ddd; /* Add a thin border to cells */
 }
 
-th {
+.list-popup th {
     text-align: left; /* Align table header text to left */
     font-weight: bold; /* Make table header text bold */
 }
 
-td {
+.list-popup td {
     display: flex; /* Make table cells a flexbox for horizontal arrangement */
     align-items: center; /* Align content vertically within cells */
 }
 
-td input[type="checkbox"] {
+.list-popup td input[type="checkbox"] {
     margin-right: 10px; /* Add margin between checkbox and element */
 }
 
