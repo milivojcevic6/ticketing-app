@@ -1,8 +1,8 @@
 from .models import Section
 from rest_framework import generics, status
 from rest_framework.response import Response
-from .serializers import SectionLoginSerializer, SectionSerializer, SectionRegistrationSerializer
-
+from .serializers import SectionLoginSerializer, SectionSerializer, SectionRegistrationSerializer, EventSerializer
+from event.models import Event
 
 class SectionRegistrationView(generics.CreateAPIView):
     queryset = Section.objects.all()
@@ -36,3 +36,18 @@ class SectionLoginView(generics.GenericAPIView):
 class SectionListView(generics.ListAPIView):
     queryset = Section.objects.all()
     serializer_class = SectionSerializer
+
+
+
+class SectionEventsView(generics.ListAPIView):
+    serializer_class = EventSerializer
+
+    def get_queryset(self):
+        section_id = self.kwargs['uuid']
+        return Event.objects.filter(section__id=section_id)
+
+    def list(self, request, *args, **kwargs):
+        section_id = self.kwargs.get('uuid')
+        if not Section.objects.filter(id=section_id).exists():
+            return Response({"error": "Section not found"}, status=status.HTTP_404_NOT_FOUND)
+        return super().list(request, *args, **kwargs)

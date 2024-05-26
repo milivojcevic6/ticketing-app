@@ -1,6 +1,7 @@
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 from .models import Section
+from event.models import Event
 import string
 import random
 
@@ -59,3 +60,9 @@ class SectionLoginSerializer(serializers.Serializer):
             raise serializers.ValidationError("Please provide email or username.")
 
         return data
+
+
+class EventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = '__all__'
