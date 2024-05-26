@@ -66,3 +66,15 @@ class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = '__all__'
+
+
+class SectionPasswordChangeSerializer(serializers.Serializer):
+    id = serializers.UUIDField()
+    old_password = serializers.CharField(write_only=True)
+    new_password = serializers.CharField(write_only=True)
+
+    def validate_current_password(self, value):
+        section = self.context['request'].user
+        if not section.check_password(value):
+            raise serializers.ValidationError("Current password is incorrect.")
+        return value

@@ -1,8 +1,7 @@
-from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
-from .models import User, Event
-from section.models import Section
+from .models import Event
 from datetime import datetime
+
 
 
 class CustomDateTimeField(serializers.DateTimeField):

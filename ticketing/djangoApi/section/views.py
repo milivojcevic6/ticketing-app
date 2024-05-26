@@ -1,8 +1,11 @@
 from .models import Section
 from rest_framework import generics, status
 from rest_framework.response import Response
-from .serializers import SectionLoginSerializer, SectionSerializer, SectionRegistrationSerializer, EventSerializer
+from .serializers import SectionLoginSerializer, SectionSerializer, SectionRegistrationSerializer, EventSerializer, \
+    SectionPasswordChangeSerializer
 from event.models import Event
+from rest_framework.exceptions import NotFound
+from django.contrib.auth.hashers import make_password
 
 
 class SectionRegistrationView(generics.CreateAPIView):
@@ -58,3 +61,55 @@ class SectionEventsView(generics.ListAPIView):
         if not Section.objects.filter(id=section_id).exists():
             return Response({"error": "Section not found"}, status=status.HTTP_404_NOT_FOUND)
         return super().list(request, *args, **kwargs)
+
+
+class SectionUpdateView(generics.UpdateAPIView):
+    queryset = Section.objects.all()
+    serializer_class = SectionSerializer
+
+    def get_object(self):
+        uuid = self.request.data.get('id')
+        try:
+            return Section.objects.get(id=uuid)
+        except Section.DoesNotExist:
+            raise NotFound("Section not found")
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+
+class SectionPasswordChangeView(generics.UpdateAPIView):
+    queryset = Section.objects.all()
+    serializer_class = SectionPasswordChangeSerializer
+
+    def update(self, request, *args, **kwargs):
+        # Retrieve the section instance based on the UUID provided in the request body
+        uuid = request.data.get('id')
+        if not uuid:
+            return Response({"error": "UUID not provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            section = Section.objects.get(id=uuid)
+        except Section.DoesNotExist:
+            return Response({"error": "Section not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Validate the provided data
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        # Check if the provided old password matches the section's current password
+        old_password = serializer.validated_data.get('old_password')
+        if not section.check_password(old_password):
+            return Response({"error": "Invalid old password"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Change the section's password
+        new_password = serializer.validated_data.get('new_password')
+        section.password = make_password(new_password)
+        section.save()
+
+        return Response({"message": "Password changed successfully"}, status=status.HTTP_200_OK)
