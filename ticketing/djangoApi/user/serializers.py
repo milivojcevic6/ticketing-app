@@ -57,3 +57,25 @@ class SectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Section
         exclude = ["password"]
+
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        exclude = ['password']  # Exclude the 'password' field from the serializer
+
+    def update(self, instance, validated_data):
+        # Remove 'password' field from validated_data
+        validated_data.pop('password', None)
+        return super().update(instance, validated_data)
+
+
+class UserPasswordChangeSerializer(serializers.Serializer):
+    old_password = serializers.CharField()
+    new_password = serializers.CharField()
+
+    def validate_current_password(self, value):
+        user = self.context['request'].user
+        if not user.check_password(value):
+            raise serializers.ValidationError("Current password is incorrect.")
+        return value

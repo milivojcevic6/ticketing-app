@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from .serializers import SectionLoginSerializer, SectionSerializer, SectionRegistrationSerializer, EventSerializer
 from event.models import Event
 
+
 class SectionRegistrationView(generics.CreateAPIView):
     queryset = Section.objects.all()
     serializer_class = SectionRegistrationSerializer
@@ -37,6 +38,12 @@ class SectionListView(generics.ListAPIView):
     queryset = Section.objects.all()
     serializer_class = SectionSerializer
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        country_code = self.request.query_params.get('country_code')
+        if country_code:
+            queryset = queryset.filter(country_code=country_code)
+        return queryset
 
 
 class SectionEventsView(generics.ListAPIView):

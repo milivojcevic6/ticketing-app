@@ -5,7 +5,7 @@ from django.views.decorators.http import require_POST
 from rest_framework import generics, status
 from .models import User
 from .serializers import UserRegistrationSerializer, UserLoginSerializer, UserSerializer, SectionSerializer, \
-    EventSerializer
+    UserUpdateSerializer, EventSerializer, UserPasswordChangeSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from section.models import Section
@@ -74,9 +74,41 @@ class UserEventsView(generics.ListAPIView):
 
 class UserUpdateView(generics.UpdateAPIView):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserUpdateSerializer
 
     def get_object(self):
         # Retrieve the user instance based on the UUID provided in the request body
         uuid = self.request.data.get('id')
         return User.objects.get(id=uuid)
+
+
+class UserPasswordChangeView(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserPasswordChangeSerializer
+
+    def update(self, request, *args, **kwargs):
+        # Retrieve the user instance based on the UUID provided in the request body
+        uuid = request.data.get('uuid')
+        if not uuid:
+            return Response({"error": "UUID not provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            user = User.objects.get(id=uuid)
+        except User.DoesNotExist:
+            return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Validate the provided data
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        # Check if the provided old password matches the user's current password
+        old_password = serializer.validated_data.get('old_password')
+        if not user.check_password(old_password):
+            return Response({"error": "Invalid old password"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Change the user's password
+        new_password = serializer.validated_data.get('new_password')
+        user.set_password(new_password)
+        user.save()
+
+        return Response({"message": "Password changed successfully"}, status=status.HTTP_200_OK)
