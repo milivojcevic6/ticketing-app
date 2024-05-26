@@ -3,13 +3,17 @@ import './new.css';
 import countriesData from '../../database/countries.json';
 import * as Icon from "react-feather";
 
-function getBList(selectedA) {
+function getBList(selectedCountry) {
     // Implement logic to fetch or filter elements B based on selectedA
     // Example: return ['Element B1', 'Element B2'];
+    console.log(selectedCountry);
+    const countryCode = (countriesData.find(c => c.name === selectedCountry)).code;
+    console.log(countryCode);
     return ['Element B1', 'Element B2'];
 }
 
 function UserProfile() {
+    
     const user = JSON.parse(sessionStorage.getItem('user'));
 
 
