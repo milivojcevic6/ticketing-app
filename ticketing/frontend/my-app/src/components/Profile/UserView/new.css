@@ -21,6 +21,10 @@
     color: #333; /* Darker heading text for contrast */
 }
 
+.fieldFont {
+    text-align: left;   
+}
+
 .list-popup-actions {
     display: flex; /* Make the actions container a flexbox */
     flex-direction: column; /* Arrange elements vertically (one under another) */
@@ -61,13 +65,13 @@
 
 .user-profile-section {
     margin-bottom: 20px; /* Space between sections */
-    border-left: 1px solid #ddd; /* Light left border for sections */
+    /*border-left: 1px solid #ddd; !* Light left border for sections *!*/
     /*border-bottom: 1px solid #ddd; !* Light left border for sections *!*/
     padding-left: 20px; /* Indent section content */
 }
 
 .user-profile-section:first-child { /* Remove border for first section */
-    border-left: none;
+    /*border-left: none;*/
 }
 
 .user-profile-section h3 {
@@ -80,6 +84,7 @@
     display: flex; /* Arrange labels and values horizontally */
     justify-content: space-between; /* Align labels and values */
     margin-bottom: 5px; /* Space between rows */
+    /*padding: 5px;*/
 }
 
 .user-profile-row span:first-child {
@@ -96,6 +101,18 @@
 .user-profile-row a:hover {
     text-decoration: underline; /* Underline on hover */
 }
+
+.user-info-btn button{
+    color: #212529;
+    /*font-weight: bold;*/
+    font-size: 1rem; /* Adjust section title size */
+    /*font-size: 20px; !* Adjust section title size *!*/
+    /*padding: 5px;*/
+    border: none;
+    background: none;
+}
+
+
 
 .list-popup {
     position: fixed; /* Make the popup fixed to the viewport */
