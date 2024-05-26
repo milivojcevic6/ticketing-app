@@ -7,8 +7,8 @@ import SectionView from "./SectionView";
 function Profile() {
     const user = JSON.parse(sessionStorage.getItem('user'));
     
-    // const isSectionUser = user.role === 'section'; // Check if the user's role is "section"
-    const isSectionUser = false; // Check if the user's role is "section"
+    const isSectionUser = user.role === 'section'; // Check if the user's role is "section"
+    // const isSectionUser = false; // Check if the user's role is "section"
 
 
     /*const [sections, setSections] = useState([]);
