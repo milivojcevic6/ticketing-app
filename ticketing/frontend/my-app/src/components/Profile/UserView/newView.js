@@ -24,6 +24,7 @@ function UserProfile() {
     const [editField, setEditField] = useState('');
     const [editPlaceholder, setEditPlaceholder] = useState('First placeholder :)');
     const [newValue, setNewValue] = useState('');
+    const [typeInput, setTypeInput] = useState("text");
     const [showListPopup, setShowListPopup] = useState(false);
     const [openAddOptions, setOpenAddOptions] = useState(null); // Selected element from list A
     const [selectedCountry, setSelectedCountry] = useState(null); // Selected element from list A
@@ -32,7 +33,8 @@ function UserProfile() {
     const [selectedRows, setSelectedRows] = useState([]);
     const [alertSave, setAlertSave] = useState(false); 
     const [alertCancel, setAlertCancel] = useState(false); 
-    const [somethingChanged, setSomethingChanged] = useState(false); 
+    const [somethingChanged, setSomethingChanged] = useState(false);
+
     
 
     function handleOpenEditPopup(value) {
@@ -42,22 +44,27 @@ function UserProfile() {
         if (value === "first name") {
             setEditPlaceholder(userData.first_name);
             setNewValue("");
+            setTypeInput("text")
         }
         if (value === "last name") {
             setEditPlaceholder(userData.last_name);
             setNewValue("");
+            setTypeInput("text")
         }
         if (value === "email") {
             setEditPlaceholder(userData.email);
             setNewValue("");
+            setTypeInput("email")
         }
         if (value === "username") {
             setEditPlaceholder(userData.username);
             setNewValue("");
+            setTypeInput("text")
         }
         if (value === "ESNcard code") {
             setEditPlaceholder(userData?.card_id?.code);
             setNewValue("");
+            setTypeInput("text")
         }
         setShowEditPopup(true);
     }
@@ -307,7 +314,7 @@ function UserProfile() {
                             <hr/>
 
                             <input
-                                type="text"
+                                type={typeInput}
                                 placeholder={editPlaceholder}
                                 autoComplete="off"
                                 value={newValue}
