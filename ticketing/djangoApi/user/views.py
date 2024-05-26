@@ -4,7 +4,8 @@ from django.views.decorators.http import require_POST
 
 from rest_framework import generics, status
 from .models import User
-from .serializers import UserRegistrationSerializer, UserLoginSerializer, UserSerializer, SectionSerializer, EventSerializer
+from .serializers import UserRegistrationSerializer, UserLoginSerializer, UserSerializer, SectionSerializer, \
+    EventSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from section.models import Section
@@ -69,3 +70,13 @@ class UserEventsView(generics.ListAPIView):
     def get_queryset(self):
         user_id = self.kwargs['uuid']
         return Event.objects.filter(user__id=user_id)
+
+
+class UserUpdateView(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        # Retrieve the user instance based on the UUID provided in the request body
+        uuid = self.request.data.get('id')
+        return User.objects.get(id=uuid)
