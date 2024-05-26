@@ -275,11 +275,17 @@ function HomePage() {
                         <div className="col-lg-6 col-12 pt-2 text-center ms-auto">
                             <div className=""> {/*card*/}
                                 <div className="intro"> {/*card-body*/}
-                                    Hello <b>{user?.username}</b>!
+                                    {/*Hello <b>{user?.username}</b>!*/}
                                     {!isSectionUser ? (
-                                        <span> Discover our events! Browse, register, and enjoy! </span>
+                                        <>
+                                            Hello <b>{user?.first_name}</b>!
+                                            <span> Discover our events! Browse, register, and enjoy! </span>
+                                        </>
                                     ) : (
-                                        <span> Go on and create your next amazing event!</span>
+                                        <>
+                                            Hello <b>{user?.name}</b>!
+                                            <span> Go on and create your next amazing event!</span>
+                                        </>
                                     )
                                     }
                                 </div>
