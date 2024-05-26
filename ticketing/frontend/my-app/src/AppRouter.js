@@ -17,11 +17,11 @@ function AppRouter() {
             <Routes>
                 {isUserLoggedIn ? (<Route path="/" element={<HomePage/>}/>) : (<Route path="/" element={<Login/>}/>)}
                 <Route path="login" element={<Login/>}/>
-                <Route path="profile" element={<Profile/>}/>
-                <Route path="tickets" element={<Tickets/>}/>
-                <Route path="check" element={<CheckQR/>}/>
-                <Route path="event-statistics" element={<EventStatistics/>}/>
-                <Route path="user-view" element={<UserProfile/>}/>
+                {isUserLoggedIn ? (<Route path="profile" element={<Profile/>}/>) : (<Route path="/" element={<Login/>}/>)}
+                {isUserLoggedIn ? (<Route path="tickets" element={<Tickets/>}/>) : (<Route path="/" element={<Login/>}/>)}
+                {isUserLoggedIn ? (<Route path="check" element={<CheckQR/>}/>) : (<Route path="/" element={<Login/>}/>)}
+                {isUserLoggedIn ? (<Route path="event-statistics" element={<EventStatistics/>}/>) : (<Route path="/" element={<Login/>}/>)}
+                {isUserLoggedIn ? (<Route path="user-view" element={<UserProfile/>}/>) : (<Route path="/" element={<Login/>}/>)}
             </Routes>
         </BrowserRouter>
     );
