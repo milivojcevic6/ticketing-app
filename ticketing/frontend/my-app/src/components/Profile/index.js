@@ -82,7 +82,7 @@ function Profile() {
 
     return(
         <div className="profile-container">
-            <h1 className="mb-5">User Profile</h1>
+            <h1 className="mb-5">{isSectionUser ? "Section" : "User"} Profile</h1>
             {isSectionUser ? (
                 // Render section user view
                 <SectionView/>
