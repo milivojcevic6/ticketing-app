@@ -308,12 +308,13 @@ function UserProfile() {
                 </div>
 
                 {showEditPopup && (
-                    <>
+                    <form onSubmit={handleEditElement}>
                         <div style={{minWidth: "500px"}} className="list-popup show">
                             <h2>Update {editField}</h2>
                             <hr/>
 
                             <input
+                                required
                                 type={typeInput}
                                 placeholder={editPlaceholder}
                                 autoComplete="off"
@@ -323,13 +324,13 @@ function UserProfile() {
                             
                             <div style={{maxWidth: "150px", margin: "auto"}}>
                                 <div className="d-flex justify-content-between pt-2 pb-2">
-                                    <button id="btnAdd" style={{width: "70px"}} onClick={handleEditElement}>Edit</button>
+                                    <button id="btnAdd" style={{width: "70px"}}>Edit</button>
                                     <button id="btnClose" style={{width: "70px"}} onClick={handleCloseEditPopup}>Cancel</button>
                                 </div>
                             </div>
                         </div>
                         <div className="list-popup-overlay"></div>
-                    </>
+                    </form>
                 )}
 
                 {showListPopup && (

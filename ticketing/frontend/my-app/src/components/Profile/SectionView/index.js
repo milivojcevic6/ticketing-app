@@ -3,6 +3,7 @@ import axios from "../../../api/axios";
 
 function SectionView() {
     const user = JSON.parse(sessionStorage.getItem('user'));
+    console.log("USer",user)
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [newPass, setNewPass] = useState("");
@@ -68,7 +69,7 @@ function SectionView() {
             <div className="row">
                 <div className="col-md-6 form-group">
                     <label htmlFor="username">Username:</label>
-                    <input type="text" className="form-control" id="username" name="username" placeholder={user?.username} value={user?.username} disabled/>
+                    <input type="text" className="form-control" id="username" name="username" placeholder={user?.name} value={user?.name} disabled/>
                 </div>
                 <div className="col-md-6 form-group">
                     <label htmlFor="email">Email:</label>
