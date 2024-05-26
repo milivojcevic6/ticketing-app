@@ -526,3 +526,4 @@
 /ticketing/djangoApi/env/Lib/site-packages/pip/_vendor/cachecontrol/wrapper.py
 /ticketing/djangoApi/env/Lib/site-packages/pip/_vendor/webencodings/x_user_defined.py
 /ticketing/djangoApi/env/Lib/site-packages/pip/_internal/network/xmlrpc.py
+/ticketing/djangoApi/db.sqlite3
