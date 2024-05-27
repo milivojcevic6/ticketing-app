@@ -38,6 +38,7 @@ function HomePage() {
     const [capacity, setCapacity] = useState(0.0);
     const [price, setPrice] = useState(0.0);
     const [date, setDate] = useState('');
+    const [publishDate, setPublishDate] = useState('');
     const [time, setTime] = useState('');
     const [eventDateTime, setEventDateTime] = useState();
     const [esnPrice, setEsnPrice] = useState(0.0);
@@ -51,11 +52,53 @@ function HomePage() {
             .catch(error => console.log(error));
     }, [submitted])
 
+    function formatDate(date) {
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+        const year = date.getFullYear();
+
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+
+        return `${day}.${month}.${year} ${hours}:${minutes}`;
+    }
+
+    function formatDateForInput(date) {
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+    }
+
     const handleToggleModal = () => {
+        setName('')
+        setDescription('')
+        setPrice('')
+        setEsnPrice('')
+        setEsnPrice('')
+        setLocation('')
+        setLocationUrl('')
+        setType('')
+        setDate('')
+        setPublishDate('')
+        setCapacity('')
         setShowModal(!showModal);
     };
 
     const handleToggleModal2 = () => {
+        setName(selected?.name ?? '')
+        setDescription(selected?.description ?? '')
+        setLocation(selected?.location ?? '')
+        setLocationUrl(selected?.location_url ?? '')
+        setCapacity(selected?.capacity ?? '')
+        setType(selected?.type ?? '')
+        setPrice(selected?.price ?? '')
+        setEsnPrice(selected?.esn_price ?? '')
+        setDate(selected?.event_date ?? '')
+        setPublishDate(selected?.publish_date ?? '')
         setShowModal2(!showModal2);
     };
 
@@ -110,80 +153,65 @@ function HomePage() {
     }*/
 
     function onSubmit(e) {
-        console.log(name, description, type, capacity, location, locationUrl, price, esnPrice, date)
         e.preventDefault();
+
         const newEvent = {
-            section: user,
+            section: user.id,
             name: name,
-            eventDateTime: new Date(date),
             description: description,
-            type: type,
-            capacity: capacity,
-            location: location,
-            locationUrl: locationUrl,
             price: price,
-            esnprice: esnPrice
+            esn_price: esnPrice,
+            location: location,
+            location_url: locationUrl,
+            type: type,
+            event_date: formatDate(new Date(date)),
+            publish_date: formatDate(new Date(publishDate)),
+            capacity: capacity,
         };
-        console.log(name, description, type, capacity, location, locationUrl, price, esnPrice, date)
-        console.log(typeof (eventDateTime), eventDateTime)
 
         // UNCOMMENT !!!!
-        // axios.post('/api/events', newEvent)
-        //     .then(response => console.log(response))
-        //     .catch(error => console.log(error));
-        // setSubmitted(true);
-        // setShowModal(false);
+        axios.post('/api/events/', newEvent)
+            .then(response => {
+                console.log(response)
+                setSubmitted(true);
+                setShowModal(false);
+            })
+            .catch(error => {
+                console.log(error)
+                setSubmitted(false);
+                setShowModal(true);
+            });
 
-        try {
-            db.events.push(newEvent);
-            setSubmitted(true);
-            setShowModal(false);
-        } catch (error) {
-            console.log('Error updating database', error);
-        }
     }
 
     function onSubmitEdit(e) {
-        console.log(name, description, type, capacity, location, locationUrl, price, esnPrice, date)
         e.preventDefault();
 
-        const dateTimeString = `${date}T${time}:00`;
-
-        console.log("Event data and time: " + dateTimeString)
-        setEventDateTime(new Date(dateTimeString))
-
         const newEvent = {
-            section: user,
-            name: name,
-            eventDateTime: new Date(dateTimeString),
-            description: description,
+            section: user.id,
+            name: name ?? null,
+            description: description ?? null,
+            price: price ?? null,
+            esn_price: esnPrice ?? null,
+            location: location ?? null,
+            location_url: locationUrl ?? null,
             type: type,
+            event_date: formatDate(new Date(date)) ?? null,
+            publish_date: formatDate(new Date(publishDate)) ?? null,
             capacity: capacity,
-            location: location,
-            locationUrl: locationUrl,
-            price: price,
-            esnprice: esnPrice
         };
-        setNewEvent(newEvent)
-        console.log(name, description, type, capacity, location, locationUrl, price, esnPrice, date)
+
+        console.log(newEvent)
 
         // UNCOMMENT !!!!
-        // axios.put(`/api/events/${selected?.id}`, newEvent)
-        //     .then(response => console.log(response))
-        //     .catch(error => console.log(error));
-        // setSubmitted(true);
-        // setShowModal2(false);
+        axios.put(`/api/events/${selected?.id}/`, newEvent)
+            .then(response => {
+                console.log(response)
+                setSubmitted(true);
+                setShowModal2(false);
+            })
+            .catch(error => console.log(error));
 
-        try {
-            const eventIndex = db.events.findIndex(event => event.id === selected?.id);
-            if (eventIndex !== -1) {
-                db.events[eventIndex] = newEvent;
-            }
-            setSubmitted(true);
-            setShowModal2(false);
-        } catch (error) {
-            console.log('Error updating database', error);
-        }
     }
 
     function onNameChange(event) {
@@ -214,18 +242,6 @@ function HomePage() {
         setPrice(event.target.value)
     }
 
-    // const onDateChange = (event) => {
-    //     const selectedDate = event.target.value; // Get the selected date from the input
-    //     const dateObj = new Date(selectedDate); // Create a Date object from the selected date
-    //     const year = dateObj.getFullYear(); // Get the year (yyyy)
-    //     const month = String(dateObj.getMonth() + 1).padStart(2, '0'); // Get the month (MM), adding 1 to the month index since it's zero-based
-    //     const day = String(dateObj.getDate()).padStart(2, '0'); // Get the day (dd)
-    //
-    //     const formattedDate = `${year}-${month}-${day}`; // Format the date as "yyyy-MM-dd"
-    //     setDate(formattedDate); // Update the state variable with the formatted date
-    // };
-
-
     function onEsnPriceChange(event) {
         setEsnPrice(event.target.value)
     }
@@ -234,8 +250,8 @@ function HomePage() {
         setDate(event.target.value)
     }
 
-    function onTimeChange(event) {
-        setTime(event.target.value)
+    function onPublishDateChange(event) {
+        setPublishDate(event.target.value)
     }
 
     const handleRegisterToEvent = async (e) => {
@@ -253,8 +269,13 @@ function HomePage() {
 
     const deleteEvent = async (e) => {
         e.preventDefault()
-        await axios.delete(`/api/events/${selected?.id}`)
-            .then(response => console.log(response))
+        await axios.delete(`/api/events/${selected?.id}/delete/`)
+            .then(response => {
+                console.log(response)
+                var updatedEvents = events.filter(item => item.id !== selected?.id);
+                setEvents(updatedEvents)
+                setEventsShow(updatedEvents)
+            })
             .catch(error => console.log(error));
     }
 
@@ -311,9 +332,10 @@ function HomePage() {
                                         onClick={() => setSelected(event)}>
                                         <td>{event.name}</td>
                                         <td>{event.location}</td>
-                                        <td scope="row">{new Date(event.eventDateTime).toLocaleDateString()}</td>
+                                        <td scope="row">{formatDate(new Date(event.event_date))}</td>
+                                        <td scope="row">{formatDate(new Date(event.publish_date))}</td>
                                         <td>{event.price}</td>
-                                        <td>{event.esnprice}</td>
+                                        <td>{event.esn_price}</td>
                                     </tr>
                                 ))}
                                 </tbody>
@@ -356,11 +378,11 @@ function HomePage() {
                                             </h5>
                                             <p className="card-text">{selected.description}</p>
                                             <div className="d-inline-flex">
-                                                <span className="me-3"><a href={selected?.locationUrl} style={{
+                                                <span className="me-3"><a href={selected?.location_url} style={{
                                                     color: 'black',
                                                     textDecoration: 'none'
                                                 }}><Icon.MapPin/> {selected.location}</a></span>
-                                   {/*             <span
+                                                {/*             <span
                                                     className="me-3"><Icon.Calendar/> {new Date(selected.eventDateTime).toLocaleDateString()}</span>
                                                 <span className="me-3"><Icon.Clock/> {selected.eventDateTime}</span>
                                                 <span
@@ -420,12 +442,12 @@ function HomePage() {
                         <Modal.Body>
                             <div className="mb-3">
                                 <label htmlFor="name" className="form-label">Name</label>
-                                <input type="text" className="form-control" id="name"
+                                <input type="text" className="form-control" id="name" required
                                        placeholder="e.g. Erasmus in Schools" onChange={onNameChange} value={name}/>
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="description" className="form-label">Description</label>
-                                <textarea className="form-control" id="description" rows="3"
+                                <textarea className="form-control" id="description" rows="3" required
                                           placeholder="e.g. During the Erasmus in Schools event, students will have the opportunity to interact with international students and teachers."
                                           onChange={onDescriptionChange} value={description}/>
                             </div>
@@ -433,12 +455,13 @@ function HomePage() {
                             <div className="row">
                                 <div className="mb-3 col-6">
                                     <label htmlFor="location" className="form-label">Location</label>
-                                    <input type="text" className="form-control" id="location"
+                                    <input type="text" className="form-control" id="location" required
                                            placeholder="e.g. OS Koper" onChange={onLocationChange} value={location}/>
                                 </div>
                                 <div className="mb-3 col-6">
                                     <label htmlFor="capacity" className="form-label">Capacity</label>
                                     <input type="number" className="form-control" id="capacity" placeholder="e.g. 10"
+                                           required
                                            onChange={onCapacityChange} value={capacity}/>
                                 </div>
                             </div>
@@ -451,7 +474,8 @@ function HomePage() {
                                 </div>
                                 <div className="mb-3 col-6">
                                     <label htmlFor="type" className="form-label">Type</label>
-                                    <select className="form-select" id="type" aria-label="Type" onChange={onTypeChange}
+                                    <select required className="form-select" id="type" aria-label="Type"
+                                            onChange={onTypeChange}
                                             value={type}>
                                         <option value="">--Please choose an option--</option>
                                         <option value="Education">Education</option>
@@ -464,20 +488,28 @@ function HomePage() {
                             <div className="row">
                                 <div className="mb-3 col-6">
                                     <label htmlFor="price" className="form-label">Price</label>
-                                    <input type="number" className="form-control" id="price" placeholder="0.0"
+                                    <input type="number" className="form-control" id="price" placeholder="0.0" required
                                            onChange={onPriceChange} value={price}/>
                                 </div>
                                 <div className="mb-3 col-6">
                                     <label htmlFor="esnprice" className="form-label">ESN Price</label>
                                     <input type="number" className="form-control" id="esnprice" placeholder="0.0"
+                                           required
                                            onChange={onEsnPriceChange} value={esnPrice}/>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="mb-3 col-6">
                                     <label htmlFor="date" className="form-label">Date</label>
-                                    <input type="date" className="form-control" id="date" onChange={onDateChange}
+                                    <input type="datetime-local" className="form-control" id="date" required
+                                           onChange={onDateChange}
                                            value={date}/>
+                                </div>
+                                <div className="mb-3 col-6">
+                                    <label htmlFor="publishDate" className="form-label">Publish Date</label>
+                                    <input type="datetime-local" className="form-control" id="publishDate" required
+                                           onChange={onPublishDateChange}
+                                           value={publishDate}/>
                                 </div>
                             </div>
 
@@ -526,12 +558,13 @@ function HomePage() {
                                 <div className="mb-3 col-6">
                                     <label htmlFor="locationUrl" className="form-label">Location URL</label>
                                     <input type="url" className="form-control" id="locationUrl"
-                                           placeholder={selected?.locationUrl} onChange={onLocationUrlChange}
+                                           placeholder={selected?.location_url} onChange={onLocationUrlChange}
                                            value={locationUrl}/>
                                 </div>
                                 <div className="mb-3 col-6">
                                     <label htmlFor="type" className="form-label">Type</label>
-                                    <select className="form-select" id="type" aria-label="Type" onChange={onTypeChange}
+                                    <select className="form-select" id="type" aria-label="Type"
+                                            onChange={onTypeChange}
                                             value={type}>
                                         <option value="">--Please choose an option--</option>
                                         <option value="Education">Education</option>
@@ -556,13 +589,15 @@ function HomePage() {
                             <div className="row">
                                 <div className="mb-3 col-6">
                                     <label htmlFor="date" className="form-label">Date</label>
-                                    <input type="date" className="form-control" id="date" onChange={onDateChange}
-                                           value={date}/>
+                                    <input type="datetime-local" className="form-control" id="date"
+                                           onChange={onDateChange}
+                                           value={formatDateForInput(new Date(selected?.event_date))}/>
                                 </div>
                                 <div className="mb-3 col-6">
-                                    <label htmlFor="time" className="form-label">Time</label>
-                                    <input type="time" className="form-control" id="time" onChange={onTimeChange}
-                                           value={time}/>
+                                    <label htmlFor="publish_date" className="form-label">Publish Date</label>
+                                    <input type="datetime-local" className="form-control" id="publish_date"
+                                           onChange={onDateChange}
+                                           value={formatDateForInput(new Date(selected?.publish_date))}/>
                                 </div>
                             </div>
 

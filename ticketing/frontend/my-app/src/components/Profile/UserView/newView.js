@@ -274,7 +274,7 @@ function UserProfile() {
                 last_name: userData.last_name,
                 email: userData.email,
                 card_id: userData.card_id,
-                section: followingSections.map(item => item.id)
+                sections: followingSections.map(item => item.id)
             };
             
             // userData.sections = followingSections;
