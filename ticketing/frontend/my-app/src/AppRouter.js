@@ -12,20 +12,24 @@ import Payment from "./components/Payment";
 
 function AppRouter() {
     let isUserLoggedIn = sessionStorage.getItem('user')
-    
+
 
     return (
         <BrowserRouter>
             <Routes>
                 {isUserLoggedIn ? (<Route path="/" element={<HomePage/>}/>) : (<Route path="/" element={<Login/>}/>)}
                 <Route path="login" element={<Login/>}/>
-                {isUserLoggedIn ? (<Route path="profile" element={<Profile/>}/>) : (<Route path="/" element={<Login/>}/>)}
-                {isUserLoggedIn ? (<Route path="tickets" element={<Tickets/>}/>) : (<Route path="/" element={<Login/>}/>)}
+                {isUserLoggedIn ? (<Route path="profile" element={<Profile/>}/>) : (
+                    <Route path="/" element={<Login/>}/>)}
+                {isUserLoggedIn ? (<Route path="tickets" element={<Tickets/>}/>) : (
+                    <Route path="/" element={<Login/>}/>)}
                 {isUserLoggedIn ? (<Route path="check" element={<CheckQR/>}/>) : (<Route path="/" element={<Login/>}/>)}
-                {isUserLoggedIn ? (<Route path="event-statistics" element={<EventStatistics/>}/>) : (<Route path="/" element={<Login/>}/>)}
-                {isUserLoggedIn ? (<Route path="payment" element={<Payment/>}/>) : (<Route path="/" element={<Login/>}/>)}
+                {isUserLoggedIn ? (<Route path="event-statistics" element={<EventStatistics/>}/>) : (
+                    <Route path="/" element={<Login/>}/>)}
+                {isUserLoggedIn ? (<Route path="payment" element={<Payment/>}/>) : (
+                    <Route path="/" element={<Login/>}/>)}
                 {/*{isUserLoggedIn ? (<Route path="user-view" element={<UserProfile/>}/>) : (<Route path="/" element={<Login/>}/>)}*/}
-                <Route path="ticket/:id" element={<Ticket/>} />
+                <Route path="ticket/:id" element={<Ticket/>}/>
                 {isUserLoggedIn ? (<Route path="event-statistics" element={<EventStatistics/>}/>) : (
                     <Route path="/" element={<Login/>}/>)}
                 {isUserLoggedIn ? (<Route path="ticket/:id" element={<Ticket/>}/>) : (
