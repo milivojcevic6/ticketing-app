@@ -113,11 +113,11 @@
 }
 
 
-
 .list-popup {
     position: fixed; /* Make the popup fixed to the viewport */
     top: 50%; /* Center the popup vertically */
     left: 50%; /* Center the popup horizontally */
+    max-width: 500px;
     transform: translate(-50%, -50%); /* Adjust centering based on content size */
     background-color: #fff; /* White background */
     border: 1px solid #ddd; /* Border */
