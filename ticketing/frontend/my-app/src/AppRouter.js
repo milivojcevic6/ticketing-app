@@ -11,18 +11,22 @@ import Ticket from "./components/Ticket";
 
 function AppRouter() {
     let isUserLoggedIn = sessionStorage.getItem('user')
-    
+
 
     return (
         <BrowserRouter>
             <Routes>
                 {isUserLoggedIn ? (<Route path="/" element={<HomePage/>}/>) : (<Route path="/" element={<Login/>}/>)}
                 <Route path="login" element={<Login/>}/>
-                {isUserLoggedIn ? (<Route path="profile" element={<Profile/>}/>) : (<Route path="/" element={<Login/>}/>)}
-                {isUserLoggedIn ? (<Route path="tickets" element={<Tickets/>}/>) : (<Route path="/" element={<Login/>}/>)}
+                {isUserLoggedIn ? (<Route path="profile" element={<Profile/>}/>) : (
+                    <Route path="/" element={<Login/>}/>)}
+                {isUserLoggedIn ? (<Route path="tickets" element={<Tickets/>}/>) : (
+                    <Route path="/" element={<Login/>}/>)}
                 {isUserLoggedIn ? (<Route path="check" element={<CheckQR/>}/>) : (<Route path="/" element={<Login/>}/>)}
-                {isUserLoggedIn ? (<Route path="event-statistics" element={<EventStatistics/>}/>) : (<Route path="/" element={<Login/>}/>)}
-                <Route path="ticket/:id" element={<Ticket/>} />
+                {isUserLoggedIn ? (<Route path="event-statistics" element={<EventStatistics/>}/>) : (
+                    <Route path="/" element={<Login/>}/>)}
+                {isUserLoggedIn ? (<Route path="ticket/:id" element={<Ticket/>}/>) : (
+                    <Route path="/" element={<Login/>}/>)}
             </Routes>
         </BrowserRouter>
     );

@@ -315,19 +315,20 @@ function UserProfile() {
             setPopupErrorMessage('Passwords do not match');
         } else {
             setShowPasswordPopup(false);
+            setPasswordChanged(true);
         }
     }
 
     function handleOldPasswordChange(event) {
-        setNewValue(event.target.value);
+        setOldPassword(event.target.value);
     }
 
     function handleNewPasswordChange(event) {
-        setNewValue(event.target.value);
+        setNewPassword(event.target.value);
     }
 
     function handleNew2PasswordChange(event) {
-        setNewValue(event.target.value);
+        setNew2Password(event.target.value);
     }
 
     function handleCancel() {
@@ -344,6 +345,7 @@ function UserProfile() {
 
     async function handleSave() {
 
+        console.log("aaa")
         if (somethingChanged) {
 
             if (cardData && cardValid) {
@@ -372,7 +374,6 @@ function UserProfile() {
                     setPopupErrorMessage(null)
                     setAlertSave(true);
                     setSomethingChanged(false);
-                    setPasswordChanged(false);
                     updatedUser.card_id = cardData
                     sessionStorage.setItem('user', JSON.stringify(userData));
                 })
@@ -399,7 +400,7 @@ function UserProfile() {
         if (passwordChanged && oldPassword !== '' && newPassword !== '') {
 
             const updatedUser = {
-                id: user.id,
+                uuid: user.id,
                 old_password: oldPassword,
                 new_password: newPassword
             };
@@ -428,7 +429,6 @@ function UserProfile() {
                     // setPopupSuccess(false)
                 });
         }
-
 
         setAlertSave(true);
         setSomethingChanged(false);
@@ -460,12 +460,12 @@ function UserProfile() {
             <div className="user-profile-header">
                 <h2>User Profile</h2>
                 <div className="user-profile-actions">
-                    <button disabled={!somethingChanged}
+                    <button disabled={!somethingChanged && !passwordChanged}
                             onClick={handleCancel}
                             style={{backgroundColor: somethingChanged || passwordChanged ? "red" : "lightgray"}}>
                         CANCEL
                     </button>
-                    <button disabled={!somethingChanged}
+                    <button disabled={!somethingChanged && !passwordChanged}
                             onClick={handleSave}
                             style={{backgroundColor: somethingChanged || passwordChanged ? "green" : "lightgray"}}>
                         SAVE
@@ -644,16 +644,16 @@ function UserProfile() {
                             <input
                                 required
                                 type="password"
-                                placeholder="Write old password"
+                                placeholder="Write new password"
                                 autoComplete="off"
                                 value={newPassword}
                                 onChange={handleNewPasswordChange}
                             />
-                            <span>Confirm  new password:</span>
+                            <span>Confirm new password:</span>
                             <input
                                 required
                                 type="password"
-                                placeholder="Write old password"
+                                placeholder="Repeat new password"
                                 autoComplete="off"
                                 value={new2Password}
                                 onChange={handleNew2PasswordChange}
@@ -662,7 +662,7 @@ function UserProfile() {
                             <div style={{maxWidth: "150px", margin: "auto"}}>
                                 <div className="d-flex justify-content-between pt-2 pb-2">
                                     <button id="btnAdd" style={{width: "70px"}}>Edit</button>
-                                    <button id="btnClose" style={{width: "70px"}}
+                                    <button type={"button"} id="btnClose" style={{width: "70px"}}
                                             onClick={handleClosePasswordPopup}>Cancel
                                     </button>
                                 </div>
@@ -680,11 +680,6 @@ function UserProfile() {
                             {followingSections.length === 0 ? (
                                 <p>You do not follow any section. Click <b>Add</b> to find them.</p>
                             ) : (
-                                // <ul>
-                                //     {followingSections.map((element) => (
-                                //         <li key={element}>{element}</li>
-                                //     ))}
-                                // </ul>
                                 <table>
                                     <tbody>
                                     {followingSections.map((element, index) => (
