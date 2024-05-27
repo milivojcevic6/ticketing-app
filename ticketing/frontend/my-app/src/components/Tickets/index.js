@@ -26,12 +26,6 @@ function Tickets() {
         loadTickets().then(r => console.log(r));
     }, []);
 
-    useEffect(() => {
-        if (selectedCard !== -1) {
-            // getQR().then(r => console.log(r, "in toggleCard"));
-        }
-    }, [selectedCard]);
-
     const loadTickets = async () => {
         try {
             const response = await axios.get(`http://localhost:8000/api/users/${user.id}/tickets/`);
@@ -43,47 +37,10 @@ function Tickets() {
 
     };
 
-    const getQR = async () => {
-        // try {
-        //     const response = await axios.get(`/api/tickets/qr/${selectedCard}`, {
-        //         responseType: 'arraybuffer',
-        //     });
-        //
-        //     const base64Image = btoa(
-        //         new Uint8Array(response.data).reduce(
-        //             (data, byte) => data + String.fromCharCode(byte),
-        //             ''
-        //         )
-        //     );
-        //     setImageURL(`data:image/jpeg;base64,${base64Image}`);
-        // } catch (error) {
-        //     console.error(error);
-        // }
-
-        try {
-            // Simulating API call to fetch QR code for the selected ticket
-            const ticket = selectedCard;
-            if (ticket) {
-                // Simulating generating QR code from ticket data
-                const base64Image = generateQRCode(ticket.id); // You would replace this with your QR code generation logic
-                setImageURL(base64Image);
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    // Function to generate QR code data URL
-    const generateQRCode = (data) => {
-        // Generate QR code data URL
-        return QRCode.toDataURL(data);
-    };
-
 
     const toggleCard = (id) => {
         if (selectedCard === id) setSelectedCard(-1)
         else setSelectedCard(id)
-        //getQR().then(r => console.log(r, "in toggleCard"));
     }
 
     return (

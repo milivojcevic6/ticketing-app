@@ -43,3 +43,9 @@ class TicketDetailView(generics.RetrieveAPIView):
     serializer_class = TicketSerializer
     lookup_field = 'id'
 
+    def get(self, request, *args, **kwargs):
+        try:
+            return self.retrieve(request, *args, **kwargs)
+        except Ticket.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
