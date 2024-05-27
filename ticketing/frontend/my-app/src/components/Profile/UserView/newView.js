@@ -14,6 +14,7 @@ function UserProfile() {
 
     const [userData, setUserData] = useState(user);
     const [showEditPopup, setShowEditPopup] = useState(false);
+    const [showCardEditPopup, setShowCardEditPopup] = useState(false);
     const [editField, setEditField] = useState('');
     const [editPlaceholder, setEditPlaceholder] = useState('First placeholder :)');
     const [newValue, setNewValue] = useState('');
@@ -70,7 +71,7 @@ function UserProfile() {
             setNewValue("");
             setTypeInput("text")
         }
-        if (value === "ESNcard code") {
+        if (value === "card") {
             setEditPlaceholder("Write your ESNcard code");
             setNewValue("");
             setTypeInput("text")
@@ -78,11 +79,23 @@ function UserProfile() {
         setShowEditPopup(true);
     }
 
+    function handleOpenCardEditPopup() {
+        setEditPlaceholder("Write your ESNcard code");
+        setNewValue("");
+        setTypeInput("text")
+        setShowCardEditPopup(true)
+    }
 
     function handleCloseEditPopup() {
         setEditField("");
         setNewValue("");
         setShowEditPopup(false);
+    }
+
+    function handleCloseCardEditPopup() {
+        setEditField("");
+        setNewValue("");
+        setShowCardEditPopup(false);
     }
 
     function handleInputChange(event) {
@@ -116,6 +129,25 @@ function UserProfile() {
         // Optionally, you can add code to update the user state and/or close the popup
         // console.log("Updated user:", user);
         handleCloseEditPopup();
+    }
+
+    async function handleCardEditElement(event) {
+
+        event.preventDefault()
+
+        try {
+            await axios.get(`https://esncard.org/services/1.0/card.json?code=${newValue}`).then((response) => {
+                console.log(response)
+            }).catch(error => {
+                console.log(error)
+            });
+        } catch (error) {
+        }
+
+        // userData.card_id.code = newValue;
+        // setSomethingChanged(true);
+        //
+        // handleCloseCardEditPopup();
     }
 
     const handleOpenListPopup = () => {
@@ -457,7 +489,7 @@ function UserProfile() {
                         <span>
                             <div className="user-info-btn">
                                 <button type={"button"} className={"btn btn-secondary btn-sm d-inline"}
-                                        onClick={() => handleOpenEditPopup("ESNcard code")}>
+                                        onClick={() => handleOpenCardEditPopup()}>
                                     {userData?.card_id?.code ? userData.card_id.code : "Add card"}
                                 </button>
                             </div>
@@ -493,6 +525,34 @@ function UserProfile() {
                                     <button id="btnAdd" style={{width: "70px"}}>Edit</button>
                                     <button id="btnClose" style={{width: "70px"}}
                                             onClick={handleCloseEditPopup}>Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="list-popup-overlay"></div>
+                    </form>
+                )}
+
+                {showCardEditPopup && (
+                    <form onSubmit={handleCardEditElement}>
+                        <div style={{minWidth: "500px"}} className="list-popup show">
+                            <h2>Update {editField}</h2>
+                            <hr/>
+
+                            <input
+                                required
+                                type={typeInput}
+                                placeholder={editPlaceholder}
+                                autoComplete="off"
+                                value={newValue}
+                                onChange={handleInputChange}
+                            />
+
+                            <div style={{maxWidth: "150px", margin: "auto"}}>
+                                <div className="d-flex justify-content-between pt-2 pb-2">
+                                    <button id="btnAdd" style={{width: "70px"}}>Edit</button>
+                                    <button type={"button"} id="btnClose" style={{width: "70px"}}
+                                            onClick={handleCloseCardEditPopup}>Cancel
                                     </button>
                                 </div>
                             </div>
