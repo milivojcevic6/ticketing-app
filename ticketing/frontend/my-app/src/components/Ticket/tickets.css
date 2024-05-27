@@ -1,0 +1,33 @@
+﻿.Tickets {
+    max-width: 100%;
+    padding: 20px;
+}
+
+.Tickets table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.Tickets th,
+.Tickets td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.Tickets th {
+    background-color: #f2f2f2;
+}
+
+@media (max-width: 768px) {
+    .Tickets {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .Tickets th,
+    .Tickets td {
+        padding: 5px;
+    }
+}

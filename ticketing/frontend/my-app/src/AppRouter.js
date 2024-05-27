@@ -7,7 +7,7 @@ import Tickets from "./components/Tickets";
 import Login from "./components/Login";
 import CheckQR from "./components/Check";
 import EventStatistics from "./components/EventStatistics";
-import UserProfile from "./components/Profile/UserView/newView";
+import Ticket from "./components/Ticket";
 
 function AppRouter() {
     let isUserLoggedIn = sessionStorage.getItem('user')
@@ -22,7 +22,7 @@ function AppRouter() {
                 {isUserLoggedIn ? (<Route path="tickets" element={<Tickets/>}/>) : (<Route path="/" element={<Login/>}/>)}
                 {isUserLoggedIn ? (<Route path="check" element={<CheckQR/>}/>) : (<Route path="/" element={<Login/>}/>)}
                 {isUserLoggedIn ? (<Route path="event-statistics" element={<EventStatistics/>}/>) : (<Route path="/" element={<Login/>}/>)}
-                {/*{isUserLoggedIn ? (<Route path="user-view" element={<UserProfile/>}/>) : (<Route path="/" element={<Login/>}/>)}*/}
+                <Route path="ticket/:id" element={<Ticket/>} />
             </Routes>
         </BrowserRouter>
     );

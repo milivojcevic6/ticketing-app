@@ -5,11 +5,12 @@ from django.views.decorators.http import require_POST
 from rest_framework import generics, status
 from .models import User
 from .serializers import UserRegistrationSerializer, UserLoginSerializer, UserSerializer, SectionSerializer, \
-    UserUpdateSerializer, EventSerializer, UserPasswordChangeSerializer
+    UserUpdateSerializer, EventSerializer, UserPasswordChangeSerializer, TicketSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from section.models import Section
 from event.models import Event
+from ticket.models import Ticket
 
 
 class UserRegistrationView(generics.CreateAPIView):
@@ -64,12 +65,18 @@ class UserSectionsView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class UserEventsView(generics.ListAPIView):
-    serializer_class = EventSerializer
+class UserEventsView(APIView):
+    def get(self, request, uuid):
+        try:
+            user = User.objects.get(id=uuid)
+        except User.DoesNotExist:
+            return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
 
-    def get_queryset(self):
-        user_id = self.kwargs['uuid']
-        return Event.objects.filter(user__id=user_id)
+        sections = user.sections.all()
+        events = Event.objects.filter(section__in=sections)
+        serializer = EventSerializer(events, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class UserUpdateView(generics.UpdateAPIView):
@@ -112,3 +119,11 @@ class UserPasswordChangeView(generics.UpdateAPIView):
         user.save()
 
         return Response({"message": "Password changed successfully"}, status=status.HTTP_200_OK)
+
+
+class UserTicketsView(generics.ListAPIView):
+    serializer_class = TicketSerializer
+
+    def get_queryset(self):
+        user_id = self.kwargs['user_id']
+        return Ticket.objects.filter(user_id=user_id)

@@ -22,6 +22,8 @@
     "react-dom": "^18.2.0",
     "react-feather": "^2.0.10",
     "react-lottie": "^1.2.4",
+    "react-native-svg": "^15.3.0",
+    "react-qr-code": "^2.0.13",
     "react-scripts": "5.0.1",
     "victory": "^37.0.2",
     "victory-core": "^37.0.2",
