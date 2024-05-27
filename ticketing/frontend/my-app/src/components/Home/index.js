@@ -257,13 +257,32 @@ function HomePage() {
     const handleRegisterToEvent = async (e) => {
         e.preventDefault();
 
-        console.log("User id ", user.id, " + event id: ", selected?.id, " + Date: ", new Date())
+        if (selected?.price === 0) {
 
-        await axios.post(`/api/tickets/${user.id}/${selected?.id}`, new Date())
-            .then(response => {
-                console.log(response);
-            })
-            .catch(error => console.log(error));
+            var date = new Date()
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is zero-based
+            const day = String(date.getDate()).padStart(2, '0');
+
+            const ticketData = {
+                issued_date: `${year}-${month}-${day}`,
+                event_id: selected?.id,
+                user_id: user?.id
+            }
+
+            console.log(ticketData)
+
+            await axios.post(`/api/tickets/`, ticketData)
+                .then(response => {
+                    console.log(response);
+                })
+                .catch(error => console.log(error));
+
+        } else {
+            console.log("Not Registerd")
+
+        }
+
 
     }
 
@@ -380,9 +399,9 @@ function HomePage() {
                                             <div className="d-inline-flex">
                                                 <span className="me-3">
                                                     <a href={selected?.location_url ?? '#'} style={{
-                                                    color: 'black',
-                                                    textDecoration: 'none'
-                                                }}><Icon.MapPin/> {selected.location}</a>
+                                                        color: 'black',
+                                                        textDecoration: 'none'
+                                                    }}><Icon.MapPin/> {selected.location}</a>
                                                 </span>
                                                 {/*             <span
                                                     className="me-3"><Icon.Calendar/> {new Date(selected.eventDateTime).toLocaleDateString()}</span>
@@ -421,8 +440,8 @@ function HomePage() {
                                                     </button>
                                                 </div>
                                             ) : (
-                                                <div className="d-inline-flex my-4">
-                                                    <button type="button" className="btn btn-primary me-3"
+                                                <div className="d-inline-flex my-1">
+                                                    <button type="button" className="btn btn-primary"
                                                             onClick={handleRegisterToEvent}>Register
                                                     </button>
                                                 </div>

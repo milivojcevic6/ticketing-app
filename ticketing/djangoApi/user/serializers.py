@@ -3,11 +3,28 @@ from rest_framework import serializers
 from .models import User, Card
 from section.models import Section
 from event.models import Event
+from ticket.models import Ticket
+
+
+class SectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Section
+        exclude = ["password"]
 
 
 class EventSerializer(serializers.ModelSerializer):
+    section = SectionSerializer()
+
     class Meta:
         model = Event
+        fields = '__all__'
+
+
+class TicketSerializer(serializers.ModelSerializer):
+    event_id = EventSerializer()
+
+    class Meta:
+        model = Ticket
         fields = '__all__'
 
 
@@ -51,12 +68,6 @@ class UserLoginSerializer(serializers.Serializer):
             raise serializers.ValidationError("Please provide email or username.")
 
         return data
-
-
-class SectionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Section
-        exclude = ["password"]
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):

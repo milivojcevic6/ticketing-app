@@ -4,18 +4,20 @@ import * as Icon from "react-feather";
 
 
 // remove later !!
-import db from '../database/db.json';
-import QRCode from 'qrcode.react';
+import QRCode from 'react-qr-code'
+import axios from "axios";
 
 function Tickets() {
-    const [selectedCard, setSelectedCard] =useState(-1);
-    
+    const baseUrl = window.location.origin;
+
+
+    const [selectedCard, setSelectedCard] = useState(-1);
+
     //GET EVENTS BY USER (join event user by user_id)
     //GET TICKETS BY USER AND EVENT
 
     const user = JSON.parse(sessionStorage.getItem('user'))
     const [tickets, setTickets] = useState([])
-    const [selectedTicket, setSelectedTicket] = useState()
     //const [imageBlob, setImageBlob] = useState() // Blob data retrieved from the database
     const [imageURL, setImageURL] = useState();
 
@@ -26,29 +28,19 @@ function Tickets() {
 
     useEffect(() => {
         if (selectedCard !== -1) {
-            getQR().then(r => console.log(r, "in toggleCard"));
+            // getQR().then(r => console.log(r, "in toggleCard"));
         }
     }, [selectedCard]);
 
     const loadTickets = async () => {
-        // try {
-        //     const response = await axios.get(`/api/tickets/user/${user.id}`);
-        //     setTickets(response.data);
-        //     setSelectedCard(response.data[0].id);
-        // } catch (error) {
-        //     console.error(error);
-        // }
-
         try {
-            // Simulating API call to fetch tickets for the user
-            const userTickets = db.tickets.filter(ticket => ticket.userId === user.id);
-            setTickets(userTickets);
-            if (userTickets.length > 0) {
-                setSelectedCard(userTickets[0].id);
-            }
+            const response = await axios.get(`http://localhost:8000/api/users/${user.id}/tickets/`);
+            setTickets(response.data);
+            setSelectedCard(response.data[0]);
         } catch (error) {
             console.error(error);
         }
+
     };
 
     const getQR = async () => {
@@ -70,7 +62,7 @@ function Tickets() {
 
         try {
             // Simulating API call to fetch QR code for the selected ticket
-            const ticket = db.tickets.find(ticket => ticket.id === selectedCard);
+            const ticket = selectedCard;
             if (ticket) {
                 // Simulating generating QR code from ticket data
                 const base64Image = generateQRCode(ticket.id); // You would replace this with your QR code generation logic
@@ -87,17 +79,17 @@ function Tickets() {
         return QRCode.toDataURL(data);
     };
 
-    
+
     const toggleCard = (id) => {
-        if (selectedCard===id) setSelectedCard(-1)
+        if (selectedCard === id) setSelectedCard(-1)
         else setSelectedCard(id)
         //getQR().then(r => console.log(r, "in toggleCard"));
     }
-    
+
     return (
         <div>
             <h1>Tickets</h1>
-            <form className="d-flex my-3 justify-content-center" >
+            <form className="d-flex my-3 justify-content-center">
                 <input className="form-control me-2 w-75" type="search" placeholder="Search"
                        aria-label="Search"/>
                 <button className="btn btn-outline-success" type="submit"><Icon.Search/></button>
@@ -107,35 +99,31 @@ function Tickets() {
 
                     {tickets.map((ticket) => (
                         <div className="card mb-3" key={ticket.id} style={{maxWidth: '540px'}}>
-                            <div className="card-header" onClick={()=> toggleCard(ticket.id)}>
-                                <h5 className="mb-0">{selectedCard===ticket.id ? '-' : '+'} {ticket.content.split(',')[1]}</h5>
+                            <div className="card-header" onClick={() => toggleCard(ticket.id)}>
+                                <h5 className="mb-0">{selectedCard === ticket.id ? '-' : '+'} {ticket.event_id.name} ({ticket.event_id.section.name})</h5>
                             </div>
-                            {selectedCard===ticket.id && (
+                            {selectedCard === ticket.id && (
                                 <div className="row g-0">
                                     <div className="col-lg-4">
-                                        <img src={imageURL} className="img-fluid rounded-start"  width='60%' alt="QR Code"/>
+                                        <QRCode value={`${baseUrl}/ticket-info/${ticket.id}`} />
                                     </div>
                                     <div className="col-lg-8">
                                         <div className="card-body">
                                             <p className="card-text">{ticket.status}</p>
-                                            <p className="card-text"><small className="text-muted">Issued: {ticket.issuedDate}</small></p>
+                                            <p className="card-text"><small
+                                                className="text-muted">Issued: {ticket.issued_date}</small></p>
                                         </div>
                                     </div>
                                 </div>
                             )}
                         </div>
                     ))}
-                    
-                  
-                    
-                    
 
-                    
-                    
+
                 </div>
-                
+
             </div>
-            
+
         </div>
     );
 }

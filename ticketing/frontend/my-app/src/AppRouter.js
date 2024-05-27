@@ -7,7 +7,7 @@ import Tickets from "./components/Tickets";
 import Login from "./components/Login";
 import CheckQR from "./components/Check";
 import EventStatistics from "./components/EventStatistics";
-import UserProfile from "./components/Profile/UserView/newView";
+import Ticket from "./components/Ticket";
 import Payment from "./components/Payment";
 
 function AppRouter() {
@@ -25,6 +25,7 @@ function AppRouter() {
                 {isUserLoggedIn ? (<Route path="event-statistics" element={<EventStatistics/>}/>) : (<Route path="/" element={<Login/>}/>)}
                 {isUserLoggedIn ? (<Route path="payment" element={<Payment/>}/>) : (<Route path="/" element={<Login/>}/>)}
                 {/*{isUserLoggedIn ? (<Route path="user-view" element={<UserProfile/>}/>) : (<Route path="/" element={<Login/>}/>)}*/}
+                <Route path="ticket/:id" element={<Ticket/>} />
             </Routes>
         </BrowserRouter>
     );
