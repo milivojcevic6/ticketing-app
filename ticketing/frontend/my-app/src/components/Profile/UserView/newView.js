@@ -415,6 +415,7 @@ function UserProfile() {
                     setPasswordChanged(false);
                 })
                 .catch(error => {
+                    console.log(error)
                     const firstKey = Object.keys(error.response.data)[0];
                     const firstValue = error.response.data[firstKey];
                     if (firstValue) {
