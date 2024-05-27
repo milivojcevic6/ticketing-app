@@ -11,6 +11,7 @@ import UserProfile from "./components/Profile/UserView/newView";
 
 function AppRouter() {
     let isUserLoggedIn = sessionStorage.getItem('user')
+    
 
     return (
         <BrowserRouter>

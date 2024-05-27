@@ -38,8 +38,11 @@ import LoginContext, {AuthProvider} from "./context/LoginContext";
 
 function App() {
     const [loged, setLoged] = useState(false);
-    const [user, setUser] = useState({});
-    
+    // const [user, setUser] = useState({});
+
+    const user = JSON.parse(sessionStorage.getItem('user'))
+    const isSectionUser = user && (user.role === 'section'); // Check if the user's role is "section"
+
     function handleLogout() {
         sessionStorage.removeItem('user')
     }
@@ -57,11 +60,11 @@ function App() {
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="">
-                                <Nav.Link className={sessionStorage.getItem('user') === null ? "invisible" : ""} href="/">Home</Nav.Link>
-                                <Nav.Link className={sessionStorage.getItem('user') === null ? "invisible" : ""} href="/tickets">TicketWallet</Nav.Link>
-                                <Nav.Link className={sessionStorage.getItem('user') === null ? "invisible" : ""} href="/check">Scan QRcode</Nav.Link>
-                                <Nav.Link className={sessionStorage.getItem('user') === null ? "invisible" : ""} href="/profile">Profile</Nav.Link>
-                                <Nav.Link className={sessionStorage.getItem('user') === null ? "invisible" : ""} href="/event-statistics">Statistics</Nav.Link>
+                                <Nav.Link className={sessionStorage.getItem('user') === null ? "d-none" : ""} href="/">Home</Nav.Link>
+                                <Nav.Link className={sessionStorage.getItem('user') === null ? "d-none" : ""} href="/profile">Profile</Nav.Link>
+                                <Nav.Link className={(sessionStorage.getItem('user') === null || isSectionUser) ? "d-none" : ""} href="/tickets">TicketWallet</Nav.Link>
+                                <Nav.Link className={(sessionStorage.getItem('user') === null || !isSectionUser) ? "d-none" : ""} href="/check">Scan QRcode</Nav.Link>
+                                <Nav.Link className={(sessionStorage.getItem('user') === null || !isSectionUser) ? "d-none" : ""} href="/event-statistics">Statistics</Nav.Link>
                                 {sessionStorage.getItem('user') === null ? (
                                     <Nav.Link href="/login">Log in</Nav.Link>
                                 ) : (
