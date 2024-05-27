@@ -57,7 +57,8 @@ function SectionView() {
                 // Handle the response
                 setSuccess(true)
                 setErrorMessage(null)
-
+                updatedUser.role = "section"
+                sessionStorage.setItem('user', JSON.stringify(updatedUser))
             })
             .catch(error => {
                 const firstKey = Object.keys(error.response.data)[0];
@@ -70,10 +71,6 @@ function SectionView() {
                 setSuccess(false)
 
             });
-
-        updatedUser.role = "section"
-        sessionStorage.setItem('user', JSON.stringify(updatedUser))
-
     }
 
     function changePassword(e) {
