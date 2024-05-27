@@ -1,7 +1,4 @@
-from django.views.decorators.http import require_POST
-
-# Create your views here.
-
+from django.contrib.auth.hashers import make_password
 from rest_framework import generics, status
 from .models import User
 from .serializers import UserRegistrationSerializer, UserLoginSerializer, UserSerializer, SectionSerializer, \
@@ -115,7 +112,7 @@ class UserPasswordChangeView(generics.UpdateAPIView):
 
         # Change the user's password
         new_password = serializer.validated_data.get('new_password')
-        user.set_password(new_password)
+        user.password = make_password(new_password)
         user.save()
 
         return Response({"message": "Password changed successfully"}, status=status.HTTP_200_OK)
