@@ -401,6 +401,12 @@ function HomePage() {
                                                 <button type="button" className="btn btn-primary">Rate Event</button>
                                             </div>*/}
                                             <br/>
+                                            {isSectionUser ? null : (
+                                                <div className="d-inline-flex my-4">
+                                                    {selected.section.name}
+                                                </div>
+                                            )}
+                                            <br/>
                                             {/*SECTION*/}
                                             {isSectionUser ? (
                                                 <div className="d-inline-flex my-4">
@@ -422,8 +428,8 @@ function HomePage() {
                                                 </div>
                                             )}
 
-                                            <p className="card-text"><small className="text-muted">Last updated 3 mins
-                                                ago</small></p>
+                                            {/*<p className="card-text"><small className="text-muted">Last updated 3 mins*/}
+                                            {/*    ago</small></p>*/}
                                         </div>
                                     </div>
                                     :
