@@ -9,6 +9,7 @@ import LoginContext from "../../context/LoginContext";
 import db from '../database/db.json';
 
 function Login() {
+
     const userRef = useRef();
     const errRef = useRef();
 
@@ -36,41 +37,9 @@ function Login() {
         userRef.current.focus();
     }, [])
 
-    /*useEffect(() => {
-        setErrMsg('');
-    },[username, password])*/
-
     const handleTabChange = () => {
         setIsLogin(!isLogin);
     };
-
-    /*const login1 = async (e) => {
-        e.preventDefault()
-        console.log(username, password);
-        //axios
-        
-        
-        const newUser = {
-            username: username,
-            password: password
-        }
-
-        
-       await axios.post('/auth/authenticate', newUser)
-            .then(response => {
-
-                console.log(response.data);
-                setCurrentUser(convert(response.data));
-                console.log('Logged in user', currentUser);
-                //setCurrentUser(response.data)
-                //console.log(user);
-                //console.log('currentUser', currentUser);
-                //setLoged(true);
-                //setLoginSuccess(true);
-            })
-            .catch(error => console.log(error));
-      
-    }*/
 
     const login = async (e) => {
         e.preventDefault()
@@ -81,14 +50,14 @@ function Login() {
         }
 
         //       UNCOMMENT LATER
-        if(!loginAsASection) {
+        if (!loginAsASection) {
             try {
                 const response = await axios.post('/auth/authenticate', newUser);
                 let userObject = response.data.user
                 userObject.role = "user"
                 setCurrentUser(userObject);
                 userLogin(userObject); // SET SESSION
-                window.location.replace('http://localhost:3000/');
+                window.location.replace('/');
             } catch (error) {
                 setErrorMessage('Invalid username or password'); // Set error message
                 console.log(error);
@@ -100,7 +69,7 @@ function Login() {
                 sectionObject.role = "section"
                 setCurrentUser(sectionObject);
                 userLogin(sectionObject); // SET SESSION
-                window.location.replace('http://localhost:3000/');
+                window.location.replace('/');
             } catch (error) {
                 setErrorMessage('Invalid username or password'); // Set error message
                 console.log(error);
@@ -248,7 +217,10 @@ function Login() {
                             />
 
                             <div className="form-check">
-                                <input onChange={() => { setLoginAsASection(!loginAsASection) }} className="form-check-input" type="checkbox" value={loginAsASection} id="flexCheckDefault"/>
+                                <input onChange={() => {
+                                    setLoginAsASection(!loginAsASection)
+                                }} className="form-check-input" type="checkbox" value={loginAsASection}
+                                       id="flexCheckDefault"/>
                                 <label className="form-check-label" htmlFor="flexCheckDefault">
                                     Login as a section
                                 </label>

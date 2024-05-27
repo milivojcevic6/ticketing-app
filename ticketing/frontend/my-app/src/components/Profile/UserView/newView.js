@@ -8,6 +8,25 @@ import {type} from "@testing-library/user-event/dist/type";
 
 function UserProfile() {
 
+    const cards = [
+        {
+            "code": "1573315GWAT",
+            "tid": "1867551",
+            "expiration-date": "2024-02-04",
+            "status": "expired",
+            "section-code": "SI-KOPE-PRI",
+            "activation-date": "2023-02-04"
+        },
+        {
+            "code": "1204405XNAO",
+            "tid": "3047504",
+            "expiration-date": "2025-02-05",
+            "status": "active",
+            "section-code": "SI-KOPE-PRI",
+            "activation-date": "2024-02-05"
+        }
+    ]
+
     const user = JSON.parse(sessionStorage.getItem('user'));
 
     const countryNames = countriesData.map(country => country.name);
@@ -17,6 +36,9 @@ function UserProfile() {
     const [showCardEditPopup, setShowCardEditPopup] = useState(false);
     const [editField, setEditField] = useState('');
     const [editPlaceholder, setEditPlaceholder] = useState('First placeholder :)');
+    const [cardUpdateError, setCardUpdateError] = useState(null);
+    const [selectedCard, setSelectedCard] = useState(null);
+    const [cardData, setCardData] = useState(null);
     const [newValue, setNewValue] = useState('');
     const [typeInput, setTypeInput] = useState('text');
     const [oldPassword, setOldPassword] = useState('');
@@ -24,6 +46,7 @@ function UserProfile() {
     const [new2Password, setNew2Password] = useState('');
     const [popupErrorMessage, setPopupErrorMessage] = useState(null);
     const [showListPopup, setShowListPopup] = useState(false);
+    const [cardValid, setCardValid] = useState(false);
     const [showPasswordPopup, setShowPasswordPopup] = useState(false);
     const [openAddOptions, setOpenAddOptions] = useState(null); // Selected element from list A
     const [selectedCountry, setSelectedCountry] = useState(null); // Selected element from list A
@@ -38,6 +61,10 @@ function UserProfile() {
     const [passwordChanged, setPasswordChanged] = useState(false);
 
     useEffect(() => {
+        if (user?.card_id?.code) {
+            setSelectedCard(user?.card_id?.code)
+            setCardValid(true)
+        }
         axios.get(`/api/users/${user.id}/sections/`)
             .then(response => {
                 setFollowingSections(response.data);
@@ -135,19 +162,38 @@ function UserProfile() {
 
         event.preventDefault()
 
-        try {
-            await axios.get(`https://esncard.org/services/1.0/card.json?code=${newValue}`).then((response) => {
-                console.log(response)
-            }).catch(error => {
-                console.log(error)
-            });
-        } catch (error) {
+        /*        try {
+                    await axios.get(`https://esncard.org/services/1.0/card.json?code=${newValue}`).then((response) => {
+                        console.log(response)
+                    }).catch(error => {
+                        console.log(error)
+                    });
+                } catch (error) {
+                }*/
+
+        const card = cards.find(card => card.code === newValue);
+        if (card) {
+            if (new Date(card["expiration-date"]) > new Date()) {
+                setCardData({
+                    code: card.code,
+                    activation_date: card["expiration-date"],
+                    expiration_date: card["activation-date"]
+                })
+                setCardValid(true)
+                setCardUpdateError(null)
+                setSomethingChanged(true);
+                setSelectedCard(card.code)
+                handleCloseCardEditPopup()
+            } else {
+                setSelectedCard(card.code)
+                setCardData(null)
+                setCardUpdateError("Card not valid or already in use")
+                setCardValid(false)
+
+            }
+
         }
 
-        // userData.card_id.code = newValue;
-        // setSomethingChanged(true);
-        //
-        // handleCloseCardEditPopup();
     }
 
     const handleOpenListPopup = () => {
@@ -181,7 +227,6 @@ function UserProfile() {
 
         setSectionList(await getSectionList(value))
     };
-
 
     const handleSelectSection = (value) => {
         console.log(value)
@@ -235,7 +280,6 @@ function UserProfile() {
         setSomethingChanged(true);
 
     }
-
 
     async function getSectionList(selectedCountry) {
         // Implement logic to fetch or filter elements B based on selectedA
@@ -298,10 +342,18 @@ function UserProfile() {
         }, 5000); // 5000 milliseconds = 5 seconds
     }
 
-    function handleSave() {
+    async function handleSave() {
 
         if (somethingChanged) {
 
+            if (cardData && cardValid) {
+                await axios.post(`http://127.0.0.1:8000/api/cards/`, cardData).then((response) => {
+                    userData.card_id = response.data.id;
+
+                }).catch(error => {
+                    console.log(error)
+                });
+            }
 
             const updatedUser = {
                 id: userData.id,
@@ -313,10 +365,6 @@ function UserProfile() {
                 sections: followingSections.map(item => item.id)
             };
 
-            // userData.sections = followingSections;
-
-            console.log(updatedUser);
-            // return;
             // api update user
             axios.put('/api/users/', updatedUser)
                 .then(response => {
@@ -325,6 +373,7 @@ function UserProfile() {
                     setAlertSave(true);
                     setSomethingChanged(false);
                     setPasswordChanged(false);
+                    updatedUser.card_id = cardData
                     sessionStorage.setItem('user', JSON.stringify(userData));
                 })
                 .catch(error => {
@@ -340,6 +389,10 @@ function UserProfile() {
                         // setErrorMessage("There is an error on updating section!")
                     }
                 });
+
+            if (!cardValid) {
+                setSelectedCard(null)
+            }
 
         }
 
@@ -489,8 +542,9 @@ function UserProfile() {
                         <span>
                             <div className="user-info-btn">
                                 <button type={"button"} className={"btn btn-secondary btn-sm d-inline"}
+                                        style={{border: cardValid && selectedCard ? '4px solid #355E3B' : (selectedCard ? '4px solid #FF0000' : '')}}
                                         onClick={() => handleOpenCardEditPopup()}>
-                                    {userData?.card_id?.code ? userData.card_id.code : "Add card"}
+                                    {selectedCard ?? "Add card"}
                                 </button>
                             </div>
                         </span>
@@ -537,6 +591,11 @@ function UserProfile() {
                     <form onSubmit={handleCardEditElement}>
                         <div style={{minWidth: "500px"}} className="list-popup show">
                             <h2>Update {editField}</h2>
+                            {cardUpdateError && (
+                                <div className="alert alert-warning" role="alert">
+                                    {cardUpdateError}
+                                </div>
+                            )}
                             <hr/>
 
                             <input
