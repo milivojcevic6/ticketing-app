@@ -7,9 +7,9 @@ import {type} from "@testing-library/user-event/dist/type";
 
 
 function UserProfile() {
-    
+
     const user = JSON.parse(sessionStorage.getItem('user'));
-    
+
     const countryNames = countriesData.map(country => country.name);
 
     const [userData, setUserData] = useState(user);
@@ -47,9 +47,9 @@ function UserProfile() {
     }, []);
 
     function handleOpenEditPopup(value) {
-        
+
         setEditField(value);
-        
+
         if (value === "first name") {
             setEditPlaceholder(userData.first_name);
             setNewValue("");
@@ -84,26 +84,26 @@ function UserProfile() {
         setNewValue("");
         setShowEditPopup(false);
     }
-    
+
     function handleInputChange(event) {
         setNewValue(event.target.value);
     }
-    
+
     function handleEditElement() {
 
-        if (editField === "first name" && newValue!=="") {
+        if (editField === "first name" && newValue !== "") {
             userData.first_name = newValue;
             setSomethingChanged(true);
         }
-        if (editField === "last name" && newValue!=="") {
+        if (editField === "last name" && newValue !== "") {
             userData.last_name = newValue;
             setSomethingChanged(true);
         }
-        if (editField === "email" && newValue!=="") {
+        if (editField === "email" && newValue !== "") {
             userData.email = newValue;
             setSomethingChanged(true);
         }
-        if (editField === "username" && newValue!=="") {
+        if (editField === "username" && newValue !== "") {
             userData.username = newValue;
             setSomethingChanged(true);
         }
@@ -111,8 +111,8 @@ function UserProfile() {
             userData.card_id.code = newValue;
             setSomethingChanged(true);
         }
-        
-        
+
+
         // Optionally, you can add code to update the user state and/or close the popup
         // console.log("Updated user:", user);
         handleCloseEditPopup();
@@ -130,15 +130,16 @@ function UserProfile() {
     };
 
     const handleAddElement = () => {
-        if(!openAddOptions){
+        if (!openAddOptions) {
             setOpenAddOptions(true)
-        }else {
-            console.log(followingSections)
-            console.log(typeof(followingSections))
-            console.log(selectedSection)
-            console.log(typeof(selectedSection))
-            setFollowingSections([...followingSections, selectedSection])
-            setSomethingChanged(true);
+        } else {
+            const exists = followingSections.some(section => section.id === selectedSection.id);
+
+            if (!exists) {
+                // If it doesn't exist, add it to the array
+                setFollowingSections([...followingSections, selectedSection]);
+                setSomethingChanged(true);
+            }
         }
     };
 
@@ -149,10 +150,10 @@ function UserProfile() {
         setSectionList(await getSectionList(value))
     };
 
-    
+
     const handleSelectSection = (value) => {
         console.log(value)
-        let s = sectionList.find((section)=> section.id===value)
+        let s = sectionList.find((section) => section.id === value)
         // console.log(s)
         setSelectedSection(s);
         console.log("Selected section:", s)
@@ -188,7 +189,7 @@ function UserProfile() {
         // Implement logic to delete the row with index 'rowIndex'
         // This might involve filtering 'followingSections' and updating state
         const newFollowingSections = [...followingSections]; // Copy existing data
-        
+
         // Sort selectedRows in descending order (optional)
         const sortedSelectedRows = [...selectedRows].sort((a, b) => b - a);
 
@@ -199,6 +200,8 @@ function UserProfile() {
         // newFollowingSections.splice(selectedRows, 1); // Remove element at index
         setFollowingSections(newFollowingSections); // Update state with modified data
         setSelectedRows([]);
+        setSomethingChanged(true);
+
     }
 
 
@@ -218,27 +221,27 @@ function UserProfile() {
             return [];
         }
     }
-    
+
     function handleOpenPasswordPopup() {
         setShowPasswordPopup(true);
     }
-    
+
     function handleClosePasswordPopup() {
         setOldPassword('');
         setNewPassword('');
         setNew2Password('');
-        setShowPasswordPopup(false);        
+        setShowPasswordPopup(false);
     }
-        
+
     function handlePasswordElement() {
 
         if (newPassword !== new2Password) {
             setPopupErrorMessage('Passwords do not match');
-        }else {
+        } else {
             setShowPasswordPopup(false);
         }
     }
-    
+
     function handleOldPasswordChange(event) {
         setNewValue(event.target.value);
     }
@@ -246,6 +249,7 @@ function UserProfile() {
     function handleNewPasswordChange(event) {
         setNewValue(event.target.value);
     }
+
     function handleNew2PasswordChange(event) {
         setNewValue(event.target.value);
     }
@@ -263,10 +267,10 @@ function UserProfile() {
     }
 
     function handleSave() {
-        
-        if(somethingChanged){
 
-            
+        if (somethingChanged) {
+
+
             const updatedUser = {
                 id: userData.id,
                 username: userData.username,
@@ -276,9 +280,9 @@ function UserProfile() {
                 card_id: userData.card_id,
                 sections: followingSections.map(item => item.id)
             };
-            
+
             // userData.sections = followingSections;
-            
+
             console.log(updatedUser);
             // return;
             // api update user
@@ -304,11 +308,11 @@ function UserProfile() {
                         // setErrorMessage("There is an error on updating section!")
                     }
                 });
-            
+
         }
-        
-        if(passwordChanged && oldPassword!=='' && newPassword!==''){
-            
+
+        if (passwordChanged && oldPassword !== '' && newPassword !== '') {
+
             const updatedUser = {
                 id: user.id,
                 old_password: oldPassword,
@@ -339,8 +343,8 @@ function UserProfile() {
                     // setPopupSuccess(false)
                 });
         }
-        
-        
+
+
         setAlertSave(true);
         setSomethingChanged(false);
         setPasswordChanged(false);
@@ -350,14 +354,14 @@ function UserProfile() {
             setAlertSave(false);
         }, 5000); // 5000 milliseconds = 5 seconds
     }
-    
-    
+
+
     return (
-        
+
         <div className="user-profile">
             {alertCancel &&
                 <div className="alert alert-warning" role="alert">
-                    {warning}    
+                    {warning}
                 </div>}
 
             {alertSave ? (
@@ -371,14 +375,14 @@ function UserProfile() {
             <div className="user-profile-header">
                 <h2>User Profile</h2>
                 <div className="user-profile-actions">
-                    <button disabled={!somethingChanged} 
+                    <button disabled={!somethingChanged}
                             onClick={handleCancel}
-                            style={{backgroundColor: somethingChanged || passwordChanged? "red": "lightgray"}}>
+                            style={{backgroundColor: somethingChanged || passwordChanged ? "red" : "lightgray"}}>
                         CANCEL
                     </button>
-                    <button disabled={!somethingChanged} 
+                    <button disabled={!somethingChanged}
                             onClick={handleSave}
-                            style={{backgroundColor: somethingChanged || passwordChanged? "green": "lightgray"}}>
+                            style={{backgroundColor: somethingChanged || passwordChanged ? "green" : "lightgray"}}>
                         SAVE
                     </button>
                 </div>
@@ -460,9 +464,11 @@ function UserProfile() {
                         </span>
                     </div>
                     <div className="user-profile-row">
-                    <span className="fieldFont">Following sections:</span>
+                        <span className="fieldFont">Following sections:</span>
                         <div className="user-info-btn">
-                            <button type={"button"} className={"btn btn-secondary btn-sm"} onClick={handleOpenListPopup}>View</button>
+                            <button type={"button"} className={"btn btn-secondary btn-sm"}
+                                    onClick={handleOpenListPopup}>View
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -479,13 +485,15 @@ function UserProfile() {
                                 placeholder={editPlaceholder}
                                 autoComplete="off"
                                 value={newValue}
-                                onChange={handleInputChange}  
+                                onChange={handleInputChange}
                             />
-                            
+
                             <div style={{maxWidth: "150px", margin: "auto"}}>
                                 <div className="d-flex justify-content-between pt-2 pb-2">
                                     <button id="btnAdd" style={{width: "70px"}}>Edit</button>
-                                    <button id="btnClose" style={{width: "70px"}} onClick={handleCloseEditPopup}>Cancel</button>
+                                    <button id="btnClose" style={{width: "70px"}}
+                                            onClick={handleCloseEditPopup}>Cancel
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -535,7 +543,9 @@ function UserProfile() {
                             <div style={{maxWidth: "150px", margin: "auto"}}>
                                 <div className="d-flex justify-content-between pt-2 pb-2">
                                     <button id="btnAdd" style={{width: "70px"}}>Edit</button>
-                                    <button id="btnClose" style={{width: "70px"}} onClick={handleClosePasswordPopup}>Cancel</button>
+                                    <button id="btnClose" style={{width: "70px"}}
+                                            onClick={handleClosePasswordPopup}>Cancel
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -558,31 +568,32 @@ function UserProfile() {
                                 // </ul>
                                 <table>
                                     <tbody>
-                                        {followingSections.map((element, index) => (
-                                            <tr key={index}>
-                                                <td>
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={selectedRows.includes(index)}
-                                                        onChange={(e) => handleSelectRow(e.target.checked, index)}
-                                                    />
-                                                    {element.name}
-                                                </td>
-                                            </tr>
-                                        ))}
-                                        <tr>
-                                            <td id="tdUnfollow" style={{ textAlign: 'right' }}>
-                                                <a onClick={() => handleDeleteRow()}>
-                                                    <Icon.Trash2 style={{width: "15px"}}/>
-                                                    Unfollow
-                                                </a>
+                                    {followingSections.map((element, index) => (
+                                        <tr key={index}>
+                                            <td>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selectedRows.includes(index)}
+                                                    onChange={(e) => handleSelectRow(e.target.checked, index)}
+                                                />
+                                                {element.name}
                                             </td>
                                         </tr>
+                                    ))}
+                                    <tr>
+                                        <td id="tdUnfollow" style={{textAlign: 'right'}}>
+                                            <a onClick={() => handleDeleteRow()}>
+                                                <Icon.Trash2 style={{width: "15px"}}/>
+                                                Unfollow
+                                            </a>
+                                        </td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             )}
                             {openAddOptions && (
-                                <div className="list-popup-actions d-flex flex-column justify-content-center align-items-center">
+                                <div
+                                    className="list-popup-actions d-flex flex-column justify-content-center align-items-center">
                                     <br/>
                                     <span>Please select section's country:</span>
                                     <select onChange={(e) => handleSelectA(e.target.value)}>
@@ -610,11 +621,12 @@ function UserProfile() {
                                     )}
                                 </div>
                             )}
-                            <br/>                            
+                            <br/>
                             <div style={{maxWidth: "150px", margin: "auto"}}>
                                 <div className="d-flex justify-content-between pt-2 pb-2">
                                     <button id="btnAdd" style={{width: "70px"}} onClick={handleAddElement}>Add</button>
-                                    <button id="btnClose" style={{width: "70px"}} onClick={handleCloseListPopup}>Close</button>
+                                    <button id="btnClose" style={{width: "70px"}} onClick={handleCloseListPopup}>Close
+                                    </button>
                                 </div>
                             </div>
                         </div>

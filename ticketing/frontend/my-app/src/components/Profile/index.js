@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "../../api/axios";
 import UserView from "./UserView";
 import SectionView from "./SectionView";
+import UserProfile from "./UserView/newView";
 
 function Profile() {
     const user = JSON.parse(sessionStorage.getItem('user'));
@@ -88,7 +89,7 @@ function Profile() {
                 <SectionView/>
             ) : (
                 // Render user view
-                <UserView />
+                <UserProfile />
             )}
             <br/>
             <br/>

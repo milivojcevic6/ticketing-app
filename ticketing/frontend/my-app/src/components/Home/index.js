@@ -378,10 +378,12 @@ function HomePage() {
                                             </h5>
                                             <p className="card-text">{selected.description}</p>
                                             <div className="d-inline-flex">
-                                                <span className="me-3"><a href={selected?.location_url} style={{
+                                                <span className="me-3">
+                                                    <a href={selected?.location_url ?? '#'} style={{
                                                     color: 'black',
                                                     textDecoration: 'none'
-                                                }}><Icon.MapPin/> {selected.location}</a></span>
+                                                }}><Icon.MapPin/> {selected.location}</a>
+                                                </span>
                                                 {/*             <span
                                                     className="me-3"><Icon.Calendar/> {new Date(selected.eventDateTime).toLocaleDateString()}</span>
                                                 <span className="me-3"><Icon.Clock/> {selected.eventDateTime}</span>

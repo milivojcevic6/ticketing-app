@@ -35,3 +35,17 @@ class EventUpdateView(generics.UpdateAPIView):
             instance._prefetched_objects_cache = {}
 
         return Response(serializer.data)
+
+
+class EventDeleteView(generics.DestroyAPIView):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+    lookup_field = 'id'  # Specify the field to lookup by UUID
+
+    def delete(self, request, *args, **kwargs):
+        try:
+            event = self.get_object()
+            event.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Event.DoesNotExist:
+            return Response({"error": "Event not found"}, status=status.HTTP_404_NOT_FOUND)

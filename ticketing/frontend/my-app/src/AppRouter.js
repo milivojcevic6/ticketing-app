@@ -21,7 +21,7 @@ function AppRouter() {
                 {isUserLoggedIn ? (<Route path="tickets" element={<Tickets/>}/>) : (<Route path="/" element={<Login/>}/>)}
                 {isUserLoggedIn ? (<Route path="check" element={<CheckQR/>}/>) : (<Route path="/" element={<Login/>}/>)}
                 {isUserLoggedIn ? (<Route path="event-statistics" element={<EventStatistics/>}/>) : (<Route path="/" element={<Login/>}/>)}
-                {isUserLoggedIn ? (<Route path="user-view" element={<UserProfile/>}/>) : (<Route path="/" element={<Login/>}/>)}
+                {/*{isUserLoggedIn ? (<Route path="user-view" element={<UserProfile/>}/>) : (<Route path="/" element={<Login/>}/>)}*/}
             </Routes>
         </BrowserRouter>
     );
