@@ -10,9 +10,7 @@ import * as Icon from 'react-feather';
 import "./home.css";
 import {Modal} from 'react-bootstrap';
 import SearchBar from "../../mini-components/SearchBar";
-import moment from 'moment';
-import LoginContext from "../../context/LoginContext";
-
+import {Rating} from 'semantic-ui-react'
 
 // remove later !!
 import db from '../database/db.json';
@@ -29,6 +27,7 @@ function HomePage() {
     const [selected, setSelected] = useState()
     const [showModal, setShowModal] = useState(false);
     const [showModal2, setShowModal2] = useState(false);
+    const [showFeedbackModal, setShowFeedbackModal] = useState(false);
     const [keyword, setKeyword] = useState('');
 
     const [name, setName] = useState('');
@@ -42,6 +41,7 @@ function HomePage() {
     const [time, setTime] = useState('');
     const [eventDateTime, setEventDateTime] = useState();
     const [esnPrice, setEsnPrice] = useState(0.0);
+    const [feedback, setFeedback] = useState(0);
     const [type, setType] = useState('');
     const [submitted, setSubmitted] = useState(false);
     const [newEvent, setNewEvent] = useState();
@@ -51,6 +51,7 @@ function HomePage() {
             .then(response => console.log(response))
             .catch(error => console.log(error));
     }, [submitted])
+
 
     function formatDate(date) {
         const day = date.getDate().toString().padStart(2, '0');
@@ -102,6 +103,11 @@ function HomePage() {
         setShowModal2(!showModal2);
     };
 
+    const handleToggleFeedbackModal = () => {
+        setShowFeedbackModal(!showFeedbackModal);
+        setFeedback(selected?.user_feedback_grade)
+    };
+
     const loadEvents = async () => {
 
         const result = isSectionUser ?
@@ -129,7 +135,6 @@ function HomePage() {
             setEventsShow(filtered);
         }
     };
-
 
     /*const updateKeyword = (keyword) => {
         const filtered = events.filter(event => {
@@ -283,8 +288,35 @@ function HomePage() {
 
         }
 
-
     }
+
+    const handleGiveFeedbackToEvent = async (e) => {
+        e.preventDefault();
+
+        if (feedback === 0 || feedback < 1) {
+            console.log(feedback)
+            alert("Feedback not given")
+            return
+        }
+
+        const feedbackData = {
+            grade: feedback,
+            event: selected?.id,
+            user: user?.id
+        }
+
+        await axios.post(`/api/feedbacks/create/`, feedbackData)
+            .then(response => {
+                setShowFeedbackModal(false)
+                selected.user_feedback_grade = feedback
+            })
+            .catch(error => {
+                console.log(error)
+                setShowFeedbackModal(false)
+            });
+    }
+
+    const handleRate = (e, { rating }) => setFeedback(rating)
 
     const deleteEvent = async (e) => {
         e.preventDefault()
@@ -352,7 +384,6 @@ function HomePage() {
                                         <td>{event.name}</td>
                                         <td>{event.location}</td>
                                         <td scope="row">{formatDate(new Date(event.event_date))}</td>
-                                        <td scope="row">{formatDate(new Date(event.publish_date))}</td>
                                         <td>{event.price}</td>
                                         <td>{event.esn_price}</td>
                                     </tr>
@@ -421,8 +452,17 @@ function HomePage() {
                                             </div>*/}
                                             <br/>
                                             {isSectionUser ? null : (
-                                                <div className="d-inline-flex my-4">
-                                                    {selected.section.name}
+                                                <div>
+                                                    <div className="d-inline-flex my-4">
+                                                        {selected.section.name}
+                                                    </div>
+                                                    {selected?.user_feedback_grade && (
+                                                        <div className="d-block">
+                                                            {selected?.user_feedback_grade}
+                                                            <Rating icon='star'
+                                                                    defaultRating={selected?.user_feedback_grade}
+                                                                    disabled={true} maxRating={5} size='large'/>
+                                                        </div>)}
                                                 </div>
                                             )}
                                             <br/>
@@ -440,9 +480,13 @@ function HomePage() {
                                                     </button>
                                                 </div>
                                             ) : (
-                                                <div className="d-inline-flex my-1">
+                                                <div className="d-inline-block-flex my-1">
                                                     <button type="button" className="btn btn-primary"
                                                             onClick={handleRegisterToEvent}>Register
+                                                    </button>
+                                                    <hr/>
+                                                    <button type="button" className="btn btn-primary"
+                                                            onClick={handleToggleFeedbackModal}>Give Feedback
                                                     </button>
                                                 </div>
                                             )}
@@ -636,9 +680,114 @@ function HomePage() {
                     </form>
                 </Modal>
 
+                {/* FEEDBACK MODAL */}
+
+                <Modal show={showFeedbackModal} onHide={handleToggleFeedbackModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Feedback</Modal.Title>
+                    </Modal.Header>
+                    <form onSubmit={handleGiveFeedbackToEvent}>
+                        <Modal.Body>
+                            <div className="row">
+                                <Rating icon='star' defaultRating={feedback} onRate={handleRate} maxRating={5} size='massive'/>
+                            </div>
+                            {/*<div className="row">
+                                <div className="col">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                         className="text-danger-emphasis" role="img" aria-hidden="true">
+                                        <path fill="var(--ci-primary-color, currentColor)"
+                                              d="M256,16C123.452,16,16,123.452,16,256S123.452,496,256,496,496,388.548,496,256,388.548,16,256,16ZM403.078,403.078a207.253,207.253,0,1,1,44.589-66.125A207.332,207.332,0,0,1,403.078,403.078Z"
+                                              className="ci-primary"></path>
+                                        <path fill="var(--ci-primary-color, currentColor)"
+                                              d="M256,280A104,104,0,0,0,152,384H360A104,104,0,0,0,256,280Z"
+                                              className="ci-primary"></path>
+                                        <rect width="32.001" height="96.333" x="148" y="159.834"
+                                              fill="var(--ci-primary-color, currentColor)" className="ci-primary"
+                                              transform="rotate(-48.366 164.002 208.001)"></rect>
+                                        <rect width="96.333" height="32" x="291.834" y="192"
+                                              fill="var(--ci-primary-color, currentColor)" className="ci-primary"
+                                              transform="rotate(-48.366 340.002 208)"></rect>
+                                    </svg>
+                                </div>
+                                <div className="col">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                         className="text-danger" role="img" aria-hidden="true">
+                                        <path fill="var(--ci-primary-color, currentColor)"
+                                              d="M256,16C123.452,16,16,123.452,16,256S123.452,496,256,496,496,388.548,496,256,388.548,16,256,16ZM403.078,403.078a207.253,207.253,0,1,1,44.589-66.125A207.332,207.332,0,0,1,403.078,403.078Z"
+                                              className="ci-primary"></path>
+                                        <rect width="40" height="40" x="152" y="200"
+                                              fill="var(--ci-primary-color, currentColor)"
+                                              className="ci-primary"></rect>
+                                        <rect width="40" height="40" x="320" y="200"
+                                              fill="var(--ci-primary-color, currentColor)"
+                                              className="ci-primary"></rect>
+                                        <path fill="var(--ci-primary-color, currentColor)"
+                                              d="M256,280A104,104,0,0,0,152,384H360A104,104,0,0,0,256,280Z"
+                                              className="ci-primary"></path>
+                                    </svg>
+                                </div>
+                                <div className="col">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                         className="text-warning" role="img" aria-hidden="true">
+                                        <path fill="var(--ci-primary-color, currentColor)"
+                                              d="M256,16C123.452,16,16,123.452,16,256S123.452,496,256,496,496,388.548,496,256,388.548,16,256,16ZM403.078,403.078a207.253,207.253,0,1,1,44.589-66.125A207.332,207.332,0,0,1,403.078,403.078Z"
+                                              className="ci-primary"></path>
+                                        <rect width="40" height="40" x="152" y="200"
+                                              fill="var(--ci-primary-color, currentColor)"
+                                              className="ci-primary"></rect>
+                                        <rect width="40" height="40" x="320" y="200"
+                                              fill="var(--ci-primary-color, currentColor)"
+                                              className="ci-primary"></rect>
+                                        <rect width="176" height="32" x="168" y="320"
+                                              fill="var(--ci-primary-color, currentColor)"
+                                              className="ci-primary"></rect>
+                                    </svg>
+                                </div>
+                                <div className="col">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                         className="text-success" role="img" aria-hidden="true">
+                                        <path fill="var(--ci-primary-color, currentColor)"
+                                              d="M256,16C123.452,16,16,123.452,16,256S123.452,496,256,496,496,388.548,496,256,388.548,16,256,16ZM403.078,403.078a207.253,207.253,0,1,1,44.589-66.125A207.332,207.332,0,0,1,403.078,403.078Z"
+                                              className="ci-primary"></path>
+                                        <rect width="40" height="40" x="152" y="200"
+                                              fill="var(--ci-primary-color, currentColor)"
+                                              className="ci-primary"></rect>
+                                        <rect width="40" height="40" x="320" y="200"
+                                              fill="var(--ci-primary-color, currentColor)"
+                                              className="ci-primary"></rect>
+                                        <path fill="var(--ci-primary-color, currentColor)"
+                                              d="M256,384A104,104,0,0,0,360,280H152A104,104,0,0,0,256,384Z"
+                                              className="ci-primary"></path>
+                                    </svg>
+                                </div>
+                                <div className="col">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                         className="text-success-emphasis" role="img" aria-hidden="true">
+                                        <path fill="var(--ci-primary-color, currentColor)"
+                                              d="M256,16C123.452,16,16,123.452,16,256S123.452,496,256,496,496,388.548,496,256,388.548,16,256,16ZM403.078,403.078a207.253,207.253,0,1,1,44.589-66.125A207.332,207.332,0,0,1,403.078,403.078Z"
+                                              className="ci-primary"></path>
+                                        <path fill="var(--ci-primary-color, currentColor)"
+                                              d="M256,384A104,104,0,0,0,360,280H152A104,104,0,0,0,256,384Z"
+                                              className="ci-primary"></path>
+                                        <polygon fill="var(--ci-primary-color, currentColor)"
+                                                 points="205.757 228.292 226.243 203.708 168 155.173 109.757 203.708 130.243 228.292 168 196.827 205.757 228.292"
+                                                 className="ci-primary"></polygon>
+                                        <polygon fill="var(--ci-primary-color, currentColor)"
+                                                 points="285.757 203.708 306.243 228.292 344 196.827 381.757 228.292 402.243 203.708 344 155.173 285.757 203.708"
+                                                 className="ci-primary"></polygon>
+                                    </svg>
+                                </div>
+                            </div>*/}
+
+                        </Modal.Body>
+                        <Modal.Footer>
+                            {/*<button type="button" className="btn btn-secondary" onClick={handleToggleModal}>Close</button>*/}
+                            <button type="submit" className="btn btn-primary">Save</button>
+                        </Modal.Footer>
+                    </form>
+                </Modal>
+
             </div>
-
-
         </div>
     )
 }

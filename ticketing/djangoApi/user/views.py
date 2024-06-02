@@ -8,6 +8,8 @@ from rest_framework.views import APIView
 from section.models import Section
 from event.models import Event
 from ticket.models import Ticket
+from django.db.models import Avg
+from feedback.models import Feedback
 
 
 class UserRegistrationView(generics.CreateAPIView):
@@ -71,9 +73,21 @@ class UserEventsView(APIView):
 
         sections = user.sections.all()
         events = Event.objects.filter(section__in=sections)
-        serializer = EventSerializer(events, many=True)
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        events = events.annotate(average_grading=Avg('feedback__grade'))
+
+        data = []
+        for event in events:
+            user_feedback = Feedback.objects.filter(event=event, user=user).first()
+            event_data = EventSerializer(event).data
+            event_data['user_feedback_grade'] = user_feedback.grade if user_feedback else None
+            data.append(event_data)
+
+        return Response(data, status=status.HTTP_200_OK)
+
+        # serializer = EventSerializer(data, many=True)
+        #
+        # return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class UserUpdateView(generics.UpdateAPIView):

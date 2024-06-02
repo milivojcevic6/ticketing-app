@@ -25,6 +25,8 @@
     "react-native-svg": "^15.3.0",
     "react-qr-code": "^2.0.13",
     "react-scripts": "5.0.1",
+    "semantic-ui-css": "^2.5.0",
+    "semantic-ui-react": "^2.1.5",
     "victory": "^37.0.2",
     "victory-core": "^37.0.2",
     "web-vitals": "^2.1.4"

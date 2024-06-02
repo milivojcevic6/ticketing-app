@@ -69,7 +69,8 @@ INSTALLED_APPS = [
     'card',
     'section',
     'event',
-    'ticket'
+    'ticket',
+    'feedback'
 ]
 
 MIDDLEWARE = [

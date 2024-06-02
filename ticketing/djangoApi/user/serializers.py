@@ -14,6 +14,7 @@ class SectionSerializer(serializers.ModelSerializer):
 
 class EventSerializer(serializers.ModelSerializer):
     section = SectionSerializer()
+    average_grading = serializers.DecimalField(max_digits=5, decimal_places=2, read_only=True)
 
     class Meta:
         model = Event

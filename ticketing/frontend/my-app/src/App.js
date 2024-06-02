@@ -26,7 +26,7 @@
 
 
 
-
+import 'semantic-ui-css/semantic.min.css'
 import './App.css';
 import React, {useState} from "react";
 import {Container, Image, Nav, Navbar} from "react-bootstrap";

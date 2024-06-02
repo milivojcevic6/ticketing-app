@@ -3,7 +3,6 @@ from .models import Event
 from datetime import datetime
 
 
-
 class CustomDateTimeField(serializers.DateTimeField):
     def to_internal_value(self, value):
         try:
