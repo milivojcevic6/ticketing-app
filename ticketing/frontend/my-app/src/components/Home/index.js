@@ -129,7 +129,7 @@ function HomePage() {
             setEventsShow(events);
         } else {
             const filtered = events.filter(event => {
-                return `${event.name.toLowerCase()}`.includes(keyword.toLowerCase());
+                return `${event.name.toLowerCase()}`.includes(keyword.toLowerCase()) || `${event.location.toLowerCase()}`.includes(keyword.toLowerCase());
             });
             setKeyword(keyword);
             setEventsShow(filtered);
@@ -451,17 +451,22 @@ function HomePage() {
                                                 <button type="button" className="btn btn-primary">Rate Event</button>
                                             </div>*/}
                                             <br/>
-                                            {isSectionUser ? null : (
+                                            {isSectionUser ? (
+                                                <div>aaa</div>
+                                            ) : (
                                                 <div>
                                                     <div className="d-inline-flex my-4">
                                                         {selected.section.name}
                                                     </div>
                                                     {selected?.user_feedback_grade && (
                                                         <div className="d-block">
-                                                            {selected?.user_feedback_grade}
-                                                            <Rating icon='star'
-                                                                    defaultRating={selected?.user_feedback_grade}
-                                                                    disabled={true} maxRating={5} size='large'/>
+                                                            <div className="ui star large disabled rating" role="radiogroup" tabIndex="0">
+                                                                <i tabIndex="-1" aria-checked="true" aria-posinset="1" aria-setsize="5" className={"icon " + (selected?.user_feedback_grade > 0 ? 'active' : '')} role="radio"></i>
+                                                                <i tabIndex="-1" aria-checked="false" aria-posinset="2" aria-setsize="5" className={"icon " + (selected?.user_feedback_grade > 1 ? 'active' : '')} role="radio"></i>
+                                                                <i tabIndex="-1" aria-checked="false" aria-posinset="3" aria-setsize="5" className={"icon " + (selected?.user_feedback_grade > 2 ? 'active' : '')} role="radio"></i>
+                                                                <i tabIndex="-1" aria-checked="false" aria-posinset="4" aria-setsize="5" className={"icon " + (selected?.user_feedback_grade > 3 ? 'active' : '')} role="radio"></i>
+                                                                <i tabIndex="-1" aria-checked="false" aria-posinset="5" aria-setsize="5" className={"icon " + (selected?.user_feedback_grade > 4 ? 'active' : '')} role="radio"></i>
+                                                            </div>
                                                         </div>)}
                                                 </div>
                                             )}
