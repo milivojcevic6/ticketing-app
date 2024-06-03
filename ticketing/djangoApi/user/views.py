@@ -86,7 +86,7 @@ class UserEventsView(APIView):
         return Response(data, status=status.HTTP_200_OK)
 
         # serializer = EventSerializer(data, many=True)
-        #
+
         # return Response(serializer.data, status=status.HTTP_200_OK)
 
 

@@ -452,7 +452,20 @@ function HomePage() {
                                             </div>*/}
                                             <br/>
                                             {isSectionUser ? (
-                                                <div>aaa</div>
+                                                <div className="my-2">
+                                                    {selected?.average_rating && ("Global rating:")}
+                                                    {selected?.average_rating && (
+                                                        <div className="d-block">
+
+                                                            <div className="ui star large disabled rating" role="radiogroup" tabIndex="0">
+                                                                <i tabIndex="-1" aria-checked="true" aria-posinset="1" aria-setsize="5" className={"icon " + (selected?.average_rating > 0 ? 'active' : '')} role="radio"></i>
+                                                                <i tabIndex="-1" aria-checked="false" aria-posinset="2" aria-setsize="5" className={"icon " + (selected?.average_rating > 1 ? 'active' : '')} role="radio"></i>
+                                                                <i tabIndex="-1" aria-checked="false" aria-posinset="3" aria-setsize="5" className={"icon " + (selected?.average_rating > 2 ? 'active' : '')} role="radio"></i>
+                                                                <i tabIndex="-1" aria-checked="false" aria-posinset="4" aria-setsize="5" className={"icon " + (selected?.average_rating > 3 ? 'active' : '')} role="radio"></i>
+                                                                <i tabIndex="-1" aria-checked="false" aria-posinset="5" aria-setsize="5" className={"icon " + (selected?.average_rating > 4 ? 'active' : '')} role="radio"></i>
+                                                            </div>
+                                                        </div>)}
+                                                </div>
                                             ) : (
                                                 <div>
                                                     <div className="d-inline-flex my-4">
