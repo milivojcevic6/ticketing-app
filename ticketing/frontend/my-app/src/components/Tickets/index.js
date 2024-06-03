@@ -62,7 +62,7 @@ function Tickets() {
                             {selectedCard === ticket.id && (
                                 <div className="row g-0">
                                     <div className="col-lg-4">
-                                        <QRCode value={`${baseUrl}/ticket-info/${ticket.id}`} />
+                                        <QRCode value={ticket.id} />
                                     </div>
                                     <div className="col-lg-8">
                                         <div className="card-body">

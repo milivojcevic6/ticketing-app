@@ -281,12 +281,12 @@ function HomePage() {
             .then(response => {
                 console.log(response);
 
-                if (selected?.price !== 0) {
+                if (selected?.price != 0) {
 
                     const ticketId = response.data.id;
                     navigate(`/payment/${ticketId}`);
 
-                }else {
+                } else {
                     alert("Your ticket is added into the wallet!")
                 }
             })
