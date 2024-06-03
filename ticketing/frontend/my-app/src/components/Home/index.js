@@ -1,7 +1,5 @@
-import React, {useContext, useEffect, useState} from "react";
-import {Badge} from "react-bootstrap";
+import React, {useEffect, useState} from "react";
 import axios from "../../api/axios";
-import testImage from "../../images/photo_2022-04-29_21-36-13.jpg"
 import Trip from "../../images/1.png"
 import Social from "../../images/2.png"
 import Sport from "../../images/3.png"
@@ -262,31 +260,30 @@ function HomePage() {
     const handleRegisterToEvent = async (e) => {
         e.preventDefault();
 
-        if (selected?.price === 0) {
+        var date = new Date()
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is zero-based
+        const day = String(date.getDate()).padStart(2, '0');
 
-            var date = new Date()
-            const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is zero-based
-            const day = String(date.getDate()).padStart(2, '0');
+        const ticketData = {
+            issued_date: `${year}-${month}-${day}`,
+            event_id: selected?.id,
+            user_id: user?.id,
+            status: selected?.price === 0
+        }
 
-            const ticketData = {
-                issued_date: `${year}-${month}-${day}`,
-                event_id: selected?.id,
-                user_id: user?.id
-            }
+        console.log(ticketData)
 
-            console.log(ticketData)
+        await axios.post(`/api/tickets/`, ticketData)
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => console.log(error));
 
-            await axios.post(`/api/tickets/`, ticketData)
-                .then(response => {
-                    console.log(response);
-                })
-                .catch(error => console.log(error));
-
-        } else {
-            console.log("Not Registerd")
+        if (selected?.price != 0) {
 
         }
+
 
     }
 
@@ -316,7 +313,7 @@ function HomePage() {
             });
     }
 
-    const handleRate = (e, { rating }) => setFeedback(rating)
+    const handleRate = (e, {rating}) => setFeedback(rating)
 
     const deleteEvent = async (e) => {
         e.preventDefault()
@@ -454,15 +451,31 @@ function HomePage() {
                                             <br/>
                                             {isSectionUser ? (
                                                 <div className="my-2">
-                                                    {selected?.average_rating && ("Global rating:")}
+                                                    {selected?.average_rating && ("Average rating:")}
                                                     {selected?.average_rating && (
                                                         <div className="d-block">
-                                                            <div className="ui star large disabled rating" role="radiogroup" tabIndex="0">
-                                                                <i tabIndex="-1" aria-checked="true" aria-posinset="1" aria-setsize="5" className={"icon " + (selected?.average_rating > 0 ? 'active' : '')} role="radio"></i>
-                                                                <i tabIndex="-1" aria-checked="false" aria-posinset="2" aria-setsize="5" className={"icon " + (selected?.average_rating > 1 ? 'active' : '')} role="radio"></i>
-                                                                <i tabIndex="-1" aria-checked="false" aria-posinset="3" aria-setsize="5" className={"icon " + (selected?.average_rating > 2 ? 'active' : '')} role="radio"></i>
-                                                                <i tabIndex="-1" aria-checked="false" aria-posinset="4" aria-setsize="5" className={"icon " + (selected?.average_rating > 3 ? 'active' : '')} role="radio"></i>
-                                                                <i tabIndex="-1" aria-checked="false" aria-posinset="5" aria-setsize="5" className={"icon " + (selected?.average_rating > 4 ? 'active' : '')} role="radio"></i>
+                                                            <div className="ui star large disabled rating"
+                                                                 role="radiogroup" tabIndex="0">
+                                                                <i tabIndex="-1" aria-checked="true" aria-posinset="1"
+                                                                   aria-setsize="5"
+                                                                   className={"icon " + (selected?.average_rating > 0 ? 'active' : '')}
+                                                                   role="radio"></i>
+                                                                <i tabIndex="-1" aria-checked="false" aria-posinset="2"
+                                                                   aria-setsize="5"
+                                                                   className={"icon " + (selected?.average_rating > 1 ? 'active' : '')}
+                                                                   role="radio"></i>
+                                                                <i tabIndex="-1" aria-checked="false" aria-posinset="3"
+                                                                   aria-setsize="5"
+                                                                   className={"icon " + (selected?.average_rating > 2 ? 'active' : '')}
+                                                                   role="radio"></i>
+                                                                <i tabIndex="-1" aria-checked="false" aria-posinset="4"
+                                                                   aria-setsize="5"
+                                                                   className={"icon " + (selected?.average_rating > 3 ? 'active' : '')}
+                                                                   role="radio"></i>
+                                                                <i tabIndex="-1" aria-checked="false" aria-posinset="5"
+                                                                   aria-setsize="5"
+                                                                   className={"icon " + (selected?.average_rating > 4 ? 'active' : '')}
+                                                                   role="radio"></i>
                                                             </div>
                                                         </div>)}
                                                 </div>
@@ -473,12 +486,28 @@ function HomePage() {
                                                     </div>
                                                     {selected?.user_feedback_grade && (
                                                         <div className="d-block">
-                                                            <div className="ui star large disabled rating" role="radiogroup" tabIndex="0">
-                                                                <i tabIndex="-1" aria-checked="true" aria-posinset="1" aria-setsize="5" className={"icon " + (selected?.user_feedback_grade > 0 ? 'active' : '')} role="radio"></i>
-                                                                <i tabIndex="-1" aria-checked="false" aria-posinset="2" aria-setsize="5" className={"icon " + (selected?.user_feedback_grade > 1 ? 'active' : '')} role="radio"></i>
-                                                                <i tabIndex="-1" aria-checked="false" aria-posinset="3" aria-setsize="5" className={"icon " + (selected?.user_feedback_grade > 2 ? 'active' : '')} role="radio"></i>
-                                                                <i tabIndex="-1" aria-checked="false" aria-posinset="4" aria-setsize="5" className={"icon " + (selected?.user_feedback_grade > 3 ? 'active' : '')} role="radio"></i>
-                                                                <i tabIndex="-1" aria-checked="false" aria-posinset="5" aria-setsize="5" className={"icon " + (selected?.user_feedback_grade > 4 ? 'active' : '')} role="radio"></i>
+                                                            <div className="ui star large disabled rating"
+                                                                 role="radiogroup" tabIndex="0">
+                                                                <i tabIndex="-1" aria-checked="true" aria-posinset="1"
+                                                                   aria-setsize="5"
+                                                                   className={"icon " + (selected?.user_feedback_grade > 0 ? 'active' : '')}
+                                                                   role="radio"></i>
+                                                                <i tabIndex="-1" aria-checked="false" aria-posinset="2"
+                                                                   aria-setsize="5"
+                                                                   className={"icon " + (selected?.user_feedback_grade > 1 ? 'active' : '')}
+                                                                   role="radio"></i>
+                                                                <i tabIndex="-1" aria-checked="false" aria-posinset="3"
+                                                                   aria-setsize="5"
+                                                                   className={"icon " + (selected?.user_feedback_grade > 2 ? 'active' : '')}
+                                                                   role="radio"></i>
+                                                                <i tabIndex="-1" aria-checked="false" aria-posinset="4"
+                                                                   aria-setsize="5"
+                                                                   className={"icon " + (selected?.user_feedback_grade > 3 ? 'active' : '')}
+                                                                   role="radio"></i>
+                                                                <i tabIndex="-1" aria-checked="false" aria-posinset="5"
+                                                                   aria-setsize="5"
+                                                                   className={"icon " + (selected?.user_feedback_grade > 4 ? 'active' : '')}
+                                                                   role="radio"></i>
                                                             </div>
                                                         </div>)}
                                                 </div>
@@ -680,13 +709,13 @@ function HomePage() {
                                     <label htmlFor="date" className="form-label">Date</label>
                                     <input type="datetime-local" className="form-control" id="date"
                                            onChange={onDateChange}
-                                           value={formatDateForInput(new Date(selected?.event_date))}/>
+                                           value={formatDateForInput(new Date(date ?? selected?.event_date))}/>
                                 </div>
                                 <div className="mb-3 col-6">
                                     <label htmlFor="publish_date" className="form-label">Publish Date</label>
                                     <input type="datetime-local" className="form-control" id="publish_date"
                                            onChange={onDateChange}
-                                           value={formatDateForInput(new Date(selected?.publish_date))}/>
+                                           value={formatDateForInput(new Date(publishDate ?? selected?.publish_date))}/>
                                 </div>
                             </div>
 
@@ -707,7 +736,8 @@ function HomePage() {
                     <form onSubmit={handleGiveFeedbackToEvent}>
                         <Modal.Body>
                             <div className="row">
-                                <Rating icon='star' defaultRating={feedback} onRate={handleRate} maxRating={5} size='massive'/>
+                                <Rating icon='star' defaultRating={feedback} onRate={handleRate} maxRating={5}
+                                        size='massive'/>
                             </div>
                             {/*<div className="row">
                                 <div className="col">
