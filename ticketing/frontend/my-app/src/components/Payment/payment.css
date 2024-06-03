@@ -1,0 +1,45 @@
+﻿/* Styles for the checkout container */
+.checkout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    /*max-width: 500px;*/
+    width: 40%;
+    left: 30%;
+    min-width: 300px;
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for the loading text */
+.checkout p {
+    font-size: 18px;
+    color: #555;
+}
+
+/* Styles for the currency select dropdown */
+.checkout select {
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+    cursor: pointer;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+}
+
+.checkout select:focus {
+    border-color: #0070ba;
+}
+
+/* Styles for the PayPal buttons */
+.checkout .paypal-buttons {
+    width: 100%;
+    max-width: 400px;
+}
