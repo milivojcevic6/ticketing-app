@@ -326,6 +326,7 @@ function HomePage() {
                 var updatedEvents = events.filter(item => item.id !== selected?.id);
                 setEvents(updatedEvents)
                 setEventsShow(updatedEvents)
+                setSelected(updatedEvents[0] ?? null)
             })
             .catch(error => console.log(error));
     }
