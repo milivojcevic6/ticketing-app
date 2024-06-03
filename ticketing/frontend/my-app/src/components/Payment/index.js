@@ -18,17 +18,29 @@ function Payment() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get(`/api/tickets/${ticket_id}`)
+        // http://localhost:8000/api/tickets/11fa7fed-4ac3-4700-a363-78a757d2e8af
+        console.log("ticket id: ", ticket_id)
+        // axios.get(`/api/tickets/${ticket_id}`)
+        loadTicket()
             .then(response => {
-                setTicketDetails(response.data);
-                setLoading(false);
+                console.log("Response", response)
+                // setTicketDetails(response.data);
+                // setLoading(false);
             })
             .catch(error => {
                 console.error('Error fetching ticket details:', error);
-                setLoading(false);
+                // setLoading(false);
             });
     }, [ticket_id]);
 
+    const loadTicket = async () => {
+        const result = await axios.get(`http://localhost:8000/api/tickets/${ticket_id}/`);
+        console.log(result);
+        setTicketDetails(result.data);
+        // setTicketDetails(response.data);
+        setLoading(false);
+    };
+    
     if (loading) {
         return <p>Loading...</p>;
     }
