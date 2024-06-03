@@ -6,6 +6,7 @@ from .serializers import SectionLoginSerializer, SectionSerializer, SectionRegis
 from event.models import Event
 from rest_framework.exceptions import NotFound
 from django.contrib.auth.hashers import make_password
+from django.db.models import Avg
 
 
 class SectionRegistrationView(generics.CreateAPIView):
@@ -54,7 +55,7 @@ class SectionEventsView(generics.ListAPIView):
 
     def get_queryset(self):
         section_id = self.kwargs['uuid']
-        return Event.objects.filter(section__id=section_id)
+        return Event.objects.filter(section__id=section_id).annotate(average_rating=Avg('feedback__grade'))
 
     def list(self, request, *args, **kwargs):
         section_id = self.kwargs.get('uuid')

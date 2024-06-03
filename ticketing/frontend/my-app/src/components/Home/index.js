@@ -456,7 +456,6 @@ function HomePage() {
                                                     {selected?.average_rating && ("Global rating:")}
                                                     {selected?.average_rating && (
                                                         <div className="d-block">
-
                                                             <div className="ui star large disabled rating" role="radiogroup" tabIndex="0">
                                                                 <i tabIndex="-1" aria-checked="true" aria-posinset="1" aria-setsize="5" className={"icon " + (selected?.average_rating > 0 ? 'active' : '')} role="radio"></i>
                                                                 <i tabIndex="-1" aria-checked="false" aria-posinset="2" aria-setsize="5" className={"icon " + (selected?.average_rating > 1 ? 'active' : '')} role="radio"></i>

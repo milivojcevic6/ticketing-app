@@ -2,6 +2,7 @@ from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 from .models import Section
 from event.models import Event
+from feedback.models import Feedback
 import string
 import random
 
@@ -63,6 +64,8 @@ class SectionLoginSerializer(serializers.Serializer):
 
 
 class EventSerializer(serializers.ModelSerializer):
+    average_rating = serializers.FloatField(read_only=True)
+
     class Meta:
         model = Event
         fields = '__all__'
