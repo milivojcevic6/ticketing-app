@@ -280,12 +280,12 @@ function HomePage() {
         await axios.post(`/api/tickets/create/`, ticketData)
             .then(response => {
                 console.log(response);
-                
+
                 if (selected?.price !== 0) {
 
                     const ticketId = response.data.id;
-                    navigate(`/payments/${ticketId}`);
-                    
+                    navigate(`/payment/${ticketId}`);
+
                 }else {
                     alert("Your ticket is added into the wallet!")
                 }
