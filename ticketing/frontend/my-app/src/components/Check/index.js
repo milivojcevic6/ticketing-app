@@ -1,57 +1,20 @@
 ﻿import {useEffect, useState} from "react";
+import { Scanner } from '@yudiel/react-qr-scanner';
 import {Html5QrcodeScanner} from "html5-qrcode";
 import axios from "../../api/axios";
-
 function CheckQR() {
 
     const [scanResult, setScanResult] = useState(null);
-    
+
     const [qrcode, setQrcode] = useState("");
 
     const [scanStatus, setScanStatus] = useState(false);
 
     const [info, setInfo] = useState("");
 
-    useEffect(() => {
-        const scanner = new Html5QrcodeScanner('reader', 
-            {
-                        qrbox: {
-                            width: 500,
-                            height: 500,
-                        },
-                        fps: 5
-                    },
-            false
-        );
 
-        scanner.render(success, error);
-
-        function success(result) {
-            scanner.clear();
-            setQrcode(result);
-            axios.post(`/api/tickets/check/${result}`)
-                .then(response => {
-                    setScanResult(response.toString())
-                    console.log("res:"+response);
-                    console.log("res str:"+response.toString());
-                    if (response.toString() !== "Ticket doesn't exist") {
-                        setScanStatus(true)
-                    }
-                })
-                .catch(error => console.log(error));
-        }
-
-        function error(err) {
-            console.warn(err);
-        }
-
-    })
-
-    function verifyUser(e) {
-        e.preventDefault();
-        axios.post(`/api/tickets/check/ok/${qrcode}`)
-            .then(response => setInfo(response.toString))
-            .catch(error => console.log(error));
+    function handleScan(result) {
+        console.log(result)
     }
 
     function goBack(e) {
@@ -63,24 +26,28 @@ function CheckQR() {
     }
 
     return (
-        <div>
+        <div className="row m-auto justify-content-center">
             <h1> Tickets Scanning </h1>
-            <div id="reader" style={{width: "600px"}}/>
-            {
-                scanResult ?
-                    <div>{scanResult}</div> : <div/>
-            }
-            {
-                scanStatus ?
-                    info === "" ?
-                        <button onClick={verifyUser}>Verify</button> : <h4>info</h4>
-                    : <div/>
-            }
-            {
-                scanResult?
-                    <button onClick={goBack}>Back</button> : <div/>
-            }
-            
+            <div className="col-6">
+                <Scanner onScan={handleScan} />
+            </div>
+
+            {/*<div className="col" id="reader" style={{width: "600px"}}/>*/}
+            {/*{*/}
+            {/*    scanResult ?*/}
+            {/*        <div>{scanResult}</div> : <div/>*/}
+            {/*}*/}
+            {/*{*/}
+            {/*    scanStatus ?*/}
+            {/*        info === "" ?*/}
+            {/*            <button onClick={verifyUser}>Verify</button> : <h4>info</h4>*/}
+            {/*        : <div/>*/}
+            {/*}*/}
+            {/*{*/}
+            {/*    scanResult ?*/}
+            {/*        <button onClick={goBack}>Back</button> : <div/>*/}
+            {/*}*/}
+
         </div>
     )
 }
