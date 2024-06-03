@@ -22,8 +22,8 @@ const Checkout = ({ price, currency, eventName, fullName, email }) => {
             purchase_units: [
                 {
                     amount: {
-                        // value: "8.99",
-                        value: price,
+                        value: "8.99",
+                        // value: price+"",
                     },
                 description: "Ticket for "+eventName+" for "+fullName,
                 },

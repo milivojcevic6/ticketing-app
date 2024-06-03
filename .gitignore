@@ -527,3 +527,7 @@
 /ticketing/djangoApi/env/Lib/site-packages/pip/_vendor/webencodings/x_user_defined.py
 /ticketing/djangoApi/env/Lib/site-packages/pip/_internal/network/xmlrpc.py
 /ticketing/djangoApi/db.sqlite3
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
+.gitignore
