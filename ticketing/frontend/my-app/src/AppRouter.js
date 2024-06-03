@@ -26,7 +26,7 @@ function AppRouter() {
                 {isUserLoggedIn ? (<Route path="check" element={<CheckQR/>}/>) : (<Route path="/" element={<Login/>}/>)}
                 {isUserLoggedIn ? (<Route path="event-statistics" element={<EventStatistics/>}/>) : (
                     <Route path="/" element={<Login/>}/>)}
-                {isUserLoggedIn ? (<Route path="payment" element={<Payment/>}/>) : (
+                {isUserLoggedIn ? (<Route path="payment/:id" element={<Payment/>}/>) : (
                     <Route path="/" element={<Login/>}/>)}
                 {/*{isUserLoggedIn ? (<Route path="user-view" element={<UserProfile/>}/>) : (<Route path="/" element={<Login/>}/>)}*/}
                 <Route path="ticket/:id" element={<Ticket/>}/>

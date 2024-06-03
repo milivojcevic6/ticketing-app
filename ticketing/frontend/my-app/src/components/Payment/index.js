@@ -13,8 +13,7 @@ const initialOptions = {
 
 function Payment() {
 
-    const location = useLocation();
-    const { ticket_id } = location.state;
+    const { ticket_id } = useParams();
     const [ticketDetails, setTicketDetails] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -44,7 +43,14 @@ function Payment() {
 
     return (
         <PayPalScriptProvider options={initialOptions}>
-            <Checkout/>
+            {/*<Checkout/>*/}
+            <Checkout
+                price={price}
+                currency={currency}
+                eventName={eventName}
+                fullName={fullName}
+                email={email}
+            />
         </PayPalScriptProvider>
     );
 }

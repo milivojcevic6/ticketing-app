@@ -284,7 +284,7 @@ function HomePage() {
                 if (selected?.price !== 0) {
 
                     const ticketId = response.data.id;
-                    navigate(`/payments/${ticketId}`);
+                    navigate(`/payment/${ticketId}`);
                     
                 }else {
                     alert("Your ticket is added into the wallet!")
