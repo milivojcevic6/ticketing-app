@@ -274,7 +274,7 @@ function HomePage() {
 
         console.log(ticketData)
 
-        await axios.post(`/api/tickets/`, ticketData)
+        await axios.post(`/api/tickets/create/`, ticketData)
             .then(response => {
                 console.log(response);
             })
@@ -516,7 +516,7 @@ function HomePage() {
                                             {/*SECTION*/}
                                             {isSectionUser ? (
                                                 <div className="d-inline-flex my-4">
-                                                    <button type="button" className="btn btn-primary me-3">Scan</button>
+                                                    <a href="/check" type="button" className="btn btn-primary me-3">Scan</a>
                                                     <button type="button" className="btn btn-primary me-3">Attendees
                                                     </button>
                                                     <button type="button" className="btn btn-primary me-3"
