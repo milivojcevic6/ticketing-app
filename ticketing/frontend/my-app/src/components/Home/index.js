@@ -9,6 +9,7 @@ import "./home.css";
 import {Modal} from 'react-bootstrap';
 import SearchBar from "../../mini-components/SearchBar";
 import {Rating} from 'semantic-ui-react'
+import { useNavigate } from 'react-router-dom';
 
 // remove later !!
 import db from '../database/db.json';
@@ -19,6 +20,8 @@ function HomePage() {
 
     const user = JSON.parse(sessionStorage.getItem('user'))
     const isSectionUser = user.role === 'section'; // Check if the user's role is "section"
+
+    let navigate = useNavigate();
 
     const [events, setEvents] = useState([])
     const [eventsShow, setEventsShow] = useState([])
@@ -277,12 +280,18 @@ function HomePage() {
         await axios.post(`/api/tickets/create/`, ticketData)
             .then(response => {
                 console.log(response);
+                
+                if (selected?.price !== 0) {
+
+                    const ticketId = response.data.id;
+                    navigate(`/payments/${ticketId}`);
+                    
+                }else {
+                    alert("Your ticket is added into the wallet!")
+                }
             })
             .catch(error => console.log(error));
 
-        if (selected?.price != 0) {
-
-        }
 
 
     }
