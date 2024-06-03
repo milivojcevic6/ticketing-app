@@ -516,7 +516,8 @@ function HomePage() {
                                             {/*SECTION*/}
                                             {isSectionUser ? (
                                                 <div className="d-inline-flex my-4">
-                                                    <a href="/check" type="button" className="btn btn-primary me-3">Scan</a>
+                                                    <a href="/check" type="button"
+                                                       className="btn btn-primary me-3">Scan</a>
                                                     <button type="button" className="btn btn-primary me-3">Attendees
                                                     </button>
                                                     <button type="button" className="btn btn-primary me-3"
