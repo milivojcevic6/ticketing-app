@@ -31,11 +31,13 @@ class TicketCreateView(generics.CreateAPIView):
         except User.DoesNotExist:
             return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        # Add event and user to the request data
-        request.data['event_id'] = event.id
-        request.data['user_id'] = user.id
-
-        return super().create(request, *args, **kwargs)
+        # Create a ticket
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            ticket = serializer.save(event_id=event, user_id=user)
+            return Response(TicketSerializer(ticket).data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class TicketDetailView(generics.RetrieveAPIView):
