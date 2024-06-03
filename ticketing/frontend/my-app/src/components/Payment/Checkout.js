@@ -2,12 +2,12 @@
 import './payment.css';
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 
-const Checkout = () => {
+const Checkout = ({ price, currency, eventName, fullName, email }) => {
     const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
-    const [currency, setCurrency] = useState(options.currency);
+    const [selectedCurrency, setSelectedCurrency] = useState(currency);
 
     const onCurrencyChange = ({ target: { value } }) => {
-        setCurrency(value);
+        setSelectedCurrency(value);
         dispatch({
             type: "resetOptions",
             value: {
@@ -22,8 +22,10 @@ const Checkout = () => {
             purchase_units: [
                 {
                     amount: {
-                        value: "8.99",
+                        // value: "8.99",
+                        value: price,
                     },
+                description: "Ticket for "+eventName+" for "+fullName,
                 },
             ],
         });
@@ -37,11 +39,28 @@ const Checkout = () => {
     }
 
     return (
+        // <div className="checkout">
+        //     {isPending ? <p>LOADING...</p> : (
+        //         <>
+        //             <h2>Please select a payment method:</h2>
+        //             <select value={currency} onChange={onCurrencyChange}>
+        //                 <option value="EUR">💶 Euro</option>
+        //                 <option value="USD">💵 USD</option>
+        //             </select>
+        //             <PayPalButtons
+        //                 style={{ layout: "vertical" }}
+        //                 createOrder={(data, actions) => onCreateOrder(data, actions)}
+        //                 onApprove={(data, actions) => onApproveOrder(data, actions)}
+        //             />
+        //         </>
+        //     )}
+        // </div>
         <div className="checkout">
-            {isPending ? <p>LOADING...</p> : (
+            {isPending ? <p>Loading...</p> : (
                 <>
-                    <h2>Please select a payment method:</h2>
-                    <select value={currency} onChange={onCurrencyChange}>
+                    {/*{if eventName? (<h2>Checkout for {eventName} </h2>)}*/}
+                    <h3>Please select a payment method:</h3>
+                    <select value={selectedCurrency} onChange={onCurrencyChange}>
                         <option value="EUR">💶 Euro</option>
                         <option value="USD">💵 USD</option>
                     </select>
